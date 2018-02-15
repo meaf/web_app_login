@@ -1,5 +1,2 @@
-<html>
-<body>
-<h2>Hello World!</h2>
-</body>
-</html>
+<h1>Welcome</h1>
+<a href="user/">proceed...</a>
