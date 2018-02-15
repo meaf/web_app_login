@@ -2,6 +2,7 @@ package com.meaf.web;
 
 import com.meaf.ResponseUtil;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 
 @Path("/")
 public class MyCtrl {
+    private static Logger LOGGER = Logger.getGlobal();
 
     @GET
     @Path("/")
@@ -23,18 +25,19 @@ public class MyCtrl {
         return Response.status(200).entity("test page ok").build();
     }
 
-    private static Logger LOGGER = Logger.getGlobal();
 
     @POST
-    @Path("/rest/login")
-    public Response login(ServletRequest req, ServletResponse res, @FormParam("username") String username, @FormParam("password") String password) {
-        LOGGER.log(Level.INFO, "YEAAAAAAAAAAH: ");
-        HttpServletRequest request = (HttpServletRequest)req;
+    @Path("/login")
+    public Response login(@FormParam("username") String username, @FormParam("password") String password) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+
         try {
+//            throw new ServletException("");
             request.login(username, password);
-            LOGGER.log(Level.INFO, "Login Success for: " + username);
+//            LOGGER.info("Login Success for: " + username);
         } catch (ServletException e) {
-            LOGGER.log(Level.WARNING, "Login Exception: " + e.getMessage());
+            LOGGER.info("Login Exception: " + e.getMessage());
         }
 
         return ResponseUtil.seeOther("../");
@@ -42,13 +45,13 @@ public class MyCtrl {
 
     @GET
     @Path("/logout")
-    public Response logout(ServletRequest req, ServletResponse res) {
-        HttpServletRequest request = (HttpServletRequest)req;
-        try {
-            request.logout();
-        } catch (ServletException e) {
-            LOGGER.log(Level.WARNING, "Logout Exception: " + e.getMessage());
-        }
+    public Response logout() {
+//        try {
+//            request.logout();
+//        } catch (ServletException e) {
+            LOGGER.info("Logout Exception: ");
+//        }
+
         return ResponseUtil.seeOther("../");
     }
 

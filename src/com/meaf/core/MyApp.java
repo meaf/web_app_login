@@ -23,31 +23,6 @@ public class MyApp extends Application {
     }
 
 
-    @POST
-    @Path("/login")
-    public Response login(ServletRequest req, ServletResponse res, @FormParam("username") String username, @FormParam("password") String password) {
-        LOGGER.log(Level.INFO, "YEAAAAAAAAAAH: ");
-        HttpServletRequest request = (HttpServletRequest)req;
-        try {
-            request.login(username, password);
-            LOGGER.log(Level.INFO, "Login Success for: " + username);
-        } catch (ServletException e) {
-            LOGGER.log(Level.WARNING, "Login Exception: " + e.getMessage());
-        }
 
-        return ResponseUtil.seeOther("../");
-    }
-
-    @GET
-    @Path("/logout")
-    public Response logout(ServletRequest req, ServletResponse res) {
-        HttpServletRequest request = (HttpServletRequest)req;
-        try {
-            request.logout();
-        } catch (ServletException e) {
-            LOGGER.log(Level.WARNING, "Logout Exception: " + e.getMessage());
-        }
-        return ResponseUtil.seeOther("../");
-    }
 
 }
