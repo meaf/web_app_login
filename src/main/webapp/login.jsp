@@ -19,10 +19,10 @@
 
         <input id="requestURI" type="hidden" value="/" name="requestURI"/>
 
-        <h2 class="form-signin-heading" >oh shit not you again</h2>
+        <h2 class="form-signin-heading" >Again</h2>
 
         <label for="username" class="sr-only">Login</label>
-        <input class="form-control" id="username" required="required" type="text" name="j_username"/>
+        <input class="form-control" id="username" required="required" type="string" name="j_username"/>
 
         <label for="password" class="sr-only">Password</label>
         <input class="form-control" id="password" required="required" type="password" name="j_password"/>

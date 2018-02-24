@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/loc.property" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/loc_en.property" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/loc_uk.property" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale.p_en.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale.p_uk.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale.p_zh.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale.property" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale_en.property" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale_uk.property" />
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/loc.property" />
+      <file value="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/loc_en.property" />
+      <file value="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/loc_uk.property" />
+      <base-name>loc</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale.property" />
+      <file value="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale_en.property" />
+      <file value="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale_uk.property" />
+      <file value="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale_zh.property" />
+      <base-name>locale</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale.p_en.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale.p_uk.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/java/com/meaf/rb/locale.p_zh.properties" />
+      <base-name>locale.p</base-name>
+    </custom-resource-bundle>
+  </component>
+</project>

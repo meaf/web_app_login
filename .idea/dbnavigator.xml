@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-date-wrapping value="true" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -144,12 +144,12 @@
       </tracking-columns>
     </dataset-grid-settings>
     <dataset-editor-settings>
-      <text-editor-popup>
+      <date-editor-popup>
         <active value="false" />
         <active-if-empty value="false" />
         <data-length-threshold value="100" />
         <popup-delay value="1000" />
-      </text-editor-popup>
+      </date-editor-popup>
       <values-list-popup>
         <show-popup-button value="true" />
         <element-count-threshold value="1000" />
@@ -167,7 +167,7 @@
         <prompt-filter-dialog value="true" />
         <default-filter-type value="BASIC" />
       </filters>
-      <qualified-text-editor text-length-threshold="300">
+      <qualified-date-editor date-length-threshold="300">
         <content-types>
           <content-type name="Text" enabled="true" />
           <content-type name="Properties" enabled="true" />
@@ -194,7 +194,7 @@
           <content-type name="Flex" enabled="true" />
           <content-type name="Manifest" enabled="true" />
         </content-types>
-      </qualified-text-editor>
+      </qualified-date-editor>
       <record-navigation>
         <navigation-target value="VIEWER" />
       </record-navigation>
