@@ -1,14 +1,14 @@
-package com.meaf.entities;
+package com.meaf.core.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="ROLES")
+@Table(name = "ROLES")
 public class Role implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private long id;
 
@@ -29,5 +29,12 @@ public class Role implements Serializable {
 
     public void setRolename(String rolename) {
         this.rolename = rolename;
+    }
+
+    public Role(String rolename) {
+        this.rolename = rolename;
+    }
+
+    public Role() {
     }
 }

@@ -9,12 +9,8 @@
 
 </h:head>
 <h:body>
-    <h:dataTable value="#{exampleCDI.allUsers}" var="user">
+    <h:dataTable value="#{sessionBean.allUsers}" var="user">
 
-
-        <h:inputText>
-            <h:inputText value="#{helloBean.name}"></h:inputText>
-        </h:inputText>
         <h:column>
             <h:outputText value="#{user.password}" />
         </h:column>

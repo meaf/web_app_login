@@ -12,13 +12,14 @@
     <h:form>
         <h:panelGrid columns="2">
             <h:outputText value="Login: "/>
-            <h:inputText value="#{exampleCDI.login}" />
+            <h:inputText value="#{sessionBean.login}" />
 
             <h:outputText value="Password: "/>
-            <h:inputText value="#{exampleCDI.password}" />
+            <h:inputText value="#{sessionBean.password}" />
+
 
             <h:outputText value="Action: "/>
-            <h:commandLink value="add" action="#{exampleCDI.createUser()}"/>
+            <h:commandLink value="add" action="#{sessionBean.createUser()}"/>
         </h:panelGrid>
     </h:form>
 </h:body>

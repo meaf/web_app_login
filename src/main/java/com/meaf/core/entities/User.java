@@ -1,14 +1,14 @@
-package com.meaf.entities;
+package com.meaf.core.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="USERS")
+@Table(name = "USERS")
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private long id;
 
@@ -19,8 +19,9 @@ public class User implements Serializable {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name="ROLE_ID")
+    @JoinColumn(name = "ROLE_ID")
     private Role role;
+
 
     public long getId() {
         return id;
@@ -52,5 +53,14 @@ public class User implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User() {
     }
 }

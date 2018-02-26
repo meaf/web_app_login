@@ -1,0 +1,15 @@
+#.idea
+#.idea/
+.idea/codeStyles/
+.idea/encodings.xml
+.idea/saveactions_settings.xml
+.idea/inspectionProfiles/
+slf4j-simple-1.0.jar
+target/
+*.iws
+
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+
+.idea/**/dataSources*
+.idea/**/libraries
