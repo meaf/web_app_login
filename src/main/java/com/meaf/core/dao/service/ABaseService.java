@@ -6,20 +6,21 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.persistence.EntityManager;
+import java.io.Serializable;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-public abstract class ABaseService implements IClassUtil {
+public abstract class ABaseService implements Serializable {
 
-    @Resource
-    SessionContext sessionContext;
+//    @Resource
+//    SessionContext sessionContext;
 
     @EJB
-    private ConfigurationBean configuration;
+    protected ConfigurationBean configuration;
 
-    protected Logger getLogger() {
-        return LogManager.getLogManager().getLogger(getServiceName());
-    }
+//    protected Logger getLogger() {
+//        return LogManager.getLogManager().getLogger(getServiceName());
+//    }
 
     protected EntityManager getEntityManager() {
         return configuration.getEntityManager();

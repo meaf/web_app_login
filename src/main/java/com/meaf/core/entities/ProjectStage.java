@@ -20,7 +20,7 @@ public class ProjectStage implements Serializable {
     private ProjectStage previousStage;
 
     @Column(name = "STAGE_NUMBER")
-    private long number;
+    private Long number;
 
     @ManyToOne
     @JoinColumn(name = "PROJECT")
@@ -51,11 +51,11 @@ public class ProjectStage implements Serializable {
         this.previousStage = previousStage;
     }
 
-    public long getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(long number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 

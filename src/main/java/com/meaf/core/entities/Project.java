@@ -15,6 +15,9 @@ public class Project implements Serializable {
     @Column(name = "PROJECT_NAME")
     private String name;
 
+    @Column(name = "DESCRIPTION")
+    private String description;
+
 
     public long getId() {
         return id;
@@ -30,6 +33,14 @@ public class Project implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Project(String name) {
