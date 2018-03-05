@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+    <changeSet id="1" author="meaf">
+        <comment>roles</comment>
+        <insert tableName="ROLES">
+            <column name="ID">0</column>
+            <column name="ROLENAME">admin</column>
+        </insert>
+        <insert tableName="ROLES">
+            <column name="ID">1</column>
+            <column name="ROLENAME">user</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="projectsInit" author="meaf">
+        <comment>projStructure</comment>
+        <insert tableName="PROJECTS">
+            <column name="ID">0</column>
+            <column name="DESCRIPTION">confinement deconstruction</column>
+            <column name="PROJECT_NAME">N S C</column>
+        </insert>
+        <insert tableName="PROJECT_STAGES">
+            <column name="ID">0</column>
+            <column name="STAGE_NAME">Initialization stage</column>
+            <column name="STAGE_NUMBER">1</column>
+            <column name="PROJECT">0</column>
+        </insert>
+
+        <!--Survey 1-->
+        <insert tableName="SURVEYS">
+            <column name="ID">0</column>
+            <column name="TOPIC">first survey</column>
+            <column name="PROJECT_STAGE">0</column>
+        </insert>
+        <insert tableName="QUESTIONS">
+            <column name="ID">0</column>
+            <column name="TEXT">important question, do you agree?</column>
+            <column name="SURVEY_ID">0</column>
+        </insert>
+        <insert tableName="QUESTIONS">
+            <column name="ID">1</column>
+            <column name="TEXT">second important question, do you disagree?</column>
+            <column name="SURVEY_ID">0</column>
+        </insert>
+
+        <!--Survey 2-->
+        <insert tableName="SURVEYS">
+            <column name="ID">1</column>
+            <column name="TOPIC">Second survey Open</column>
+            <column name="PROJECT_STAGE">0</column>
+        </insert>
+        <insert tableName="QUESTIONS">
+            <column name="ID">2</column>
+            <column name="TEXT">important statement, your opinion?</column>
+            <column name="SURVEY_ID">1</column>
+        </insert>
+
+        <!--Survey 2-->
+        <insert tableName="SURVEYS">
+            <column name="ID">2</column>
+            <column name="TOPIC">Third survey</column>
+            <column name="PROJECT_STAGE">0</column>
+        </insert>
+        <insert tableName="QUESTIONS">
+            <column name="ID">3</column>
+            <column name="TEXT">where?</column>
+            <column name="SURVEY_ID">2</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="users" author="meaf">
+        <comment>roles</comment>
+        <insert tableName="USERS">
+            <column name="ID">0</column>
+            <column name="PASSWORD">admin</column>
+            <column name="USERNAME">admin</column>
+            <column name="ROLE_ID">0</column>
+        </insert>
+        <insert tableName="USERS">
+            <column name="ID">1</column>
+            <column name="PASSWORD">u1</column>
+            <column name="USERNAME">u1</column>
+            <column name="ROLE_ID">1</column>
+        </insert>
+        <insert tableName="USERS">
+            <column name="ID">2</column>
+            <column name="PASSWORD">u2</column>
+            <column name="USERNAME">u2</column>
+            <column name="ROLE_ID">1</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="projectRoles" author="meaf">
+        <comment>roles</comment>
+        <insert tableName="ROLES">
+            <column name="ID">2</column>
+            <column name="ROLENAME">expert</column>
+        </insert>
+        <insert tableName="ROLES">
+            <column name="ID">3</column>
+            <column name="ROLENAME">organizer</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="connections" author="meaf">
+        <comment>connections</comment>
+        <insert tableName="PROJECT_USER_CONNECTIONS">
+            <column name="ID">0</column>
+            <column name="PROJECT_ID">0</column>
+            <column name="USER_ID">1</column>
+            <column name="ROLE_ID">2</column>
+        </insert>
+        <insert tableName="PROJECT_USER_CONNECTIONS">
+            <column name="ID">1</column>
+            <column name="PROJECT_ID">0</column>
+            <column name="USER_ID">2</column>
+            <column name="ROLE_ID">3</column>
+        </insert>
+        <insert tableName="PROJECT_USER_CONNECTIONS">
+            <column name="ID">2</column>
+            <column name="PROJECT_ID">0</column>
+            <column name="USER_ID">0</column>
+            <column name="ROLE_ID">0</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -6,16 +6,16 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-
+    <title>usersPanel</title>
 </h:head>
 <h:body>
     <h:dataTable value="#{sessionBean.allUsers}" var="user">
 
         <h:column>
-            <h:outputText value="#{user.password}" />
+            <h:outputText value="#{user.password}"/>
         </h:column>
         <h:column>
-            <h:outputText value="#{user.username}" />
+            <h:outputText value="#{user.username}"/>
         </h:column>
     </h:dataTable>
 </h:body>

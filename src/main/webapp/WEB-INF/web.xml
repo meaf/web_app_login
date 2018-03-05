@@ -53,6 +53,8 @@
         <auth-constraint>
             <role-name>admin</role-name>
             <role-name>user</role-name>
+            <role-name>expert</role-name>
+            <role-name>organizer</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>
@@ -73,6 +75,12 @@
     </security-role>
     <security-role>
         <role-name>user</role-name>
+    </security-role>
+    <security-role>
+        <role-name>organizer</role-name>
+    </security-role>
+    <security-role>
+        <role-name>expert</role-name>
     </security-role>
     
     <context-param>

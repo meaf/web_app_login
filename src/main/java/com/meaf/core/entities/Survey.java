@@ -17,8 +17,8 @@ public class Survey implements Serializable {
     @Column(name = "TOPIC")
     private String name;
 
-    @Column(name = "STATUS")
-    private ESurveyStatus status;
+    @Column(name = "STATUS", columnDefinition = "varchar(32) default 'NEW'")
+    private ESurveyStatus status = ESurveyStatus.NEW;
 
     @OneToOne
     @JoinColumn(name = "PROJECT_STAGE")

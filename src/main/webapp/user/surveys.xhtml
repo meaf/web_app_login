@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>surveys</title>
+</h:head>
+<h:body>
+    <p:link outcome="stages" value="###"/>
+    <p:dataTable var="surv" value="#{navigationBean.surveys}">
+        <p:column headerText="id">
+            <p:link outcome="questions" value="#{surv.name}">
+                <f:param name="surveyId" value="#{surv.id}"/>
+            </p:link>
+        </p:column>
+
+        <p:column headerText="stage">
+            <h:outputText value="#{surv.stage.name}"/>
+        </p:column>
+
+        <p:column headerText="status">
+            <h:outputText value="#{surv.status}"/>
+        </p:column>
+    </p:dataTable>
+</h:body>
+</html>

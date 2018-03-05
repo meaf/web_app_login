@@ -9,19 +9,20 @@
 <h:head>
 
 </h:head>
+<p:link outcome="stages" value="###"/>
 <p:dataTable id="usersTable" value="#{sessionBean.usersList}" var="user">
-    <p:column>
-        <f:facet name="header">
-            <h:outputText value="Username"/>
-        </f:facet>
-        <h:outputText value="#{user.username}"/>
-    </p:column>
-    <p:column>
-        <f:facet name="header">
-            <h:outputText value="Role"/>
-        </f:facet>
-        <h:outputText value="#{user.role.rolename}"/>
-    </p:column>
+    <!--<p:column>-->
+        <!--<f:facet name="header">-->
+            <!--<h:outputText value="Username"/>-->
+        <!--</f:facet>-->
+        <!--<h:outputText value="#{user.username}"/>-->
+    <!--</p:column>-->
+    <!--<p:column>-->
+        <!--<f:facet name="header">-->
+            <!--<h:outputText value="Role"/>-->
+        <!--</f:facet>-->
+        <!--<h:outputText value="#{user.role.rolename}"/>-->
+    <!--</p:column>-->
 </p:dataTable>
 
 </html>

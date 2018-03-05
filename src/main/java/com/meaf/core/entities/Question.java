@@ -17,11 +17,11 @@ public class Question implements Serializable {
     @Column(name = "TEXT")
     private String text;
 
-    @Column(name = "STATUS")
-    private ESurveyStatus status;
+    @Column(name = "STATUS", columnDefinition = "varchar(32) default 'NEW'")
+    private ESurveyStatus status = ESurveyStatus.NEW;
 
     @ManyToOne
-    @JoinColumn(name = "PROJECT_STAGE_ID")
+    @JoinColumn(name = "SURVEY_ID")
     private Survey survey;
 
     public long getId() {
