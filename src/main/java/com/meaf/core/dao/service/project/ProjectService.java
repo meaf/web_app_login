@@ -7,7 +7,7 @@ import javax.inject.Named;
 import java.util.List;
 
 @Named
-public class ProjectService extends ABaseService<Project, Void> {
+public class ProjectService extends ABaseService<Project> {
 
 
     public void addProject(String projectName) {
@@ -17,7 +17,7 @@ public class ProjectService extends ABaseService<Project, Void> {
 
 
     @Override
-    public List<Project> getBranch(Void rootNode) throws IllegalAccessException {
+    public List<Project> getBranch(Long rootNode) throws IllegalAccessException {
         throw new IllegalAccessException("is the rootest");
     }
 
@@ -28,12 +28,14 @@ public class ProjectService extends ABaseService<Project, Void> {
 
     @Override
     public Project getById(Long id) {
-        return null;
+        return getEntityManager().find(Project.class, id);
     }
 
     @Override
     public void update(Project project) {
-
+        Project p = getById(project.getId());
+        p.setName(project.getName());
+        p.setDescription(project.getDescription());
     }
 }
 

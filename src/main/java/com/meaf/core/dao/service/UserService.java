@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Named
-public class UserService extends ABaseService<User, Void> {
+public class UserService extends ABaseService<User> {
     @Inject
     HttpServletRequest request;
 
@@ -46,7 +46,7 @@ public class UserService extends ABaseService<User, Void> {
     }
 
     @Override
-    public List<User> getBranch(Void rootNode) throws IllegalAccessException {
+    public List<User> getBranch(Long rootNode) throws IllegalAccessException {
         throw new IllegalAccessException("has no root");
     }
 
@@ -57,11 +57,13 @@ public class UserService extends ABaseService<User, Void> {
 
     @Override
     public User getById(Long id) {
-        return null;
+        return getEntityManager().find(User.class, id);
     }
 
     @Override
     public void update(User user) {
-
+        User olUser = getById(user.getId());
+        olUser.setPassword(user.getPassword());
+        olUser.setUsername(user.getUsername());
     }
 }

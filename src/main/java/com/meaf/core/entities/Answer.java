@@ -1,5 +1,6 @@
 package com.meaf.core.entities;
 
+import com.meaf.core.dao.service.base.IProjectElement;
 import com.meaf.core.meta.EAnswerStatus;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "ANSWERS")
-public class Answer implements Serializable {
+public class Answer implements Serializable, IProjectElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -66,5 +67,10 @@ public class Answer implements Serializable {
     }
 
     public Answer() {
+    }
+
+    @Override
+    public Project getRootProject() {
+        return getQuestion().getRootProject();
     }
 }

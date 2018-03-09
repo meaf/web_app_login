@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Named
-public class QuestionService extends ABaseService<Question, Survey> {
+public class QuestionService extends ABaseService<Question> {
 
 
     public void addQuestion(ProjectStage projectStage, String questionText, Survey survey) {
@@ -22,11 +22,11 @@ public class QuestionService extends ABaseService<Question, Survey> {
     }
 
     @Override
-    public List<Question> getBranch(Survey rootNode) throws IllegalAccessException {
+    public List<Question> getBranch(Long rootNode) throws IllegalAccessException {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Question> cq = cb.createQuery(Question.class);
         Root<Question> root = cq.from(Question.class);
-        cq.select(root).where(cb.equal(root.get("survey"), rootNode));
+        cq.select(root).where(cb.equal(root.get("survey").get("id"), rootNode));
         List<Question> answers = getEntityManager().createQuery(cq).getResultList();
         return answers;
     }
@@ -38,11 +38,13 @@ public class QuestionService extends ABaseService<Question, Survey> {
 
     @Override
     public Question getById(Long id) {
-        return null;
+        return getEntityManager().find(Question.class, id);
     }
 
     @Override
     public void update(Question question) {
-
+        Question qu = getById(question.getId());
+        qu.setText(question.getText());
+        qu.setStatus(question.getStatus());
     }
 }

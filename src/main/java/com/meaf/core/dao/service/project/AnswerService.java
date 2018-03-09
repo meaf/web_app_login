@@ -2,7 +2,6 @@ package com.meaf.core.dao.service.project;
 
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.entities.Answer;
-import com.meaf.core.entities.Question;
 
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -13,14 +12,14 @@ import java.util.List;
 
 @Named
 @SessionScoped
-public class AnswerService extends ABaseService<Answer, Question> {
+public class AnswerService extends ABaseService<Answer> {
 
     @Override
-    public List<Answer> getBranch(Question rootNode) {
+    public List<Answer> getBranch(Long rootNode) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Answer> cq = cb.createQuery(Answer.class);
         Root<Answer> root = cq.from(Answer.class);
-        cq.select(root).where(cb.equal(root.get("question"), rootNode));
+        cq.select(root).where(cb.equal(root.get("question").get("id"), rootNode));
         List<Answer> answers = getEntityManager().createQuery(cq).getResultList();
         return answers;
     }
@@ -32,11 +31,14 @@ public class AnswerService extends ABaseService<Answer, Question> {
 
     @Override
     public Answer getById(Long id) {
-        return null;
+        return getEntityManager().find(Answer.class, id);
     }
 
     @Override
     public void update(Answer answer) {
-
+        Answer ans = getById(answer.getId());
+        ans.setQuestion(answer.getQuestion());
+        ans.setStatus(answer.getStatus());
+        ans.setText(answer.getText());
     }
 }

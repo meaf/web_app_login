@@ -1,11 +1,13 @@
 package com.meaf.core.entities;
 
+import com.meaf.core.dao.service.base.IProjectElement;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "PROJECT_STAGES")
-public class ProjectStage implements Serializable {
+public class ProjectStage implements Serializable, IProjectElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -75,5 +77,10 @@ public class ProjectStage implements Serializable {
     }
 
     public ProjectStage() {
+    }
+
+    @Override
+    public Project getRootProject() {
+        return getProject().getRootProject();
     }
 }

@@ -6,7 +6,7 @@ import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import java.io.Serializable;
 
-public abstract class ABaseService<T, S> implements Serializable, ICrudService<T, S> {
+public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
     @EJB
     protected ConfigurationBean configuration;
 

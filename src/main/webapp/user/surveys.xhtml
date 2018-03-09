@@ -10,19 +10,19 @@
     <title>surveys</title>
 </h:head>
 <h:body>
-    <p:link outcome="stages" value="###"/>
+    <p:link outcome="index" value="###"/>
     <p:dataTable var="surv" value="#{navigationBean.surveys}">
-        <p:column headerText="id">
+        <p:column headerText="id" sortBy="#{surv.name}">
             <p:link outcome="questions" value="#{surv.name}">
                 <f:param name="surveyId" value="#{surv.id}"/>
             </p:link>
         </p:column>
 
-        <p:column headerText="stage">
+        <p:column headerText="stage" sortBy="#{surv.stage.name}">
             <h:outputText value="#{surv.stage.name}"/>
         </p:column>
 
-        <p:column headerText="status">
+        <p:column headerText="status" sortBy="#{surv.status}">
             <h:outputText value="#{surv.status}"/>
         </p:column>
     </p:dataTable>

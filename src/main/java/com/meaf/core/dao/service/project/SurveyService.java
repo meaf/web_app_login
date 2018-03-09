@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Named
-public class SurveyService extends ABaseService<Survey, ProjectStage> {
+public class SurveyService extends ABaseService<Survey> {
 
     public void addSurvey(ProjectStage projectStage, String topic) {
         Survey survey = new Survey(topic, ESurveyStatus.NEW, projectStage);
@@ -20,11 +20,11 @@ public class SurveyService extends ABaseService<Survey, ProjectStage> {
     }
 
     @Override
-    public List<Survey> getBranch(ProjectStage rootNode) throws IllegalAccessException {
+    public List<Survey> getBranch(Long rootNode) throws IllegalAccessException {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Survey> cq = cb.createQuery(Survey.class);
         Root<Survey> root = cq.from(Survey.class);
-        cq.select(root).where(cb.equal(root.get("project"), rootNode));
+        cq.select(root).where(cb.equal(root.get("project").get("id"), rootNode));
         List<Survey> stages = getEntityManager().createQuery(cq).getResultList();
         return stages;
     }
@@ -36,10 +36,14 @@ public class SurveyService extends ABaseService<Survey, ProjectStage> {
 
     @Override
     public Survey getById(Long id) {
-        return null;
+        return getEntityManager().find(Survey.class, id);
     }
 
     @Override
     public void update(Survey survey) {
+        Survey s = getById(survey.getId());
+        s.setName(survey.getName());
+        s.setStatus(survey.getStatus());
     }
+
 }

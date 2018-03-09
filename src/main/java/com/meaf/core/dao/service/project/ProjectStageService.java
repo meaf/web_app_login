@@ -1,7 +1,6 @@
 package com.meaf.core.dao.service.project;
 
 import com.meaf.core.dao.service.base.ABaseService;
-import com.meaf.core.entities.Project;
 import com.meaf.core.entities.ProjectStage;
 
 import javax.inject.Named;
@@ -11,14 +10,14 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Named
-public class ProjectStageService extends ABaseService<ProjectStage, Project> {
+public class ProjectStageService extends ABaseService<ProjectStage> {
 
     @Override
-    public List<ProjectStage> getBranch(Project rootNode) throws IllegalAccessException {
+    public List<ProjectStage> getBranch(Long rootNode) throws IllegalAccessException {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<ProjectStage> cq = cb.createQuery(ProjectStage.class);
         Root<ProjectStage> root = cq.from(ProjectStage.class);
-        cq.select(root).where(cb.equal(root.get("project"), rootNode));
+        cq.select(root).where(cb.equal(root.get("project").get("id"), rootNode));
         List<ProjectStage> stages = getEntityManager().createQuery(cq).getResultList();
         return stages;
     }
@@ -30,11 +29,12 @@ public class ProjectStageService extends ABaseService<ProjectStage, Project> {
 
     @Override
     public ProjectStage getById(Long id) {
-        return null;
+        return getEntityManager().find(ProjectStage.class, id);
     }
 
     @Override
     public void update(ProjectStage projectStage) {
-
+        ProjectStage ps = getById(projectStage.getId());
+        ps.setName(projectStage.getName());
     }
 }

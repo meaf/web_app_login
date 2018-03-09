@@ -10,19 +10,19 @@
     <title>stages</title>
 </h:head>
 <h:body>
-    <!--<p:link outcome="home" value="###"/>-->
+    <p:link outcome="index" value="###"/>
     <p:dataTable var="step" value="#{navigationBean.projectSteps}">
-        <p:column headerText="id">
+        <p:column headerText="id" sortBy="#{step.number}">
             <p:link outcome="surveys" value="#{step.number}">
-                <f:param name="surveyId" value="#{step.id}"/>
+                <f:param name="stageId" value="#{step.id}"/>
             </p:link>
         </p:column>
 
-        <p:column headerText="name">
+        <p:column headerText="name" sortBy="#{step.name}">
             <h:outputText value="#{step.name}"/>
         </p:column>
 
-        <p:column headerText="prevStageName">
+        <p:column headerText="prevStageName" sortBy="#{step.previousStage.name}">
             <h:outputText value="#{step.previousStage.name}"/>
         </p:column>
     </p:dataTable>

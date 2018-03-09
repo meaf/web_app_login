@@ -1,5 +1,6 @@
 package com.meaf.core.entities;
 
+import com.meaf.core.dao.service.base.IProjectElement;
 import com.meaf.core.meta.ESurveyStatus;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "QUESTIONS")
-public class Question implements Serializable {
+public class Question implements Serializable, IProjectElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,6 +18,7 @@ public class Question implements Serializable {
     @Column(name = "TEXT")
     private String text;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", columnDefinition = "varchar(32) default 'NEW'")
     private ESurveyStatus status = ESurveyStatus.NEW;
 
@@ -63,5 +65,10 @@ public class Question implements Serializable {
     }
 
     public Question() {
+    }
+
+    @Override
+    public Project getRootProject() {
+        return getSurvey().getRootProject();
     }
 }

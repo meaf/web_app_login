@@ -1,11 +1,13 @@
 package com.meaf.core.entities;
 
+import com.meaf.core.dao.service.base.IProjectElement;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "PROJECTS")
-public class Project implements Serializable {
+public class Project implements Serializable, IProjectElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,5 +50,10 @@ public class Project implements Serializable {
     }
 
     public Project() {
+    }
+
+    @Override
+    public Project getRootProject() {
+        return this;
     }
 }

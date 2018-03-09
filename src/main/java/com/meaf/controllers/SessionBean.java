@@ -51,11 +51,11 @@ public class SessionBean implements Serializable {
         userService.addUser(login, password, role);
     }
 
-    public List<Role> getRolesList(){
+    public List<Role> getRolesList() {
         return userService.getRolesList();
     }
 
-    public List<User> getUsersList(){
+    public List<User> getUsersList() {
         return userService.getUsersList();
     }
 

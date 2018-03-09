@@ -10,15 +10,21 @@
 
 </h:head>
 <h:body>
-    <p:link outcome="stages" value="###"/>
+    <f:metadata>
+        <f:viewParam name="surv" value="#{navigationBean.id}"/>
+    </f:metadata>
+    <p:link outcome="index" value="###"/>
     <p:dataTable var="question" value="#{navigationBean.questions}">
-        <p:column headerText="Id">
-            <p:link outcome="questions" value="#{question.text}">
-                <f:param name="surveyId" value="#{question.id}"/>
+        <f:facet name="header">
+            Questions
+        </f:facet>
+        <p:column headerText="Id" sortBy="#{question.text}">
+            <p:link outcome="answer" value="#{question.text}">
+                <f:param name="questionId" value="#{question.id}"/>
             </p:link>
         </p:column>
 
-        <p:column headerText="status">
+        <p:column headerText="status" sortBy="#{question.status}">
             <h:outputText value="#{question.status}"/>
         </p:column>
     </p:dataTable>
