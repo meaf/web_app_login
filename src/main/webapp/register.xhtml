@@ -11,19 +11,23 @@
         <title>Login</title>
     </h:head>
     <h:body>
-        <!--<form name="loginForm" method="POST" action="j_security_check">-->
-        <h:form id="loginForm">
-            <h:panelGrid columns="2">
-                <h:message class="error" for="username"/>
-                <h:message class="error" for="password"/>
+        <h:form id="registerForm">
+            <p:panelGrid columns="3">
                 <h:outputText value="Username: " id="username" />
                 <h:inputText value="#{sessionBean.username}" required="true"/>
+                <h:message class="error" for="username"/>
+
                 <h:outputText value="Password: " id="password"/>
                 <h:inputSecret value="#{sessionBean.password}" required="true"/>
+                <h:message class="error" for="passwordConfirm"/>
 
-                <h:commandButton value="login" action="#{sessionBean.login}" />
+                <h:outputText value="Password confirmation: " id="passwordConfirm"/>
+                <h:inputSecret value="#{sessionBean.passwordConfirm}" required="true"/>
+                <h:message class="error" for="passwordConfirm"/>
+
+                <h:commandButton value="register" action="#{sessionBean.registerUser}" />
                 <h:commandButton type="reset" value="Reset" />
-            </h:panelGrid>
+            </p:panelGrid>
         </h:form>
     </h:body>
 </html>

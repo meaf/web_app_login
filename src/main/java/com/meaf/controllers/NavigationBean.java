@@ -4,20 +4,19 @@ import com.meaf.core.dao.service.project.*;
 import com.meaf.core.entities.*;
 
 import javax.annotation.ManagedBean;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
 import java.io.Serializable;
 import java.util.List;
 
 @Named
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class NavigationBean implements Serializable {
 
-    @Context
+    @Inject
     private HttpServletRequest httpRequest;
 
     @Inject
@@ -51,6 +50,10 @@ public class NavigationBean implements Serializable {
 
     public List<Question> getQuestions() {
         return questionService.getAll();
+    }
+
+    public Question getQuestion(Long id) {
+        return questionService.getById(id);
     }
 
     public List<Answer> getAnswers() {

@@ -6,6 +6,9 @@ import com.meaf.core.entities.*;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -35,6 +38,14 @@ public class UserService extends ABaseService<User> {
     public List<Role> getRolesList() {
         List<Role> roles = getEntityManager().createQuery("select r from Role r", Role.class).getResultList();
         return roles;
+    }
+
+    public Role getRoleByName(String roleName) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Role> cq = cb.createQuery(Role.class);
+        Root<Role> root = cq.from(Role.class);
+        cq.select(root).where(cb.equal(root.get("rolename"), roleName));
+        return getEntityManager().createQuery(cq).getSingleResult();
     }
 
     public void connectUserToProject(User user, Project project) {

@@ -7,13 +7,14 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
+    <link rel="import" href="../WEB-INF/config.html"/>
     <title>User control panel</title>
 </h:head>
 <h:body>
     <h:form>
         <h:panelGrid columns="8">
             <p:outputLabel value="Login: "/>
-            <p:inputText value="#{sessionBean.login}" />
+            <p:inputText value="#{sessionBean.username}" />
 
             <p:outputLabel value="Password: "/>
             <p:inputText value="#{sessionBean.password}" />

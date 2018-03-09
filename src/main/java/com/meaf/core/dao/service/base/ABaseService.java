@@ -14,6 +14,7 @@ public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
         return configuration.getEntityManager();
     }
 
+
     @Override
     public void add(T obj) {
         getEntityManager().persist(obj);

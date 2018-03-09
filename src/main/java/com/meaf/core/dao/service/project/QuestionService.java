@@ -1,7 +1,6 @@
 package com.meaf.core.dao.service.project;
 
 import com.meaf.core.dao.service.base.ABaseService;
-import com.meaf.core.entities.ProjectStage;
 import com.meaf.core.entities.Question;
 import com.meaf.core.entities.Survey;
 import com.meaf.core.meta.ESurveyStatus;
@@ -16,7 +15,7 @@ import java.util.List;
 public class QuestionService extends ABaseService<Question> {
 
 
-    public void addQuestion(ProjectStage projectStage, String questionText, Survey survey) {
+    public void addQuestion(String questionText, Survey survey) {
         Question question = new Question(questionText, ESurveyStatus.NEW, survey);
         getEntityManager().persist(question);
     }
