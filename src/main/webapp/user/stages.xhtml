@@ -12,7 +12,7 @@
 </h:head>
 <h:body>
     <h:form>
-        <p:link outcome="index" value="###"/>
+        <p:link outcome="index" value="home"/>
         <c:set var="id" value="#{param['id']}" />
         <p:dataTable var="step" value="#{navigationBean.projectSteps}">
             <p:column headerText="id" sortBy="#{step.number}">

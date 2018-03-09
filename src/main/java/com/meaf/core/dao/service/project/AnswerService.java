@@ -40,5 +40,6 @@ public class AnswerService extends ABaseService<Answer> {
         ans.setQuestion(answer.getQuestion());
         ans.setStatus(answer.getStatus());
         ans.setText(answer.getText());
+        commit();
     }
 }

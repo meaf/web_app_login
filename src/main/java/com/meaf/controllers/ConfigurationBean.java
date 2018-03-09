@@ -14,4 +14,6 @@ public class ConfigurationBean {
     public EntityManager getEntityManager() {
         return entityManager;
     }
+
+
 }

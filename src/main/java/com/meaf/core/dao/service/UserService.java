@@ -18,10 +18,7 @@ public class UserService extends ABaseService<User> {
     HttpServletRequest request;
 
     public void addUser(String login, String password, Role role) {
-        EntityManager em = getEntityManager();
-        User user = new User(login, password, role);
-        em.persist(user);
-        em.persist(user);
+        super.add(new User(login, password, role));
     }
 
     public List<User> getUsersList() {

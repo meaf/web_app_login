@@ -16,8 +16,7 @@ public class QuestionService extends ABaseService<Question> {
 
 
     public void addQuestion(String questionText, Survey survey) {
-        Question question = new Question(questionText, ESurveyStatus.NEW, survey);
-        getEntityManager().persist(question);
+        super.add(new Question(questionText, ESurveyStatus.NEW, survey));
     }
 
     @Override
@@ -45,5 +44,6 @@ public class QuestionService extends ABaseService<Question> {
         Question qu = getById(question.getId());
         qu.setText(question.getText());
         qu.setStatus(question.getStatus());
+        commit();
     }
 }

@@ -12,7 +12,8 @@ public interface ICrudService<T> {
 
     void update(T obj);
 
-    void add(T obj);
+    boolean add(T obj);
 
-    void delete(Long id);
+    boolean delete(Long id);
+
 }

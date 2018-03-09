@@ -14,15 +14,15 @@
         <!--<form name="loginForm" method="POST" action="j_security_check">-->
         <h:form id="loginForm">
             <h:panelGrid columns="2">
-                <h:message class="error" for="username"/>
-                <h:message class="error" for="password"/>
-                <h:outputText value="Username: " id="username" />
-                <h:inputText value="#{sessionBean.username}" required="true"/>
-                <h:outputText value="Password: " id="password"/>
-                <h:inputSecret value="#{sessionBean.password}" required="true"/>
+                <p:message class="error" for="username"/>
+                <p:message class="error" for="password"/>
+                <p:outputLabel value="Username: " id="username" />
+                <p:inputText value="#{sessionBean.username}" required="true"/>
+                <p:outputLabel value="Password: " id="password"/>
+                <p:password value="#{sessionBean.password}" required="true"/>
 
-                <h:commandButton value="login" action="#{sessionBean.login}" />
-                <h:commandButton type="reset" value="Reset" />
+                <p:commandButton value="login" action="#{sessionBean.login}" />
+                <p:commandButton type="reset" value="Reset" />
             </h:panelGrid>
         </h:form>
     </h:body>

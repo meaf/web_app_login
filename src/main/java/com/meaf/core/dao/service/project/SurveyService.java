@@ -15,8 +15,7 @@ import java.util.List;
 public class SurveyService extends ABaseService<Survey> {
 
     public void addSurvey(ProjectStage projectStage, String topic) {
-        Survey survey = new Survey(topic, ESurveyStatus.NEW, projectStage);
-        getEntityManager().persist(survey);
+        super.add(new Survey(topic, ESurveyStatus.NEW, projectStage));
     }
 
     @Override
@@ -44,6 +43,7 @@ public class SurveyService extends ABaseService<Survey> {
         Survey s = getById(survey.getId());
         s.setName(survey.getName());
         s.setStatus(survey.getStatus());
+        commit();
     }
 
 }

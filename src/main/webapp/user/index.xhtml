@@ -12,8 +12,12 @@
 </h:head>
 <body>
     <h:form>
+        <p:commandLink value="logout" action="#{sessionBean.logout}" /><br/>
+        <p:link align="right" outcome="index" value="home"/>
+
         <c:set var="id" value="#{param['id']}" />
-        <h:commandButton value="logout" action="#{sessionBean.logout}" />
+        <c:set var="currentQuestion" value="#{navigationBean.getQuestion(id)}"/>
+
         <p:dataTable var="project" value="#{navigationBean.projects}" ><!-- rendered="#{request.isUserInRole('admin')}"-->
             <f:facet name="header">
                 N  S  C

@@ -12,10 +12,12 @@
 </h:head>
 <h:body>
     <h:form>
-        <p:link action="#{session.invalidate()}" value="logout"/>
-        <p:link outcome="index" value="###"/>
+        <p:commandButton value="logout" action="#{sessionBean.logout}" />
+        <p:link align="right" outcome="index" value="home"/>
+
         <c:set var="id" value="#{param['id']}" />
         <c:set var="currentQuestion" value="#{navigationBean.getQuestion(id)}"/>
+
         <p:dataTable var="question" value="#{navigationBean.questions}">
             <f:facet name="header">
                 Questions

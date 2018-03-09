@@ -13,20 +13,20 @@
     <h:body>
         <h:form id="registerForm">
             <p:panelGrid columns="3">
-                <h:outputText value="Username: " id="username" />
-                <h:inputText value="#{sessionBean.username}" required="true"/>
-                <h:message class="error" for="username"/>
+                <p:outputLabel value="Username: " id="username" />
+                <p:inputText value="#{sessionBean.username}" required="true"/>
+                <p:message class="error" for="username"/>
 
-                <h:outputText value="Password: " id="password"/>
-                <h:inputSecret value="#{sessionBean.password}" required="true"/>
-                <h:message class="error" for="passwordConfirm"/>
+                <p:outputLabel value="Password: " id="password"/>
+                <p:password value="#{sessionBean.password}" required="true"/>
+                <p:message class="error" for="passwordConfirm"/>
 
-                <h:outputText value="Password confirmation: " id="passwordConfirm"/>
-                <h:inputSecret value="#{sessionBean.passwordConfirm}" required="true"/>
-                <h:message class="error" for="passwordConfirm"/>
+                <p:outputLabel value="Password confirmation: " id="passwordConfirm"/>
+                <p:password value="#{sessionBean.passwordConfirm}" required="true"/>
+                <p:message class="error" for="passwordConfirm"/>
 
-                <h:commandButton value="register" action="#{sessionBean.registerUser}" />
-                <h:commandButton type="reset" value="Reset" />
+                <p:commandButton value="register" action="#{sessionBean.registerUser}" />
+                <p:commandButton type="reset" value="Reset" />
             </p:panelGrid>
         </h:form>
     </h:body>
