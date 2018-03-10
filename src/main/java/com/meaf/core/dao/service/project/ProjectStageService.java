@@ -14,6 +14,7 @@ public class ProjectStageService extends ABaseService<ProjectStage> {
 
     @Override
     public List<ProjectStage> getBranch(Long rootNode) throws IllegalAccessException {
+
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<ProjectStage> cq = cb.createQuery(ProjectStage.class);
         Root<ProjectStage> root = cq.from(ProjectStage.class);

@@ -10,19 +10,22 @@
       xmlns:tp = "http://java.sun.com/jsf/composite/toolbox">
 <h:head>
     <link rel="import" href="../WEB-INF/config.html"/>
-    <title>Surveys</title>
+    <title>Answer</title>
 </h:head>
 <h:body>
     <h:form>
-        <tp:h
-        <p:commandLink value="logout" action="#{sessionBean.logout}" /><br/>
-        <p:link align="right" outcome="index" value="home"/>
-
+        <tp:header/>
         <c:set var="id" value="#{param['id']}" />
-        <c:set var="currentQuestion" value="#{navigationBean.getQuestion(id)}"/>
-        <p:outputLabel value="#{currentQuestion.text}"/>
-        <p:inputTextarea value="#{managingBean.managedAnswer.text}" required="true">Your answer </p:inputTextarea>
-        <p:commandButton value="submit" action="#{managingBean.addAnswer(currentQuestion)}" />
+        <c:set var="currElement" value="#{navigationBean.questionById(id)}"/>
+
+        #{managingBean.setManagedQuestion(currElement)}
+        #{managingBean.answerQuestionUser(managingBean.managedQuestion)}
+
+        <p:outputLabel  value="#{managingBean.managedQuestion.text}"/>
+        <p:inputTextarea value="#{managingBean.managedAnswer.text}" required="true"><br/>
+            Your answer:
+        </p:inputTextarea><br/>
+        <p:commandLink value="submit" action="#{managingBean.addAnswer()}" />
     </h:form>
 </h:body>
 </html>

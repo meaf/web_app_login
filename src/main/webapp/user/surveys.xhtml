@@ -5,16 +5,19 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:tp="http://java.sun.com/jsf/composite/toolbox">
 <h:head>
     <link rel="import" href="../WEB-INF/config.html"/>
     <title>surveys</title>
 </h:head>
 <h:body>
     <h:form>
-        <p:link outcome="index" value="home"/>
+        <tp:header/>
         <c:set var="id" value="#{param['id']}" />
-        <p:dataTable var="surv" value="#{navigationBean.surveys}">
+        <c:set var="currElement" value="#{navigationBean.projectStageById(id)}"/>
+
+        <p:dataTable var="surv" value="#{navigationBean.surveysBranched(id)}">
 
             <p:column headerText="id" sortBy="#{surv.name}">
                 <p:link outcome="questions" value="#{surv.name}">

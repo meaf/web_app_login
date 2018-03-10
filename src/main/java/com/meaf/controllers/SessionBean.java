@@ -1,6 +1,8 @@
 package com.meaf.controllers;
 
+import com.meaf.core.dao.service.SessionManagementHelper;
 import com.meaf.core.dao.service.UserService;
+import com.meaf.core.entities.Project;
 import com.meaf.core.entities.Role;
 import com.meaf.core.entities.User;
 
@@ -11,7 +13,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -25,7 +26,7 @@ public class SessionBean implements Serializable {
     @Inject
     UserService userService;
     @Inject
-    HttpServletRequest request;
+    SessionManagementHelper sessionManagementHelper;
 
     private String username;
     private String password;
@@ -46,6 +47,21 @@ public class SessionBean implements Serializable {
         }
     }
 
+    public void loadStages(Project project) throws IOException {
+        swichProject(project);
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        context.getExternalContext().redirect("stages.xhtml");
+    }
+
+    public void swichProject(Project project) {
+        sessionManagementHelper.swichProject(project);
+    }
+
+    public Project getCurrentProject() {
+        return sessionManagementHelper.getCurrentProject();
+    }
+
     public List<Role> getRolesList() {
         return userService.getRolesList();
     }
@@ -57,11 +73,11 @@ public class SessionBean implements Serializable {
     public void login() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
-            request.login(username, password);
+            sessionManagementHelper.login(username, password);
             String redirectPage = "index.xhtml";
-            if (request.isUserInRole("admin"))
+            if (sessionManagementHelper.isUserInRole("admin"))
                 redirectPage = "admin/users.xhtml";
-            if (request.isUserInRole("user"))
+            if (sessionManagementHelper.isUserInRole("user"))
                 redirectPage = "user/index.xhtml";
             context.getExternalContext().redirect(redirectPage);
         } catch (ServletException se) {

@@ -2,26 +2,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:composite = "http://java.sun.com/jsf/composite">
+      xmlns:composite="http://java.sun.com/jsf/composite">
 
-    <composite:interface>
-        <composite:attribute name = "value" />
-    </composite:interface>
+    <composite:interface/>
 
     <composite:implementation>
-        <p:panelGrid columns="2">
+        <p:panelGrid columns="3">
+            <p:outputLabel value="Welcome, #{request.remoteUser}"/>
             <p:commandLink value="logout" action="#{sessionBean.logout}" />
             <p:link align="right" outcome="index" value="home"/>
-
-            <c:set var="id" value="#{param['id']}" />
-            <c:set var="currentElement" value="#{cc.attrs.value}"/>
         </p:panelGrid>
     </composite:implementation>
-
 </html>
 

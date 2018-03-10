@@ -25,8 +25,8 @@ public class QuestionService extends ABaseService<Question> {
         CriteriaQuery<Question> cq = cb.createQuery(Question.class);
         Root<Question> root = cq.from(Question.class);
         cq.select(root).where(cb.equal(root.get("survey").get("id"), rootNode));
-        List<Question> answers = getEntityManager().createQuery(cq).getResultList();
-        return answers;
+        List<Question> questions = getEntityManager().createQuery(cq).getResultList();
+        return questions;
     }
 
     @Override

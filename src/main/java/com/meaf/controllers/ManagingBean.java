@@ -2,17 +2,19 @@ package com.meaf.controllers;
 
 import com.meaf.core.dao.service.project.*;
 import com.meaf.core.entities.*;
+import com.meaf.core.meta.EAnswerStatus;
 
 import javax.annotation.ManagedBean;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.List;
 
 @Named
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class ManagingBean implements Serializable {
 
     private HttpServletRequest httpRequest;
@@ -39,8 +41,19 @@ public class ManagingBean implements Serializable {
     private ProjectStage managedProjectStage;
     private Project managedProject;
 
-    public void addAnswer(Question question) {
-        managedAnswer.setQuestion(question);
+    public void loadAnswer(Question question) {
+        answerService.getBranch(question.getId());
+    }
+
+    public void answerQuestionUser(Question question) {
+        List<Answer> answers = answerService.getBranch(question.getId());
+        if (answers == null || answers.isEmpty())
+            managedAnswer = new Answer("", EAnswerStatus.NEW, question, null);
+        else managedAnswer = answers.get(0);
+    }
+
+    public void addAnswer() {
+        managedAnswer.setQuestion(managedQuestion);
         answerService.add(managedAnswer);
     }
 

@@ -23,7 +23,7 @@ public class SurveyService extends ABaseService<Survey> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Survey> cq = cb.createQuery(Survey.class);
         Root<Survey> root = cq.from(Survey.class);
-        cq.select(root).where(cb.equal(root.get("project").get("id"), rootNode));
+        cq.select(root).where(cb.equal(root.get("stage").get("id"), rootNode));
         List<Survey> stages = getEntityManager().createQuery(cq).getResultList();
         return stages;
     }
