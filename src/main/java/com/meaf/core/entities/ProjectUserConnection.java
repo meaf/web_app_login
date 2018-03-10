@@ -10,7 +10,7 @@ public class ProjectUserConnection implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
@@ -57,7 +57,7 @@ public class ProjectUserConnection implements Serializable {
         this.role = role;
     }
 
-    public ProjectUserConnection(User user, Project project) {
+    public ProjectUserConnection(User user, Project project, Role role) {
         this.user = user;
         this.project = project;
         this.role = user.getRole();

@@ -10,7 +10,7 @@ import java.util.List;
 public class ProjectService extends ABaseService<Project> {
 
 
-    public void addProject(String projectName) {
+    public void addProject(String projectName) throws Exception {
         super.add(new Project(projectName));
     }
 
@@ -31,11 +31,10 @@ public class ProjectService extends ABaseService<Project> {
     }
 
     @Override
-    public void update(Project project) {
+    public void update(Project project) throws Exception { // todo: TX
         Project p = getById(project.getId());
         p.setName(project.getName());
         p.setDescription(project.getDescription());
-        commit();
     }
 }
 

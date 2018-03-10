@@ -12,14 +12,13 @@ public class Project implements Serializable, IProjectElement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private long id;
+    private Long id;
 
     @Column(name = "PROJECT_NAME")
     private String name;
 
     @Column(name = "DESCRIPTION")
     private String description;
-
 
     public long getId() {
         return id;

@@ -13,7 +13,7 @@ public class Survey implements Serializable, IProjectElement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private long id;
+    private Long id;
 
     @Column(name = "TOPIC")
     private String name;
@@ -25,6 +25,9 @@ public class Survey implements Serializable, IProjectElement {
     @OneToOne
     @JoinColumn(name = "PROJECT_STAGE")
     private ProjectStage stage;
+
+    @Transient
+    private ESurveyStatus relativeStatus;
 
     public long getId() {
         return id;
@@ -70,5 +73,13 @@ public class Survey implements Serializable, IProjectElement {
     @Override
     public Project getRootProject() {
         return getStage().getRootProject();
+    }
+
+    public ESurveyStatus getRelativeStatus() {
+        return relativeStatus;
+    }
+
+    public void setRelativeStatus(ESurveyStatus relativeStatus) {
+        this.relativeStatus = relativeStatus;
     }
 }

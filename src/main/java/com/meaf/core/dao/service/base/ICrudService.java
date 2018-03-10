@@ -10,10 +10,10 @@ public interface ICrudService<T> {
 
     T getById(Long id);
 
-    void update(T obj);
+    void update(T obj) throws Exception;
 
-    boolean add(T obj);
+    boolean add(T obj) throws Exception;
 
-    boolean delete(Long id);
+    boolean delete(Long id) throws Exception;
 
 }

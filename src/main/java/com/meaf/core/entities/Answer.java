@@ -11,9 +11,9 @@ import java.io.Serializable;
 public class Answer implements Serializable, IProjectElement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private long id;
+    private Long id;
 
     @Column(name = "TEXT")
     private String text;
@@ -22,15 +22,16 @@ public class Answer implements Serializable, IProjectElement {
     @Column(name = "STATUS", columnDefinition = "varchar(32) default 'NEW'")
     private EAnswerStatus status = EAnswerStatus.NEW;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    // todo: user relations
+    @Transient
+    private EAnswerStatus relativeStatus;
 
     public long getId() {
         return id;
@@ -85,5 +86,13 @@ public class Answer implements Serializable, IProjectElement {
     @Override
     public Project getRootProject() {
         return getQuestion().getRootProject();
+    }
+
+    public EAnswerStatus getRelativeStatus() {
+        return relativeStatus;
+    }
+
+    public void setRelativeStatus(EAnswerStatus relativeStatus) {
+        this.relativeStatus = relativeStatus;
     }
 }

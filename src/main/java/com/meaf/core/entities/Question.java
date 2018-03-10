@@ -13,7 +13,7 @@ public class Question implements Serializable, IProjectElement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private long id;
+    private Long id;
 
     @Column(name = "TEXT")
     private String text;

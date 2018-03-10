@@ -3,6 +3,7 @@ package com.meaf.core.dao.service.project;
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.entities.Answer;
 import com.meaf.core.entities.ProjectUserConnection;
+import com.meaf.core.meta.EUserRole;
 
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -25,10 +26,10 @@ public class AnswerService extends ABaseService<Answer> {
 
         ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
         if (connection != null) {
-            if ("expert".equals(connection.getRole())) {
+            if (EUserRole.expert.isRole(connection.getRole())) {
                 return filterOtherUsers(answers);
             }
-            if ("organizer".equals(connection.getRole()))
+            if (EUserRole.organizer.isRole(connection.getRole()))
                 return answers;
         }
         return null;
@@ -45,12 +46,14 @@ public class AnswerService extends ABaseService<Answer> {
     }
 
     @Override
-    public void update(Answer answer) {
+    public void update(Answer answer) throws Exception {
+        getUTx().begin();
         Answer ans = getById(answer.getId());
         ans.setQuestion(answer.getQuestion());
         ans.setStatus(answer.getStatus());
         ans.setText(answer.getText());
-        commit();
+        getUTx().commit();
+//        commit();
     }
 
 

@@ -5,6 +5,7 @@ import com.meaf.core.dao.service.UserService;
 import com.meaf.core.entities.Project;
 import com.meaf.core.entities.Role;
 import com.meaf.core.entities.User;
+import com.meaf.core.meta.EUserRole;
 
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.RequestScoped;
@@ -37,12 +38,12 @@ public class SessionBean implements Serializable {
         userService.addUser(username, password, role);
     }
 
-    public void registerUser() {
+    public void registerUser() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         if (!password.equals(passwordConfirm)) {
             context.addMessage("registerForm:passwordConfirm", new FacesMessage("Passwords don't match."));
         } else {
-            role = userService.getRoleByName("user");
+            role = userService.getRoleByName(EUserRole.user);
             userService.addUser(username, password, role);
         }
     }
@@ -75,9 +76,9 @@ public class SessionBean implements Serializable {
         try {
             sessionManagementHelper.login(username, password);
             String redirectPage = "index.xhtml";
-            if (sessionManagementHelper.isUserInRole("admin"))
+            if (sessionManagementHelper.isUserInRole(EUserRole.admin.name()))
                 redirectPage = "admin/users.xhtml";
-            if (sessionManagementHelper.isUserInRole("user"))
+            if (sessionManagementHelper.isUserInRole(EUserRole.user.name()))
                 redirectPage = "user/index.xhtml";
             context.getExternalContext().redirect(redirectPage);
         } catch (ServletException se) {

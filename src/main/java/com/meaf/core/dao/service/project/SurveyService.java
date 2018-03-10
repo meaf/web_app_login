@@ -14,7 +14,7 @@ import java.util.List;
 @Named
 public class SurveyService extends ABaseService<Survey> {
 
-    public void addSurvey(ProjectStage projectStage, String topic) {
+    public void addSurvey(ProjectStage projectStage, String topic) throws Exception {
         super.add(new Survey(topic, ESurveyStatus.NEW, projectStage));
     }
 
@@ -43,7 +43,7 @@ public class SurveyService extends ABaseService<Survey> {
         Survey s = getById(survey.getId());
         s.setName(survey.getName());
         s.setStatus(survey.getStatus());
-        commit();
+//        commit();
     }
 
 }

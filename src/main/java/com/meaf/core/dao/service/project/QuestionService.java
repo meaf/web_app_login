@@ -15,7 +15,7 @@ import java.util.List;
 public class QuestionService extends ABaseService<Question> {
 
 
-    public void addQuestion(String questionText, Survey survey) {
+    public void addQuestion(String questionText, Survey survey) throws Exception {
         super.add(new Question(questionText, ESurveyStatus.NEW, survey));
     }
 
@@ -44,6 +44,6 @@ public class QuestionService extends ABaseService<Question> {
         Question qu = getById(question.getId());
         qu.setText(question.getText());
         qu.setStatus(question.getStatus());
-        commit();
+//        commit();
     }
 }

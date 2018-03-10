@@ -12,7 +12,7 @@ public class ProjectStage implements Serializable, IProjectElement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private long id;
+    private Long id;
 
     @Column(name = "STAGE_NAME")
     private String name;
@@ -27,7 +27,6 @@ public class ProjectStage implements Serializable, IProjectElement {
     @ManyToOne
     @JoinColumn(name = "PROJECT")
     private Project project;
-
 
     public long getId() {
         return id;

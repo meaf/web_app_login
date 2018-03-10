@@ -2,6 +2,7 @@ package com.meaf.core.dao.service;
 
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.entities.*;
+import com.meaf.core.meta.EUserRole;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,7 +18,7 @@ public class UserService extends ABaseService<User> {
     @Inject
     HttpServletRequest request;
 
-    public void addUser(String login, String password, Role role) {
+    public void addUser(String login, String password, Role role) throws Exception {
         super.add(new User(login, password, role));
     }
 
@@ -37,16 +38,16 @@ public class UserService extends ABaseService<User> {
         return roles;
     }
 
-    public Role getRoleByName(String roleName) {
+    public Role getRoleByName(EUserRole role) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Role> cq = cb.createQuery(Role.class);
         Root<Role> root = cq.from(Role.class);
-        cq.select(root).where(cb.equal(root.get("rolename"), roleName));
+        cq.select(root).where(cb.equal(root.get("rolename"), role.name()));
         return getEntityManager().createQuery(cq).getSingleResult();
     }
 
-    public void connectUserToProject(User user, Project project) {
-        ProjectUserConnection con = new ProjectUserConnection(user, project);
+    public void connectUserToProject(User user, Project project, Role role) {
+        ProjectUserConnection con = new ProjectUserConnection(user, project, role);
     }
 
     public void answer(Question question, String answer) {

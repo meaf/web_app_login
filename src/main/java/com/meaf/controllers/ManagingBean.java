@@ -52,7 +52,7 @@ public class ManagingBean implements Serializable {
         else managedAnswer = answers.get(0);
     }
 
-    public void addAnswer() {
+    public void addAnswer() throws Exception {
         managedAnswer.setQuestion(managedQuestion);
         answerService.add(managedAnswer);
     }
