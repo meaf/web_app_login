@@ -7,12 +7,11 @@ import com.meaf.core.meta.EAnswerStatus;
 import javax.annotation.ManagedBean;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
 
-@Named
+//@Named
 @ManagedBean
 @ViewScoped
 public class ManagingBean implements Serializable {
