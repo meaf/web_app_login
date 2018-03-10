@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class Answer implements Serializable, IProjectElement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private long id;
 
@@ -22,9 +22,13 @@ public class Answer implements Serializable, IProjectElement {
     @Column(name = "STATUS", columnDefinition = "varchar(32) default 'NEW'")
     private EAnswerStatus status = EAnswerStatus.NEW;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     // todo: user relations
 
@@ -60,10 +64,19 @@ public class Answer implements Serializable, IProjectElement {
         this.text = text;
     }
 
-    public Answer(String text, EAnswerStatus status, Question question) {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Answer(String text, EAnswerStatus status, Question question, User user) {
         this.text = text;
         this.status = status;
         this.question = question;
+        this.user = user;
     }
 
     public Answer() {

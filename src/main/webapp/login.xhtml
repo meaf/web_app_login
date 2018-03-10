@@ -21,8 +21,8 @@
                 <p:outputLabel value="Password: " id="password"/>
                 <p:password value="#{sessionBean.password}" required="true"/>
 
-                <p:commandButton value="login" action="#{sessionBean.login}" />
-                <p:commandButton type="reset" value="Reset" />
+                <p:commandLink value="login" action="#{sessionBean.login}" />
+                <p:commandLink type="reset" value="Reset" />
             </h:panelGrid>
         </h:form>
     </h:body>

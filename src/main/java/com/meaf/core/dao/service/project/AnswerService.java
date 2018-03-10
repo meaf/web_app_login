@@ -2,6 +2,7 @@ package com.meaf.core.dao.service.project;
 
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.entities.Answer;
+import com.meaf.core.entities.ProjectUserConnection;
 
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -21,7 +22,16 @@ public class AnswerService extends ABaseService<Answer> {
         Root<Answer> root = cq.from(Answer.class);
         cq.select(root).where(cb.equal(root.get("question").get("id"), rootNode));
         List<Answer> answers = getEntityManager().createQuery(cq).getResultList();
-        return answers;
+
+        ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
+        if (connection != null) {
+            if ("expert".equals(connection.getRole())) {
+                return filterOtherUsers(answers);
+            }
+            if ("organizer".equals(connection.getRole()))
+                return answers;
+        }
+        return null;
     }
 
     @Override
@@ -42,4 +52,6 @@ public class AnswerService extends ABaseService<Answer> {
         ans.setText(answer.getText());
         commit();
     }
+
+
 }

@@ -25,8 +25,8 @@
                 <p:password value="#{sessionBean.passwordConfirm}" required="true"/>
                 <p:message class="error" for="passwordConfirm"/>
 
-                <p:commandButton value="register" action="#{sessionBean.registerUser}" />
-                <p:commandButton type="reset" value="Reset" />
+                <p:commandLink value="register" action="#{sessionBean.registerUser}" />
+                <p:commandLink type="reset" value="Reset" />
             </p:panelGrid>
         </h:form>
     </h:body>
