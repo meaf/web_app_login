@@ -15,6 +15,7 @@ public enum EUserRole {
     }
 
     public boolean isRole(Role role) {
+
         return name().equals(role.getRolename());
     }
 }

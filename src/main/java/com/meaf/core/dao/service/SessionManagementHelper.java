@@ -29,7 +29,11 @@ public class SessionManagementHelper {
     private HttpServletRequest request;
 
     public User getCurrentUser() {
-        if (request.getSession().getAttribute(SESSION_PARAM__CURRENT_USER) == null) {
+        if (request.getRemoteUser() == null)
+            return null;
+        if (request.getSession().getAttribute(SESSION_PARAM__CURRENT_USER) == null
+                || !((User) request.getSession().getAttribute(SESSION_PARAM__CURRENT_USER))
+                .getUsername().equals(request.getRemoteUser())) {
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<User> cq = cb.createQuery(User.class);
             Root<User> root = cq.from(User.class);
@@ -40,7 +44,6 @@ public class SessionManagementHelper {
         } else
             return (User) request.getSession().getAttribute(SESSION_PARAM__CURRENT_USER);
     }
-
 
     public List<Project> getCurrentUserProjects() {
         return getUserProjects(getCurrentUser());
@@ -63,7 +66,13 @@ public class SessionManagementHelper {
         return configurationBean.getEntityManager();
     }
 
+    public void logout() throws ServletException {
+        request.logout();
+    }
+
     public void login(String uname, String pass) throws ServletException {
+        if (getCurrentUser() != null)
+            logout();
         request.login(uname, pass);
     }
 
@@ -75,8 +84,7 @@ public class SessionManagementHelper {
      * SESSION PROJECT OPERATIONS
      */
     public void swichProject(Project project) {
-        request.getSession().setAttribute(SESSION_PARAM__PROJECT, project);
-        updateConnections();
+        setCurrentSessionProject(project);
     }
 
     public Project getCurrentProject() {
@@ -107,7 +115,7 @@ public class SessionManagementHelper {
                 .getAttribute(SESSION_PARAM__PROJECT);
     }
 
-    public void setCurrentSessionProject(Project currentProject) {
+    private void setCurrentSessionProject(Project currentProject) {
         request.getSession().setAttribute(
                 ProjectConstants.SESSION_PARAM__PROJECT,
                 currentProject);

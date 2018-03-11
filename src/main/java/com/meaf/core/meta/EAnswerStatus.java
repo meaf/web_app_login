@@ -4,5 +4,6 @@ public enum EAnswerStatus {
     NEW,
     DRAFT,
     SUBMITTED,
-    CLOSED
+    CLOSED,
+    DELETED
 }

@@ -1,10 +1,10 @@
-package com.meaf.controllers;
+package com.meaf.jsfBeans;
 
 import com.meaf.core.dao.service.project.*;
 import com.meaf.core.entities.*;
 
 import javax.annotation.ManagedBean;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,6 @@ public class NavigationBean implements Serializable {
 
     @Inject
     private HttpServletRequest httpRequest;
-
     @Inject
     private AnswerService answerService;
     @Inject
@@ -38,10 +37,6 @@ public class NavigationBean implements Serializable {
         httpRequest.getRemoteUser();
         return projectStageService.getAll();
     }
-
-    /**
-     * CUSTOM
-     */
 
     /**
      * BY ID

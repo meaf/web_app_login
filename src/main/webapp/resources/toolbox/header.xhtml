@@ -11,11 +11,17 @@
     <composite:interface/>
 
     <composite:implementation>
-        <p:panelGrid columns="3">
-            <p:outputLabel value="Welcome, #{request.remoteUser}"/>
-            <p:commandLink value="logout" action="#{sessionBean.logout}" />
-            <p:link align="right" outcome="index" value="home"/>
-        </p:panelGrid>
+        <div align="right">
+            <p:panelGrid columns="5">
+
+                <p:outputLabel value="Welcome, #{request.remoteUser}"/>
+                <p:outputLabel rendered="#{sessionBean.projectRole != null}" value="Current project: #{sessionBean.currentProject.name}"/>
+                <p:outputLabel rendered="#{sessionBean.projectRole != null}" value="role: #{sessionBean.projectRole}"/>
+
+                <p:link outcome="index" value="home"/>
+                <p:commandLink value="logout" action="#{sessionBean.logout}" />
+            </p:panelGrid>
+        </div>
     </composite:implementation>
 </html>
 

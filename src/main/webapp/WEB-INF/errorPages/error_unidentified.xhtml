@@ -11,8 +11,8 @@
     </h:head>
     <h:body>
         <p:panelGrid columns="1" style="display:block; text-align:center; margin: 0 auto;">
-            <p:link outcome="login" value="Log in"/>
-            <p:link outcome="register" value="Register"/>
+            <p:outputLabel value="Whoooops..."/>
+            <p:link outcome="/#{sessionManagementHelper.currentUser.role.rolename}/index.xhtml" value="Let's keep it between us, k?"/>
         </p:panelGrid>
     </h:body>
 </html>

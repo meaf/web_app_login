@@ -1,8 +1,9 @@
-package com.meaf.controllers;
+package com.meaf.jsfBeans;
 
 import com.meaf.core.dao.service.SessionManagementHelper;
 import com.meaf.core.dao.service.UserService;
 import com.meaf.core.entities.Project;
+import com.meaf.core.entities.ProjectUserConnection;
 import com.meaf.core.entities.Role;
 import com.meaf.core.entities.User;
 import com.meaf.core.meta.EUserRole;
@@ -75,11 +76,11 @@ public class SessionBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
             sessionManagementHelper.login(username, password);
-            String redirectPage = "index.xhtml";
+            String redirectPage = "/index.xhtml";
             if (sessionManagementHelper.isUserInRole(EUserRole.admin.name()))
-                redirectPage = "admin/users.xhtml";
+                redirectPage = "/admin/users.xhtml";
             if (sessionManagementHelper.isUserInRole(EUserRole.user.name()))
-                redirectPage = "user/index.xhtml";
+                redirectPage = "/user/index.xhtml";
             context.getExternalContext().redirect(redirectPage);
         } catch (ServletException se) {
             context.addMessage("loginForm:username", new FacesMessage("Authentication Failed. Check username or password."));
@@ -88,12 +89,33 @@ public class SessionBean implements Serializable {
 
     public void logout() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().invalidateSession();
         try {
-            context.getExternalContext().redirect("login.xhtml");
-        } catch (IOException e) {
+            sessionManagementHelper.logout();
+            context.getExternalContext().redirect("/login.xhtml");
+        } catch (IOException | ServletException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getProjectRole() {
+        ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
+        return connection != null
+                ? connection.getRole().getRolename().toUpperCase()
+                : null;
+    }
+
+    public boolean isUserExpert() {
+        return isUserInProjectRole(EUserRole.expert);
+    }
+
+    public boolean isUserOrganizer() {
+        return isUserInProjectRole(EUserRole.organizer);
+    }
+
+    public boolean isUserInProjectRole(EUserRole role) {
+        ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
+        return connection != null
+                && role.isRole(connection.getRole());
     }
 
     /**

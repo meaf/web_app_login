@@ -1,0 +1,9 @@
+.hideToolbar .ui-editor-toolbar{
+    display: none!important;
+    border-width: 0!important;
+}
+
+.borderless>*>*>*>div>div.ql-container{
+    border: 1px solid #ccc!important;
+    /*border-width: 1px!important;*/
+}

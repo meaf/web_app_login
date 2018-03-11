@@ -57,4 +57,9 @@ public class AnswerService extends ABaseService<Answer> {
     }
 
 
+    @Override
+    public boolean add(Answer obj) throws Exception {
+        obj.setUser(sessionManagementHelper.getCurrentUser());
+        return super.add(obj);
+    }
 }

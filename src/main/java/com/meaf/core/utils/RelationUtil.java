@@ -3,6 +3,7 @@ package com.meaf.core.utils;
 import com.meaf.core.entities.*;
 import com.mysql.cj.core.exceptions.WrongArgumentException;
 
+@Deprecated
 public class RelationUtil {
     public <T> Project getProject(T obj) {
         if (obj instanceof Answer)

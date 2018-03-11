@@ -8,7 +8,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:tp="http://java.sun.com/jsf/composite/toolbox">
 <h:head>
-    <link rel="import" href="../WEB-INF/config.html"/>
+
     <title>surveys</title>
 </h:head>
 <h:body>
@@ -16,21 +16,34 @@
         <tp:header/>
         <c:set var="id" value="#{param['id']}" />
         <c:set var="currElement" value="#{navigationBean.projectStageById(id)}"/>
+        #{managingBean.setManagedProjectStage(currElement)}
 
-        <p:dataTable var="surv" value="#{navigationBean.surveysBranched(id)}">
+        <p:dataTable id="surveysTable" var="surv" value="#{navigationBean.surveysBranched(managingBean.managedProjectStage.id)}">
+            <f:facet name="header">
+                #{managingBean.managedProjectStage.name.toUpperCase()}
+            </f:facet>
 
             <p:column headerText="id" sortBy="#{surv.name}">
                 <p:link outcome="questions" value="#{surv.name}">
                     <f:param name="id" value="#{surv.id}"/>
                 </p:link>
             </p:column>
-            <p:column headerText="stage" sortBy="#{surv.stage.name}">
-                <h:outputText value="#{surv.stage.name}"/>
-            </p:column>
+
             <p:column headerText="status" sortBy="#{surv.status}">
                 <h:outputText value="#{surv.status}"/>
             </p:column>
         </p:dataTable>
+
+        <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
+            <p:outputLabel value="Add Survey: "/>
+            <p:inputText value="#{managingBean.managedSurvey.name}" />
+
+            <p:commandLink value="add" action="#{managingBean.addSurvey}" update="surveysTable"/>
+
+            <p:commandLink value="refresh">
+                <f:ajax execute="@form" render="surveysTable" />
+            </p:commandLink>
+        </h:panelGrid>
     </h:form>
 </h:body>
 </html>

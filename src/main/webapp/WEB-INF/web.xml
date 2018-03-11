@@ -11,7 +11,11 @@
     </welcome-file-list>
 
     <error-page>
-        <location>/general-error.xhtml</location>
+        <error-code>404</error-code>
+        <location>/WEB-INF/errorPages/error_404.xhtml</location>
+    </error-page>
+    <error-page>
+        <location>/WEB-INF/errorPages/error_unidentified.xhtml</location>
     </error-page>
 
     <servlet>
@@ -68,7 +72,6 @@
         <realm-name>example-jaas-realm</realm-name>
         <form-login-config>
             <form-login-page>/login.xhtml</form-login-page>
-            <form-error-page>/WEB-INF/unused/access-denied.html</form-error-page>
         </form-login-config>
     </login-config>
 

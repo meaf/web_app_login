@@ -5,6 +5,7 @@ import com.meaf.core.entities.Project;
 
 import javax.inject.Named;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Named
 public class ProjectService extends ABaseService<Project> {
@@ -12,6 +13,10 @@ public class ProjectService extends ABaseService<Project> {
 
     public void addProject(String projectName) throws Exception {
         super.add(new Project(projectName));
+    }
+
+    public Project getCurrentProject() {
+        return sessionManagementHelper.getCurrentProject();
     }
 
 
@@ -22,7 +27,12 @@ public class ProjectService extends ABaseService<Project> {
 
     @Override
     public List<Project> getAll() {
-        return getEntityManager().createQuery("select u from Project u", Project.class).getResultList();
+        return getEntityManager()
+                .createQuery("select u from Project u", Project.class)
+                .getResultList()
+                .stream()
+                .filter(userFilter)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -31,7 +41,7 @@ public class ProjectService extends ABaseService<Project> {
     }
 
     @Override
-    public void update(Project project) throws Exception { // todo: TX
+    public void update(Project project) throws Exception {
         Project p = getById(project.getId());
         p.setName(project.getName());
         p.setDescription(project.getDescription());

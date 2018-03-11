@@ -43,6 +43,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-api:7.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sun.mail:javax.mail:1.5.0" level="project" />
@@ -51,7 +53,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: dom4j:dom4j:1.6.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
     <orderEntry type="library" name="Maven: org.omnifaces:omnifaces:2.6.8" level="project" />
-    <orderEntry type="library" name="Maven: org.primefaces:primefaces:6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.primefaces:primefaces:6.1" level="project" />
     <orderEntry type="library" name="Maven: org.primefaces.extensions:all-themes:1.0.8" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.primefaces.themes:afterdark:1.0.8" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.primefaces.themes:afternoon:1.0.8" level="project" />
@@ -90,7 +92,5 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.primefaces.themes:vader:1.0.8" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.primefaces.themes:home:1.0.8" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:6.0.6" level="project" />
-    <orderEntry type="library" name="jquery" level="application" />
-    <orderEntry type="library" name="bootstrap" level="application" />
   </component>
 </module>

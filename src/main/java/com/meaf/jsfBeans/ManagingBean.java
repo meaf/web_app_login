@@ -1,4 +1,4 @@
-package com.meaf.controllers;
+package com.meaf.jsfBeans;
 
 import com.meaf.core.dao.service.project.*;
 import com.meaf.core.entities.*;
@@ -8,8 +8,8 @@ import javax.annotation.ManagedBean;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 
 @Named
@@ -17,7 +17,6 @@ import java.util.List;
 @ViewScoped
 public class ManagingBean implements Serializable {
 
-    private HttpServletRequest httpRequest;
     private ProjectService projectService;
     private ProjectStageService projectStageService;
     private SurveyService surveyService;
@@ -25,15 +24,13 @@ public class ManagingBean implements Serializable {
     private AnswerService answerService;
 
     @Inject
-    public ManagingBean(HttpServletRequest httpRequest, AnswerService answerService, ProjectService projectService, ProjectStageService projectStageService, QuestionService questionService, SurveyService surveyService) {
-        this.httpRequest = httpRequest;
+    public ManagingBean(AnswerService answerService, ProjectService projectService, ProjectStageService projectStageService, QuestionService questionService, SurveyService surveyService) {
         this.answerService = answerService;
         this.projectService = projectService;
         this.projectStageService = projectStageService;
         this.questionService = questionService;
         this.surveyService = surveyService;
     }
-
 
     private Answer managedAnswer;
     private Question managedQuestion;
@@ -52,15 +49,59 @@ public class ManagingBean implements Serializable {
         else managedAnswer = answers.get(0);
     }
 
-    public void addAnswer() throws Exception {
+    public void addAnswer(boolean isCompleted) throws Exception {
+        if (managedAnswer.getText().isEmpty()) {
+            managedAnswer.setStatus(EAnswerStatus.NEW);
+        } else if (!isCompleted) {
+            managedAnswer.setStatus(EAnswerStatus.DRAFT);
+        } else {
+            managedAnswer.setStatus(EAnswerStatus.SUBMITTED);
+        }
         managedAnswer.setQuestion(managedQuestion);
         answerService.add(managedAnswer);
+
+//        managedAnswer = new Answer();
+    }
+
+    public void addQuestion() throws Exception {
+        managedQuestion.setSurvey(managedSurvey);
+        questionService.add(managedQuestion);
+
+        managedQuestion = new Question();
+    }
+
+    public void addSurvey() throws Exception {
+        managedSurvey.setStage(managedProjectStage);
+        surveyService.add(managedSurvey);
+
+        managedSurvey = new Survey();
+    }
+
+    public void addProjectStage() throws Exception {
+
+        Project currentProject = projectService.getCurrentProject();
+
+        projectStageService
+                .getBranch(currentProject.getId())
+                .stream()
+                .max(Comparator.comparing(ProjectStage::getNumber))
+                .ifPresent(ps -> {
+                    managedProjectStage.setPreviousStage(ps);
+                    managedProjectStage.setNumber(ps.getNumber() + 1);
+                });
+        managedProjectStage.setProject(currentProject);
+
+        projectStageService.add(managedProjectStage);
+
+        managedProjectStage = new ProjectStage();
     }
 
     /**
      * Get/Set section
      */
     public Answer getManagedAnswer() {
+        if (managedAnswer == null)
+            managedAnswer = new Answer();
         return managedAnswer;
     }
 
@@ -69,6 +110,8 @@ public class ManagingBean implements Serializable {
     }
 
     public Question getManagedQuestion() {
+        if (managedQuestion == null)
+            managedQuestion = new Question();
         return managedQuestion;
     }
 
@@ -77,6 +120,8 @@ public class ManagingBean implements Serializable {
     }
 
     public Survey getManagedSurvey() {
+        if (managedSurvey == null)
+            managedSurvey = new Survey();
         return managedSurvey;
     }
 
@@ -85,6 +130,8 @@ public class ManagingBean implements Serializable {
     }
 
     public ProjectStage getManagedProjectStage() {
+        if (managedProjectStage == null)
+            managedProjectStage = new ProjectStage();
         return managedProjectStage;
     }
 
@@ -93,6 +140,8 @@ public class ManagingBean implements Serializable {
     }
 
     public Project getManagedProject() {
+        if (managedProject == null)
+            managedProject = new Project();
         return managedProject;
     }
 

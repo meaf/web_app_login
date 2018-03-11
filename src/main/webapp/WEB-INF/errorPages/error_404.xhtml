@@ -7,13 +7,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <link rel="import" href="WEB-INF/config.html"/>
         <title>Login</title>
     </h:head>
     <h:body>
         <p:panelGrid columns="1" style="display:block; text-align:center; margin: 0 auto;">
-            <p:outputLabel value="Whoooops..."/>
-            <p:link outcome="#{sessionManagementHelper.currentUser.role.rolename}/index.xhtml" value="Let's keep it between us, k?"/>
+            <p:outputLabel value="Are you lost? nothing here..."/>
+            <p:link outcome="/#{sessionManagementHelper.currentUser.role.rolename}/index.xhtml" value="Take me home"/>
         </p:panelGrid>
     </h:body>
 </html>

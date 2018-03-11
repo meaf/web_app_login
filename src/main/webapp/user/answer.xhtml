@@ -9,7 +9,7 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:tp = "http://java.sun.com/jsf/composite/toolbox">
 <h:head>
-    <link rel="import" href="../WEB-INF/config.html"/>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles.css" />
     <title>Answer</title>
 </h:head>
 <h:body>
@@ -21,11 +21,33 @@
         #{managingBean.setManagedQuestion(currElement)}
         #{managingBean.answerQuestionUser(managingBean.managedQuestion)}
 
-        <p:outputLabel  value="#{managingBean.managedQuestion.text}"/>
-        <p:inputTextarea value="#{managingBean.managedAnswer.text}" required="true"><br/>
-            Your answer:
-        </p:inputTextarea><br/>
-        <p:commandLink value="submit" action="#{managingBean.addAnswer()}" />
+        <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}">
+            <p align="center"><p:outputLabel value="#{managingBean.managedQuestion.text}"/></p>
+            <p:outputLabel value="Your answer:"/><br/>
+
+            <p:textEditor widgetVar="answerEditor" value="#{managingBean.managedAnswer.text}" height="300" style="margin-bottom:10px" required="true"/>
+
+            <p:panelGrid columns="3">
+                <p:commandLink value="Submit" action="#{managingBean.addAnswer(true)}" />
+                <p:commandLink value="Draft" action="#{managingBean.addAnswer(false)}" />
+                <p:commandLink value="Clear" type="button" onclick="PF('answerEditor').clear();" />
+            </p:panelGrid>
+        </p:outputPanel>
+
+        <!--// org list-->
+        <p:outputPanel style="display:block" rendered="#{sessionBean.userOrganizer}">
+            <p:accordionPanel var="answer" value="#{navigationBean.answersAll()}" multiple="true">
+                <p:tab title="#{answer.user.username}">
+                    <h:panelGrid columns="1" cellpadding="3" width="100%" styleClass="hideToolbar borderless" >
+                        <p:outputLabel value="#{answer.status}" />
+                        <p:textEditor  value="#{answer.text}"
+                                       height="100"
+                                       readonly="true"/>
+                    </h:panelGrid>
+                </p:tab>
+            </p:accordionPanel>
+        </p:outputPanel>
     </h:form>
 </h:body>
 </html>
+
