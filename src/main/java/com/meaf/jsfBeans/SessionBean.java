@@ -76,7 +76,7 @@ public class SessionBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
             sessionManagementHelper.login(username, password);
-            String redirectPage = "/index.xhtml";
+            String redirectPage = "index.xhtml";
             if (sessionManagementHelper.isUserInRole(EUserRole.admin.name()))
                 redirectPage = "/admin/users.xhtml";
             if (sessionManagementHelper.isUserInRole(EUserRole.user.name()))

@@ -45,13 +45,8 @@ public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
         T obj = getById(id);
         getEntityManager().remove(obj);
         getUTx().commit();
-//        commit();
         return true;
     }
-
-//    public void commit() {
-//        getEntityManager().find(Role.class, 0L);
-//    }
 
     protected Predicate<IProjectElement> userFilter = iProjectElement ->
             sessionManagementHelper

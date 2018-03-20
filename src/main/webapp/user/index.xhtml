@@ -1,30 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:tp="http://java.sun.com/jsf/composite/toolbox">
 <h:head>
-
     <title>Project</title>
 </h:head>
 <body>
     <h:form>
         <tp:header/>
-
         <p:dataTable var="project" value="#{navigationBean.projects}" >
-            <f:facet name="header">
+            <f:facet name="header" >
                 PROJECTS
             </f:facet>
-
-            <p:column headerText="Id" sortBy="#{project.name}">
+            <p:column headerText="Project name" sortBy="#{project.name}" sortable="false">
                 <p:commandLink action="#{sessionBean.loadStages(project)}" value="#{project.name}"/>
             </p:column>
-
-            <p:column headerText="status" sortBy="#{project.description}">
+            <p:column headerText="status" sortBy="#{project.description}" sortable="false">
                 <h:outputText value="#{project.description}"/>
             </p:column>
         </p:dataTable>

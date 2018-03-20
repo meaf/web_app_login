@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.*;
 import java.util.List;
 
 @Named
@@ -74,5 +75,17 @@ public class UserService extends ABaseService<User> {
         User olUser = getById(user.getId());
         olUser.setPassword(user.getPassword());
         olUser.setUsername(user.getUsername());
+    }
+
+    public void addConnection(ProjectUserConnection connection) throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
+
+        getUTx().begin();
+        try {
+            getEntityManager().persist(connection);
+        } catch (Exception ex) {
+            getUTx().rollback();
+            throw ex;
+        }
+        getUTx().commit();
     }
 }

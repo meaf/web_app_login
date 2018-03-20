@@ -8,7 +8,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:tp="http://java.sun.com/jsf/composite/toolbox">
 <h:head>
-
     <title>surveys</title>
 </h:head>
 <h:body>
@@ -22,14 +21,12 @@
             <f:facet name="header">
                 #{managingBean.managedProjectStage.name.toUpperCase()}
             </f:facet>
-
-            <p:column headerText="id" sortBy="#{surv.name}">
+            <p:column headerText="id" sortBy="#{surv.name}"  sortable="false" >
                 <p:link outcome="questions" value="#{surv.name}">
                     <f:param name="id" value="#{surv.id}"/>
                 </p:link>
             </p:column>
-
-            <p:column headerText="status" sortBy="#{surv.status}">
+            <p:column headerText="status" sortBy="#{surv.status}" sortable="false">
                 <h:outputText value="#{surv.status}"/>
             </p:column>
         </p:dataTable>
@@ -37,9 +34,7 @@
         <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
             <p:outputLabel value="Add Survey: "/>
             <p:inputText value="#{managingBean.managedSurvey.name}" />
-
             <p:commandLink value="add" action="#{managingBean.addSurvey}" update="surveysTable"/>
-
             <p:commandLink value="refresh">
                 <f:ajax execute="@form" render="surveysTable" />
             </p:commandLink>

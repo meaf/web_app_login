@@ -18,8 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.meaf.core.meta.ProjectConstants.SESSION_PARAM__CURRENT_USER;
-import static com.meaf.core.meta.ProjectConstants.SESSION_PARAM__PROJECT;
+import static com.meaf.core.meta.ProjectConstants.*;
 
 @Named
 public class SessionManagementHelper {
@@ -74,6 +73,14 @@ public class SessionManagementHelper {
         if (getCurrentUser() != null)
             logout();
         request.login(uname, pass);
+        if (getCurrentSessionProjectUserConnection() != null && !uname.equals(getCurrentSessionProjectUserConnection().getUser().getUsername()))
+            invalidateSessionMeta();
+    }
+
+    private void invalidateSessionMeta() {
+        request.getSession().removeAttribute(SESSION_PARAM__CURRENT_PROJECT_USER_CONNECTION);
+        request.getSession().removeAttribute(SESSION_PARAM__CURRENT_PROJECT);
+        request.getSession().removeAttribute(SESSION_PARAM__CURRENT_USER);
     }
 
     public boolean isUserInRole(String role) {
@@ -88,7 +95,7 @@ public class SessionManagementHelper {
     }
 
     public Project getCurrentProject() {
-        return (Project) request.getSession().getAttribute(SESSION_PARAM__PROJECT);
+        return (Project) request.getSession().getAttribute(SESSION_PARAM__CURRENT_PROJECT);
     }
 
     /**
@@ -112,12 +119,12 @@ public class SessionManagementHelper {
      */
     public Project getCurrentSessionProject() {
         return (Project) request.getSession()
-                .getAttribute(SESSION_PARAM__PROJECT);
+                .getAttribute(SESSION_PARAM__CURRENT_PROJECT);
     }
 
     private void setCurrentSessionProject(Project currentProject) {
         request.getSession().setAttribute(
-                ProjectConstants.SESSION_PARAM__PROJECT,
+                ProjectConstants.SESSION_PARAM__CURRENT_PROJECT,
                 currentProject);
 
         updateConnections();
@@ -126,12 +133,12 @@ public class SessionManagementHelper {
 
     public ProjectUserConnection getCurrentSessionProjectUserConnection() {
         return (ProjectUserConnection) request.getSession()
-                .getAttribute(ProjectConstants.SESSION_PARAM__PROJECT_USER_CONNECTION);
+                .getAttribute(ProjectConstants.SESSION_PARAM__CURRENT_PROJECT_USER_CONNECTION);
     }
 
     private void setCurrentSessionProjectUserConnection(ProjectUserConnection connection) {
         request.getSession().setAttribute(
-                ProjectConstants.SESSION_PARAM__PROJECT_USER_CONNECTION,
+                ProjectConstants.SESSION_PARAM__CURRENT_PROJECT_USER_CONNECTION,
                 connection);
     }
 
