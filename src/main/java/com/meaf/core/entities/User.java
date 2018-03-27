@@ -2,6 +2,7 @@ package com.meaf.core.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "USERS")
@@ -17,6 +18,9 @@ public class User implements Serializable {
 
     @Column(name = "PASSWORD")
     private String password;
+
+    @Column(name = "REGISTER_DATE")
+    private Date regDate;
 
     @ManyToOne
     @JoinColumn(name = "ROLE_ID")

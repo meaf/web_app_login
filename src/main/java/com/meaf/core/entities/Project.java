@@ -4,6 +4,7 @@ import com.meaf.core.dao.service.base.IProjectElement;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "PROJECTS")
@@ -19,6 +20,12 @@ public class Project implements Serializable, IProjectElement {
 
     @Column(name = "DESCRIPTION")
     private String description;
+
+    @Column(name = "LAST_UPDATE")
+    private Date lastUpdate;
+
+    @Column(name = "LAST_ACTION")
+    private Date lastAction;
 
     public long getId() {
         return id;
@@ -54,5 +61,10 @@ public class Project implements Serializable, IProjectElement {
     @Override
     public Project getRootProject() {
         return this;
+    }
+
+    @Override
+    public void updateActionTime() {
+
     }
 }

@@ -5,6 +5,7 @@ import com.meaf.core.meta.ESurveyStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "QUESTIONS")
@@ -15,8 +16,11 @@ public class Question implements Serializable, IProjectElement {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "TEXT")
-    private String text;
+    @Column(name = "TITLE")
+    private String title;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", columnDefinition = "varchar(32) default 'NEW'")
@@ -25,6 +29,12 @@ public class Question implements Serializable, IProjectElement {
     @ManyToOne
     @JoinColumn(name = "SURVEY_ID")
     private Survey survey;
+
+    @Column(name = "LAST_UPDATE")
+    private Date lastUpdate;
+
+    @Column(name = "LAST_ACTION")
+    private Date lastAction;
 
     public long getId() {
         return id;
@@ -50,16 +60,16 @@ public class Question implements Serializable, IProjectElement {
         this.survey = survey;
     }
 
-    public String getText() {
-        return text;
+    public String getTitle() {
+        return title;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTitle(String text) {
+        title = text;
     }
 
-    public Question(String text, ESurveyStatus status, Survey survey) {
-        this.text = text;
+    public Question(String title, ESurveyStatus status, Survey survey) {
+        this.title = title;
         this.status = status;
         this.survey = survey;
     }
@@ -70,5 +80,18 @@ public class Question implements Serializable, IProjectElement {
     @Override
     public Project getRootProject() {
         return getSurvey().getRootProject();
+    }
+
+    @Override
+    public void updateActionTime() {
+
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

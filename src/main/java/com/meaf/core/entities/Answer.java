@@ -5,6 +5,7 @@ import com.meaf.core.meta.EAnswerStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "ANSWERS")
@@ -18,6 +19,9 @@ public class Answer implements Serializable, IProjectElement {
     @Column(name = "TEXT")
     private String text;
 
+    @Column(name = "COMMENT")
+    private String comment;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", columnDefinition = "varchar(32) default 'NEW'")
     private EAnswerStatus status = EAnswerStatus.NEW;
@@ -29,6 +33,12 @@ public class Answer implements Serializable, IProjectElement {
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
+
+    @Column(name = "LAST_UPDATE")
+    private Date lastUpdate;
+
+    @Column(name = "LAST_ACTION")
+    private Date lastAction;
 
     @Transient
     private EAnswerStatus relativeStatus;
@@ -88,11 +98,24 @@ public class Answer implements Serializable, IProjectElement {
         return getQuestion().getRootProject();
     }
 
+    @Override
+    public void updateActionTime() {
+
+    }
+
     public EAnswerStatus getRelativeStatus() {
         return relativeStatus;
     }
 
     public void setRelativeStatus(EAnswerStatus relativeStatus) {
         this.relativeStatus = relativeStatus;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

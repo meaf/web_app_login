@@ -2,6 +2,7 @@ package com.meaf.core.dao.service;
 
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.entities.*;
+import com.meaf.core.meta.EProjectRole;
 import com.meaf.core.meta.EUserRole;
 
 import javax.inject.Inject;
@@ -47,7 +48,7 @@ public class UserService extends ABaseService<User> {
         return getEntityManager().createQuery(cq).getSingleResult();
     }
 
-    public void connectUserToProject(User user, Project project, Role role) {
+    public void connectUserToProject(User user, Project project, EProjectRole role) {
         ProjectUserConnection con = new ProjectUserConnection(user, project, role);
     }
 

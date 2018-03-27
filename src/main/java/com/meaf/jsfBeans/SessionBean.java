@@ -6,6 +6,7 @@ import com.meaf.core.entities.Project;
 import com.meaf.core.entities.ProjectUserConnection;
 import com.meaf.core.entities.Role;
 import com.meaf.core.entities.User;
+import com.meaf.core.meta.EProjectRole;
 import com.meaf.core.meta.EUserRole;
 
 import javax.annotation.ManagedBean;
@@ -100,22 +101,22 @@ public class SessionBean implements Serializable {
     public String getProjectRole() {
         ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
         return connection != null
-                ? connection.getRole().getRolename().toUpperCase()
+                ? connection.getRole().name().toUpperCase()
                 : null;
     }
 
     public boolean isUserExpert() {
-        return isUserInProjectRole(EUserRole.expert);
+        return isUserInProjectRole(EProjectRole.EXPERT);
     }
 
     public boolean isUserOrganizer() {
-        return isUserInProjectRole(EUserRole.organizer);
+        return isUserInProjectRole(EProjectRole.ORGANIZER);
     }
 
-    public boolean isUserInProjectRole(EUserRole role) {
+    public boolean isUserInProjectRole(EProjectRole role) {
         ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
         return connection != null
-                && role.isRole(connection.getRole());
+                && role.equals(connection.getRole());
     }
 
     /**

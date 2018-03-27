@@ -22,7 +22,7 @@
         #{managingBean.answerQuestionUser(managingBean.managedQuestion)}
 
         <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}">
-            <p align="center"><p:outputLabel value="#{managingBean.managedQuestion.text}"/></p>
+            <p align="center"><p:outputLabel value="#{managingBean.managedQuestion.title}"/></p>
             <p:outputLabel value="Your answer:"/><br/>
 
             <p:textEditor widgetVar="answerEditor" value="#{managingBean.managedAnswer.text}" height="300" style="margin-bottom:10px" required="true"/>

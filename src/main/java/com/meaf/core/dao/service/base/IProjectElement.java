@@ -5,4 +5,6 @@ import com.meaf.core.entities.Project;
 public interface IProjectElement {
     public Project getRootProject();
 
+    public void updateActionTime();
+
 }

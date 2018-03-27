@@ -42,7 +42,7 @@ public class QuestionService extends ABaseService<Question> {
     @Override
     public void update(Question question) {
         Question qu = getById(question.getId());
-        qu.setText(question.getText());
+        qu.setTitle(question.getTitle());
         qu.setStatus(question.getStatus());
 //        commit();
     }

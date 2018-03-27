@@ -1,7 +1,10 @@
 package com.meaf.core.entities;
 
+import com.meaf.core.meta.EProjectRole;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "PROJECT_USER_CONNECTIONS")
@@ -20,10 +23,15 @@ public class ProjectUserConnection implements Serializable {
     @JoinColumn(name = "PROJECT_ID")
     private Project project;
 
-    @ManyToOne
-    @JoinColumn(name = "ROLE_ID")
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ROLE")
+    private EProjectRole role;
 
+    @Column(name = "LAST_UPDATE")
+    private Date lastUpdate;
+
+    @Column(name = "LAST_ACTION")
+    private Date lastAction;
 
     public long getId() {
         return id;
@@ -49,18 +57,34 @@ public class ProjectUserConnection implements Serializable {
         this.project = project;
     }
 
-    public Role getRole() {
+    public EProjectRole getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(EProjectRole role) {
         this.role = role;
     }
 
-    public ProjectUserConnection(User user, Project project, Role role) {
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Date getLastAction() {
+        return lastAction;
+    }
+
+    public void setLastAction(Date lastAction) {
+        this.lastAction = lastAction;
+    }
+
+    public ProjectUserConnection(User user, Project project, EProjectRole role) {
         this.user = user;
         this.project = project;
-        this.role = user.getRole();
+        this.role = role;
     }
 
     public ProjectUserConnection() {

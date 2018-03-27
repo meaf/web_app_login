@@ -1,20 +1,24 @@
 package com.meaf.core.utils;
 
-import com.meaf.core.entities.*;
-import com.mysql.cj.core.exceptions.WrongArgumentException;
+import com.meaf.core.dao.service.base.ConfigurationBean;
+import com.meaf.core.dao.service.base.ContextBean;
+import com.meaf.core.dao.service.base.IProjectElement;
 
-@Deprecated
+import javax.inject.Inject;
+import javax.transaction.UserTransaction;
+
 public class RelationUtil {
-    public <T> Project getProject(T obj) {
-        if (obj instanceof Answer)
-            return ((Answer) obj).getQuestion().getSurvey().getStage().getRootProject();
-        if (obj instanceof Question)
-            return ((Question) obj).getSurvey().getStage().getRootProject();
-        if (obj instanceof Survey)
-            return ((Survey) obj).getStage().getRootProject();
-        if (obj instanceof ProjectStage)
-            return ((ProjectStage) obj).getRootProject();
-        throw new WrongArgumentException("cannot retrieve project for type" + obj.getClass());
+    @Inject
+    ConfigurationBean configurationBean;
+    @Inject
+    ContextBean contextBean;
+
+    public void update(IProjectElement obj) throws Exception {
+        UserTransaction utx = contextBean.getSessionContext().getUserTransaction();
+
+        utx.begin();
+        obj.updateActionTime();
+        utx.commit();
     }
 
 

@@ -4,9 +4,7 @@ import com.meaf.core.entities.Role;
 
 public enum EUserRole {
     admin(0L),
-    user(1L),
-    expert(2L),
-    organizer(3L);
+    user(1L);
 
     private final Long id;
 
@@ -15,7 +13,6 @@ public enum EUserRole {
     }
 
     public boolean isRole(Role role) {
-
         return name().equals(role.getRolename());
     }
 }

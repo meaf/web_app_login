@@ -20,9 +20,9 @@
         #{managingBean.setManagedSurvey(currElement)}
         <p:dataTable id="questionsTable" var="question" value="#{navigationBean.questionsBranched(managingBean.managedSurvey.id)}">
             <f:facet name="header">
-                #{managingBean.managedSurvey.name.toUpperCase()}
+                #{managingBean.managedSurvey.topic.toUpperCase()}
             </f:facet>
-            <p:column headerText="Question" sortBy="#{question.text}" sortable="false">
+            <p:column headerText="Question" sortBy="#{question.title}" sortable="false">
                 <p:link outcome="answer" value="#{question.text}">
                     <f:param name="id" value="#{question.id}"/>
                 </p:link>
@@ -36,7 +36,7 @@
 
         <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
             <p:outputLabel value="Add question: "/>
-            <p:inputText value="#{managingBean.managedQuestion.text}" />
+            <p:inputText value="#{managingBean.managedQuestion.title}" />
 
             <p:commandLink value="add" action="#{managingBean.addQuestion}" update="questionsTable"/>
 

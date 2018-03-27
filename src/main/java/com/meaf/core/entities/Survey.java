@@ -5,6 +5,7 @@ import com.meaf.core.meta.ESurveyStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "SURVEYS")
@@ -16,7 +17,10 @@ public class Survey implements Serializable, IProjectElement {
     private Long id;
 
     @Column(name = "TOPIC")
-    private String name;
+    private String topic;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", columnDefinition = "varchar(32) default 'NEW'")
@@ -25,6 +29,14 @@ public class Survey implements Serializable, IProjectElement {
     @OneToOne
     @JoinColumn(name = "PROJECT_STAGE")
     private ProjectStage stage;
+
+    // todo: sub-surveys
+
+    @Column(name = "LAST_UPDATE")
+    private Date lastUpdate;
+
+    @Column(name = "LAST_ACTION")
+    private Date lastAction;
 
     @Transient
     private ESurveyStatus relativeStatus;
@@ -37,12 +49,12 @@ public class Survey implements Serializable, IProjectElement {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTopic(String name) {
+        topic = name;
     }
 
     public ESurveyStatus getStatus() {
@@ -61,8 +73,8 @@ public class Survey implements Serializable, IProjectElement {
         this.stage = stage;
     }
 
-    public Survey(String name, ESurveyStatus status, ProjectStage stage) {
-        this.name = name;
+    public Survey(String topic, ESurveyStatus status, ProjectStage stage) {
+        this.topic = topic;
         this.status = status;
         this.stage = stage;
     }
@@ -75,11 +87,24 @@ public class Survey implements Serializable, IProjectElement {
         return getStage().getRootProject();
     }
 
+    @Override
+    public void updateActionTime() {
+        getStage().updateActionTime();
+    }
+
     public ESurveyStatus getRelativeStatus() {
         return relativeStatus;
     }
 
     public void setRelativeStatus(ESurveyStatus relativeStatus) {
         this.relativeStatus = relativeStatus;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

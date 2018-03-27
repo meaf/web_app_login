@@ -21,12 +21,14 @@
         <comment>projStructure</comment>
         <insert tableName="PROJECTS">
             <column name="ID">0</column>
-            <column name="DESCRIPTION">confinement deconstruction</column>
-            <column name="PROJECT_NAME">N S C</column>
+            <column name="DESCRIPTION">Новий безпечний конфайнмент – це багатофункціональний комплекс для перетворення об'єкта «Укриття» в екологічно безпечну систему</column>
+            <column name="PROJECT_NAME">Новий безпечний конфайнмент</column>
         </insert>
+
+        <!--STAGE 1-->
         <insert tableName="PROJECT_STAGES">
             <column name="ID">0</column>
-            <column name="STAGE_NAME">Initialization stage</column>
+            <column name="STAGE_NAME">Початкова стадія</column>
             <column name="STAGE_NUMBER">1</column>
             <column name="PROJECT">0</column>
         </insert>
@@ -34,42 +36,65 @@
         <!--Survey 1-->
         <insert tableName="SURVEYS">
             <column name="ID">0</column>
-            <column name="TOPIC">first survey</column>
+            <column name="TOPIC">Заходи обезпеки</column>
             <column name="PROJECT_STAGE">0</column>
         </insert>
         <insert tableName="QUESTIONS">
             <column name="ID">0</column>
-            <column name="TEXT">important question, do you agree?</column>
+            <column name="TITLE">захист від радіоактивного випромінення</column>
+            <column name="DESCRIPTION">спозоби захисту та мінімізації впливу радіоактивного випромінення на людину</column>
             <column name="SURVEY_ID">0</column>
         </insert>
         <insert tableName="QUESTIONS">
             <column name="ID">1</column>
-            <column name="TEXT">second important question, do you disagree?</column>
+            <column name="TITLE">ліквідація наслідкиів впливу радіоактивних речовин</column>
+            <column name="DESCRIPTION">при недотриманні техніки безпеки, можливі випадки отримання високої дози радіоактивного випромінення на об'єкті, рекомендації для надання першої невідкладної допомоги</column>
             <column name="SURVEY_ID">0</column>
         </insert>
 
         <!--Survey 2-->
         <insert tableName="SURVEYS">
             <column name="ID">1</column>
-            <column name="TOPIC">Second survey Open</column>
+            <column name="TOPIC">Технологічні системи поводження з радіоактивними відходами і паливовмісними матеріалами</column>
             <column name="PROJECT_STAGE">0</column>
         </insert>
         <insert tableName="QUESTIONS">
             <column name="ID">2</column>
-            <column name="TEXT">important statement, your opinion?</column>
+            <column name="TITLE">поводження з радіоактивними відходами</column>
+            <column name="DESCRIPTION">які засоби слід використовувати для зниження ризику іонізуючого випромінювання радіоактивних речовин </column>
             <column name="SURVEY_ID">1</column>
-        </insert>
-
-        <!--Survey 2-->
-        <insert tableName="SURVEYS">
-            <column name="ID">2</column>
-            <column name="TOPIC">Third survey</column>
-            <column name="PROJECT_STAGE">0</column>
         </insert>
         <insert tableName="QUESTIONS">
             <column name="ID">3</column>
-            <column name="TEXT">where?</column>
+            <column name="TITLE">поводження із паливовмісними матеріалами</column>
+            <column name="DESCRIPTION">умови, що сприяють безпечній ізоляції вибухонебезпечних матеріалів задля зниження ризику виникнення непередбачуваних аварійних ситуацій</column>
+            <column name="SURVEY_ID">1</column>
+        </insert>
+
+        <!--Survey 3-->
+        <insert tableName="SURVEYS">
+            <column name="ID">2</column>
+            <column name="TOPIC">демонтаж нестабільних конструкцій</column>
+            <column name="PROJECT_STAGE">0</column>
+        </insert>
+        <insert tableName="QUESTIONS">
+            <column name="ID">4</column>
+            <column name="TITLE">демонтаж зруйнованих або аварійних конструкцій</column>
+            <column name="DESCRIPTION">На об'єкті є багато нестабільних конструкцій, які все ще виконують свою функцію, чи краще буде знести їх, чи підсилити для уникнення обвалів</column>
             <column name="SURVEY_ID">2</column>
+        </insert>
+
+        <!--Survey 3-->
+        <insert tableName="SURVEYS">
+            <column name="ID">3</column>
+            <column name="TOPIC">покращення анкет</column>
+            <column name="PROJECT_STAGE">0</column>
+        </insert>
+        <insert tableName="QUESTIONS">
+            <column name="ID">5</column>
+            <column name="TITLE">додаткове запитання</column>
+            <column name="DESCRIPTION">напишіть свої питання або теми, які, ви вважаєте, було б важливо обговорити на даному етапі проекту</column>
+            <column name="SURVEY_ID">3</column>
         </insert>
     </changeSet>
 
@@ -83,27 +108,15 @@
         </insert>
         <insert tableName="USERS">
             <column name="ID">1</column>
-            <column name="PASSWORD">u1</column>
-            <column name="USERNAME">u1</column>
+            <column name="USERNAME">dobrynia_nick</column>
+            <column name="PASSWORD">dobrynia_nick</column>
             <column name="ROLE_ID">1</column>
         </insert>
         <insert tableName="USERS">
             <column name="ID">2</column>
-            <column name="PASSWORD">u2</column>
-            <column name="USERNAME">u2</column>
+            <column name="USERNAME">alyosha_pop</column>
+            <column name="PASSWORD">alyosha_pop</column>
             <column name="ROLE_ID">1</column>
-        </insert>
-    </changeSet>
-
-    <changeSet id="projectRoles" author="meaf">
-        <comment>roles</comment>
-        <insert tableName="ROLES">
-            <column name="ID">2</column>
-            <column name="ROLENAME">expert</column>
-        </insert>
-        <insert tableName="ROLES">
-            <column name="ID">3</column>
-            <column name="ROLENAME">organizer</column>
         </insert>
     </changeSet>
 
@@ -112,20 +125,20 @@
         <insert tableName="PROJECT_USER_CONNECTIONS">
             <column name="ID">0</column>
             <column name="PROJECT_ID">0</column>
-            <column name="USER_ID">1</column>
-            <column name="ROLE_ID">2</column>
+            <column name="USER_ID">0</column>
+            <column name="ROLE">ADMIN</column>
         </insert>
         <insert tableName="PROJECT_USER_CONNECTIONS">
             <column name="ID">1</column>
             <column name="PROJECT_ID">0</column>
-            <column name="USER_ID">2</column>
-            <column name="ROLE_ID">3</column>
+            <column name="USER_ID">1</column>
+            <column name="ROLE">EXPERT</column>
         </insert>
         <insert tableName="PROJECT_USER_CONNECTIONS">
             <column name="ID">2</column>
             <column name="PROJECT_ID">0</column>
-            <column name="USER_ID">0</column>
-            <column name="ROLE_ID">0</column>
+            <column name="USER_ID">2</column>
+            <column name="ROLE">ORGANIZER</column>
         </insert>
     </changeSet>
 

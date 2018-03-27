@@ -3,7 +3,7 @@ package com.meaf.core.dao.service.project;
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.entities.Answer;
 import com.meaf.core.entities.ProjectUserConnection;
-import com.meaf.core.meta.EUserRole;
+import com.meaf.core.meta.EProjectRole;
 
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -26,10 +26,10 @@ public class AnswerService extends ABaseService<Answer> {
 
         ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
         if (connection != null) {
-            if (EUserRole.expert.isRole(connection.getRole())) {
+            if (EProjectRole.EXPERT.equals(connection.getRole())) {
                 return filterOtherUsers(answers);
             }
-            if (EUserRole.organizer.isRole(connection.getRole()))
+            if (EProjectRole.ORGANIZER.equals(connection.getRole()))
                 return answers;
         }
         return null;

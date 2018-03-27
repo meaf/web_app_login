@@ -41,9 +41,8 @@ public class SurveyService extends ABaseService<Survey> {
     @Override
     public void update(Survey survey) {
         Survey s = getById(survey.getId());
-        s.setName(survey.getName());
+        s.setTopic(survey.getTopic());
         s.setStatus(survey.getStatus());
-//        commit();
     }
 
 }

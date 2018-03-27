@@ -21,8 +21,8 @@
             <f:facet name="header">
                 #{managingBean.managedProjectStage.name.toUpperCase()}
             </f:facet>
-            <p:column headerText="id" sortBy="#{surv.name}"  sortable="false" >
-                <p:link outcome="questions" value="#{surv.name}">
+            <p:column headerText="id" sortBy="#{surv.topic}"  sortable="false" >
+                <p:link outcome="questions" value="#{surv.topic}">
                     <f:param name="id" value="#{surv.id}"/>
                 </p:link>
             </p:column>
@@ -33,7 +33,7 @@
 
         <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
             <p:outputLabel value="Add Survey: "/>
-            <p:inputText value="#{managingBean.managedSurvey.name}" />
+            <p:inputText value="#{managingBean.managedSurvey.topic}" />
             <p:commandLink value="add" action="#{managingBean.addSurvey}" update="surveysTable"/>
             <p:commandLink value="refresh">
                 <f:ajax execute="@form" render="surveysTable" />
