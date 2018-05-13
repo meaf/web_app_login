@@ -37,6 +37,5 @@ public class ProjectStageService extends ABaseService<ProjectStage> {
     public void update(ProjectStage projectStage) {
         ProjectStage ps = getById(projectStage.getId());
         ps.setName(projectStage.getName());
-//        commit();
     }
 }

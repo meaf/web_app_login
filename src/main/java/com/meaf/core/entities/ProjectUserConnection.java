@@ -33,11 +33,15 @@ public class ProjectUserConnection implements Serializable {
     @Column(name = "LAST_ACTION")
     private Date lastAction;
 
-    public long getId() {
+    @Column(name = "INVITE")
+    private String invite;
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -79,6 +83,14 @@ public class ProjectUserConnection implements Serializable {
 
     public void setLastAction(Date lastAction) {
         this.lastAction = lastAction;
+    }
+
+    public String getInvite() {
+        return invite;
+    }
+
+    public void setInvite(String invite) {
+        this.invite = invite;
     }
 
     public ProjectUserConnection(User user, Project project, EProjectRole role) {

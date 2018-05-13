@@ -12,7 +12,7 @@ public interface ICrudService<T> {
 
     void update(T obj) throws Exception;
 
-    boolean add(T obj) throws Exception;
+    T add(T obj) throws Exception;
 
     boolean delete(Long id) throws Exception;
 

@@ -8,6 +8,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:tp="http://java.sun.com/jsf/composite/toolbox">
 <h:head>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles.css" />
     <title>Stages</title>
 </h:head>
 <h:body>
@@ -20,14 +21,16 @@
                 #{sessionBean.currentProject.name.toUpperCase()}
             </f:facet>
 
-            <p:column headerText="Stage name" sortBy="#{step.number}"  sortable="false">
-                <p:link outcome="surveys" value="#{step.number}">
-                    <f:param name="id" value="#{step.id}"/>
-                </p:link>
-            </p:column>
+            <!--<p:column headerText="Stage name" sortBy="#{step.number}"  sortable="false">-->
+                <!--<p:link outcome="surveys" value="#{step.number}">-->
+                    <!--<f:param name="id" value="#{step.id}"/>-->
+                <!--</p:link>-->
+            <!--</p:column>-->
 
             <p:column headerText="name" sortBy="#{step.name}" sortable="false">
-                <h:outputText value="#{step.name}"/>
+                <p:link outcome="surveys" value="#{step.name}">
+                    <f:param name="id" value="#{step.id}"/>
+                </p:link>
             </p:column>
 
             <p:column headerText="prevStageName" sortBy="#{step.previousStage.name}" sortable="false">

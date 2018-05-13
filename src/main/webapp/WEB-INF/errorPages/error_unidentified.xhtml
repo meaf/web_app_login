@@ -12,7 +12,7 @@
     <h:body>
         <p:panelGrid columns="1" style="display:block; text-align:center; margin: 0 auto;">
             <p:outputLabel value="Whoooops..."/>
-            <p:link outcome="/#{sessionManagementHelper.currentUser.role.rolename}/index.xhtml" value="Let's keep it between us, k?"/>
+            <p:link outcome="#{sessionManagementHelper.homePath}" value="Let's keep it between us, k?"/>
         </p:panelGrid>
     </h:body>
 </html>

@@ -142,6 +142,12 @@ public class SessionManagementHelper {
                 connection);
     }
 
+    public String getHomePath() {
+        if (getCurrentUser() != null && getCurrentUser().getRole() != null)
+            return "/" + getCurrentUser().getRole().getRolename() + "/index.xhtml";
+        return "/index.xhtml";
+    }
+
     private List<ProjectUserConnection> loadConnections(User user) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<ProjectUserConnection> cq = cb.createQuery(ProjectUserConnection.class);

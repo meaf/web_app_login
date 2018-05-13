@@ -27,16 +27,16 @@ public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
     }
 
     @Override
-    public boolean add(T obj) throws Exception {
+    public T add(T obj) throws Exception {
         getUTx().begin();
         try {
-            getEntityManager().persist(obj);
+            T saved = getEntityManager().merge(obj);
+            getUTx().commit();
+            return saved;
         } catch (Exception ex) {
             getUTx().rollback();
             throw ex;
         }
-        getUTx().commit();
-        return true;
     }
 
     @Override

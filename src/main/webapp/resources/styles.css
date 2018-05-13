@@ -7,3 +7,28 @@
     border: 1px solid #ccc!important;
     /*border-width: 1px!important;*/
 }
+
+.floatRight{
+    float: right;
+}
+.floatCenter{
+    margin: 0 auto 0 auto;
+    margin: 20px 0px 20px 0px;
+}
+.cBorderless{
+    border: 0;
+}
+
+table.cBorderless{
+    border: 0;
+}
+table.cBorderless>*>*>td{
+    border: 0;
+}
+
+table.wide{
+    width: 100%;
+}
+table.wide>*>*>*>input{
+    width: 100%;
+}
