@@ -101,4 +101,11 @@ public class ProjectUserConnection implements Serializable {
 
     public ProjectUserConnection() {
     }
+
+    @PreUpdate
+    @PrePersist
+    public void updateTimeStamps() {
+        lastUpdate = new Date();
+    }
+
 }

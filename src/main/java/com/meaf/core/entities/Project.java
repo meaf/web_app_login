@@ -58,6 +58,22 @@ public class Project implements Serializable, IProjectElement {
     public Project() {
     }
 
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Date getLastAction() {
+        return lastAction;
+    }
+
+    public void setLastAction(Date lastAction) {
+        this.lastAction = lastAction;
+    }
+
     @Override
     public Project getRootProject() {
         return this;
@@ -67,4 +83,11 @@ public class Project implements Serializable, IProjectElement {
     public void updateActionTime() {
 
     }
+
+    @PreUpdate
+    @PrePersist
+    public void updateTimeStamps() {
+        lastUpdate = new Date();
+    }
+
 }

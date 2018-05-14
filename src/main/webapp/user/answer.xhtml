@@ -4,49 +4,50 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:tp = "http://java.sun.com/jsf/composite/toolbox">
+      xmlns:tp="http://java.sun.com/jsf/composite/toolbox">
 <h:head>
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles.css" />
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles.css"/>
     <title>Answer</title>
 </h:head>
 <h:body>
     <h:form>
-        <tp:header/>
-        <c:set var="id" value="#{param['id']}" />
-        <c:set var="currElement" value="#{navigationBean.questionById(id)}"/>
+        <div class="surveyTable">
+            <tp:header/>
+            <c:set var="id" value="#{param['id']}"/>
+            <c:set var="currElement" value="#{navigationBean.questionById(id)}"/>
 
-        #{managingBean.setManagedQuestion(currElement)}
-        #{managingBean.answerQuestionUser(managingBean.managedQuestion)}
+            #{managingBean.setManagedQuestion(currElement)}
+            #{managingBean.answerQuestionUser(managingBean.managedQuestion)}
 
-        <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}">
-            <p align="center"><p:outputLabel value="#{managingBean.managedQuestion.title}"/></p>
-            <p:outputLabel value="Your answer:"/><br/>
+            <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}">
+                <h1 align="center"><p:outputLabel value="#{managingBean.managedQuestion.title}"/></h1>
+                <p:outputLabel value="Your answer:"/><br/>
 
-            <p:textEditor widgetVar="answerEditor" value="#{managingBean.managedAnswer.text}" height="300" style="margin-bottom:10px" required="true"/>
+                <p:textEditor widgetVar="answerEditor" value="#{managingBean.managedAnswer.text}" height="300"
+                              style="margin-bottom:10px; background-color: #f1f5f8" required="true"/>
 
-            <p:panelGrid columns="3">
-                <p:commandLink value="Submit" action="#{managingBean.addAnswer(true)}" />
-                <p:commandLink value="Draft" action="#{managingBean.addAnswer(false)}" />
-                <p:commandLink value="Clear" type="button" onclick="PF('answerEditor').clear();" />
-            </p:panelGrid>
-        </p:outputPanel>
+                <p:panelGrid columns="3">
+                    <p:commandLink value="Submit" action="#{managingBean.addAnswer(true)}"/>
+                    <p:commandLink value="Draft" action="#{managingBean.addAnswer(false)}"/>
+                    <p:commandLink value="Clear" type="button" onclick="PF('answerEditor').clear();"/>
+                </p:panelGrid>
+            </p:outputPanel>
 
-        <!--// org list-->
-        <p:outputPanel style="display:block" rendered="#{sessionBean.userOrganizer}">
-            <p:accordionPanel var="answer" value="#{navigationBean.answersAll()}" multiple="true">
-                <p:tab title="#{answer.user.username}">
-                    <h:panelGrid columns="1" cellpadding="3" width="100%" styleClass="hideToolbar borderless" >
-                        <p:outputLabel value="#{answer.status}" />
-                        <p:textEditor  value="#{answer.text}"
-                                       readonly="true"
-                        />
-                    </h:panelGrid>
-                </p:tab>
-            </p:accordionPanel>
-        </p:outputPanel>
+            <!--// org list-->
+            <p:outputPanel style="display:block" rendered="#{sessionBean.userOrganizer}">
+                <p:accordionPanel var="answer" value="#{navigationBean.answersAll()}" multiple="true">
+                    <p:tab title="#{answer.user.username}">
+                        <h:panelGrid columns="1" cellpadding="3" width="100%" styleClass="hideToolbar borderless">
+                            <p:outputLabel value="#{answer.status}"/>
+                            <p:textEditor value="#{answer.text}"
+                                          readonly="true"
+                            />
+                        </h:panelGrid>
+                    </p:tab>
+                </p:accordionPanel>
+            </p:outputPanel>
+        </div>
     </h:form>
 </h:body>
 </html>

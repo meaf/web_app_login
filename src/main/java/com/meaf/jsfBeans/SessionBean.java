@@ -43,12 +43,17 @@ public class SessionBean implements Serializable {
 
     public void createUser() throws Exception {
         userService.addUser(username, password, role);
+
     }
 
     public void registerUser() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         role = userService.getRoleByName(EUserRole.user);
         userService.addUser(username, password, role);
+//        User newUser = userService.getUserByName(username);
+//
+//
+//        userService.connectUserToProject();
     }
 
     public void loadStages(Project project) throws IOException {
@@ -79,9 +84,9 @@ public class SessionBean implements Serializable {
         try {
             sessionManagementHelper.login(username, password);
             String redirectPage = "index.xhtml";
-            if (sessionManagementHelper.isUserInRole(EUserRole.admin.name()))
-                redirectPage = "/admin/users.xhtml";
-            if (sessionManagementHelper.isUserInRole(EUserRole.user.name()))
+            if (sessionManagementHelper.isUserInRole(EUserRole.admin))
+                redirectPage = "/admin/index.xhtml";
+            if (sessionManagementHelper.isUserInRole(EUserRole.user))
                 redirectPage = "/user/index.xhtml";
             context.getExternalContext().redirect(redirectPage);
         } catch (ServletException se) {
@@ -93,7 +98,7 @@ public class SessionBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
             sessionManagementHelper.logout();
-            context.getExternalContext().redirect("/login.xhtml");
+            context.getExternalContext().redirect("/index.xhtml");
         } catch (IOException | ServletException e) {
             e.printStackTrace();
         }
@@ -112,6 +117,11 @@ public class SessionBean implements Serializable {
 
     public boolean isUserOrganizer() {
         return isUserInProjectRole(EProjectRole.ORGANIZER);
+    }
+
+    public boolean isUserOrganizerInProject(Project project) {
+        ProjectUserConnection connection = sessionManagementHelper.getConnectionBetween(project, sessionManagementHelper.getCurrentUser());
+        return connection.getRole() == EProjectRole.ORGANIZER;
     }
 
     public boolean isUserInProjectRole(EProjectRole role) {

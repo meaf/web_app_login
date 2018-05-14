@@ -4,6 +4,7 @@ import com.meaf.core.dao.service.base.ConfigurationBean;
 import com.meaf.core.entities.Project;
 import com.meaf.core.entities.ProjectUserConnection;
 import com.meaf.core.entities.User;
+import com.meaf.core.meta.EUserRole;
 import com.meaf.core.meta.ProjectConstants;
 
 import javax.ejb.EJB;
@@ -83,8 +84,8 @@ public class SessionManagementHelper {
         request.getSession().removeAttribute(SESSION_PARAM__CURRENT_USER);
     }
 
-    public boolean isUserInRole(String role) {
-        return request.isUserInRole(role);
+    public boolean isUserInRole(EUserRole role) {
+        return request.isUserInRole(role.name());
     }
 
     /**
@@ -102,14 +103,7 @@ public class SessionManagementHelper {
      * SESSION CONNECTION OPERATIONS
      */
     private void updateConnections() {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<ProjectUserConnection> cq = cb.createQuery(ProjectUserConnection.class);
-        Root<ProjectUserConnection> root = cq.from(ProjectUserConnection.class);
-        cq.select(root).where(cb.and(
-                cb.equal(root.get("project").get("id"), getCurrentSessionProject().getId()),
-                cb.equal(root.get("user"), getCurrentUser())
-        ));
-        ProjectUserConnection connection = getEntityManager().createQuery(cq).getSingleResult();
+        ProjectUserConnection connection = getConnectionBetween(getCurrentSessionProject(), getCurrentUser());
         setCurrentSessionProjectUserConnection(connection);
     }
 
@@ -155,5 +149,17 @@ public class SessionManagementHelper {
         cq.select(root).where(cb.equal(root.get("user"), user));
         List<ProjectUserConnection> projectUserConnections = getEntityManager().createQuery(cq).getResultList();
         return projectUserConnections;
+    }
+
+    public ProjectUserConnection getConnectionBetween(Project project, User user) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<ProjectUserConnection> cq = cb.createQuery(ProjectUserConnection.class);
+        Root<ProjectUserConnection> root = cq.from(ProjectUserConnection.class);
+        cq.select(root).where(cb.and(
+                cb.equal(root.get("project").get("id"), project.getId()),
+                cb.equal(root.get("user"), user.getId())
+        ));
+        ProjectUserConnection connection = getEntityManager().createQuery(cq).getSingleResult();
+        return connection;
     }
 }

@@ -8,9 +8,6 @@ import com.meaf.core.meta.EUserRole;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.*;
 import java.util.List;
@@ -41,15 +38,17 @@ public class UserService extends ABaseService<User> {
     }
 
     public Role getRoleByName(EUserRole role) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Role> cq = cb.createQuery(Role.class);
-        Root<Role> root = cq.from(Role.class);
-        cq.select(root).where(cb.equal(root.get("rolename"), role.name()));
-        return getEntityManager().createQuery(cq).getSingleResult();
+        return findSingleByWhereClause(Role.class, "rolename", role.name());
     }
 
     public void connectUserToProject(User user, Project project, EProjectRole role) {
         ProjectUserConnection con = new ProjectUserConnection(user, project, role);
+    }
+
+    public void connectUserWithInvite(User user, String invite) {
+
+
+//        ProjectUserConnection con = new ProjectUserConnection(user, project, role);
     }
 
     public void answer(Question question, String answer) {
@@ -69,6 +68,10 @@ public class UserService extends ABaseService<User> {
     @Override
     public User getById(Long id) {
         return getEntityManager().find(User.class, id);
+    }
+
+    public User getUserByName(String username) {
+        return findSingleByWhereClause(User.class, "username", username);
     }
 
     @Override

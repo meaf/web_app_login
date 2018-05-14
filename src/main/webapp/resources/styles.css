@@ -1,3 +1,12 @@
+body{
+    font-family: 'Open Sans', sans-serif;
+    background: #c0d6e4;
+    margin: 0 auto 0 auto;
+    width:100%;
+    text-align:center;
+    margin: 20px 0px 20px 0px;
+}
+
 .hideToolbar .ui-editor-toolbar{
     display: none!important;
     border-width: 0!important;
@@ -30,5 +39,34 @@ table.wide{
     width: 100%;
 }
 table.wide>*>*>*>input{
-    width: 100%;
+    margin: 0 auto 0 auto;
+    padding: 0 auto 0 auto;
+    width: 95%;
+}
+
+.surveyTable{
+    width: 95%;
+    margin: 0 auto 0 auto;
+    padding: 10px 0px;
+}
+
+.box{
+    background:#f1f5f8;
+    width:300px;
+    border-radius:6px;
+    margin: 0 auto 0 auto;
+    padding: 10px 0px;
+    border: #95a6b4 4px solid;
+}
+
+.custom{
+    position: absolute;
+    right: 40px;
+    padding: 10px;
+}
+
+.adminPanel{
+    width: 95%;
+    margin: 0 auto 0 auto;
+    padding: 10px 0px;
 }

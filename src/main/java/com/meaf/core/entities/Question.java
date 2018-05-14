@@ -88,6 +88,22 @@ public class Question implements Serializable, IProjectElement {
 
     }
 
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Date getLastAction() {
+        return lastAction;
+    }
+
+    public void setLastAction(Date lastAction) {
+        this.lastAction = lastAction;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -95,4 +111,11 @@ public class Question implements Serializable, IProjectElement {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @PreUpdate
+    @PrePersist
+    public void updateTimeStamps() {
+        lastUpdate = new Date();
+    }
+
 }

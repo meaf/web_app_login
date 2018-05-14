@@ -35,6 +35,9 @@ public class UserProfile implements Serializable {
     @JoinColumn(name = "USER_ID")
     private User userId;
 
+    @Column(name = "LAST_UPDATE")
+    private Date lastUpdate;
+
     public Long getId() {
         return id;
     }
@@ -98,5 +101,20 @@ public class UserProfile implements Serializable {
     public void setUserId(User userId) {
         this.userId = userId;
     }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    @PreUpdate
+    @PrePersist
+    public void updateTimeStamps() {
+        lastUpdate = new Date();
+    }
+
 }
 

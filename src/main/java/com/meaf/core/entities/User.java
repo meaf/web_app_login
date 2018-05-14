@@ -20,7 +20,7 @@ public class User implements Serializable {
     private String password;
 
     @Column(name = "REGISTER_DATE")
-    private Date regDate;
+    private Date regDate = new Date();
 
     @ManyToOne
     @JoinColumn(name = "ROLE_ID")

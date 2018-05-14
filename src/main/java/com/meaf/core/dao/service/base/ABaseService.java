@@ -6,6 +6,9 @@ import com.meaf.core.entities.Project;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 import java.io.Serializable;
 import java.util.List;
@@ -59,6 +62,14 @@ public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
         if (projElements == null)
             return null;
         return projElements.stream().filter(userFilter).collect(Collectors.toList());
+    }
+
+    protected <U> U findSingleByWhereClause(Class clazz, String fieldName, Object val) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<U> cq = cb.createQuery(clazz);
+        Root<U> root = cq.from(clazz);
+        cq.select(root).where(cb.equal(root.get(fieldName), val));
+        return getEntityManager().createQuery(cq).getSingleResult();
     }
 
     protected UserTransaction getUTx() {

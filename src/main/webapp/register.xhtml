@@ -3,40 +3,44 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/login.css" />
-        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles.css" />
-        <title>Login</title>
-    </h:head>
-    <h:body>
-        <h:form id="registerForm" >
-            <div class="box">
-                <p:panelGrid columns="1" styleClass="wide">
-                    <p:inputText value="#{sessionBean.username}" styleClass="ui-input-invalid" placeholder="Username *" required="true"/>
-                    <p:inputText value="#{sessionBean.email}"  placeholder="E-mail address *" required="true"/>
-                    <p:inputText value="#{sessionBean.fname}"  placeholder="First name *" required="true"/>
-                    <p:inputText value="#{sessionBean.lname}"  placeholder="Last name *" required="true"/>
-                    <p:inputText value="#{sessionBean.pname}"  placeholder="Patronyic" required="false"/>
-                    <p:inputText value="#{sessionBean.phone}"  placeholder="Contact phone" required="false"/>
-                    <p:inputText value="#{sessionBean.invite}" placeholder="Invite code" required="false"/>
-                    <p:password id="pwd1"
-                                match="pwd2"
-                                value="#{sessionBean.password}"
-                                placeholder="Password *"
-                                required="true"/>
-                    <p:password id="pwd2"
-                                value="#{sessionBean.password}"
-                                placeholder="Password confirmation *"
-                                required="true"/>
-                </p:panelGrid>
-                <p:panelGrid columns="2" styleClass="wide">
-                    <p:commandLink value="Sign up" action="#{sessionBean.registerUser}" />
-                    <p:commandLink type="reset" value="Reset"/>
-                </p:panelGrid>
-            </div>
-        </h:form>
-    </h:body>
+<h:head>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/login.css"/>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles.css"/>
+    <title>Login</title>
+</h:head>
+<h:body>
+    <h:form id="registerForm">
+        <div class="box">
+            <p:panelGrid columns="1" styleClass="wide">
+                <h1> Register</h1>
+                <h2> Personal info</h2>
+                <p:inputText value="#{sessionBean.username}" styleClass="ui-input-invalid" placeholder="Username *"
+                             required="true"/>
+                <p:inputText value="#{sessionBean.fname}" placeholder="First name *" required="true"/>
+                <p:inputText value="#{sessionBean.lname}" placeholder="Last name *" required="true"/>
+                <p:inputText value="#{sessionBean.pname}" placeholder="Patronyic" required="false"/>
+                <h2> Contact info</h2>
+                <p:inputText value="#{sessionBean.email}" placeholder="E-mail address *" required="true"/>
+                <p:inputText value="#{sessionBean.phone}" placeholder="Contact phone" required="false"/>
+                <h2> Password info</h2>
+                <p:password id="pwd1"
+                            match="pwd2"
+                            value="#{sessionBean.password}"
+                            placeholder="Password *"
+                            required="true"/>
+                <p:password id="pwd2"
+                            value="#{sessionBean.password}"
+                            placeholder="Password confirmation *"
+                            required="true"/>
+                <h2>Have an invite code?</h2>
+                <p:inputText value="#{sessionBean.invite}" placeholder="Invite code" required="false"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2" styleClass="wide">
+                <p:button value="Sign in" outcome="index"/>
+                <p:commandButton value="Sign up" styleClass="" action="#{sessionBean.registerUser}"/>
+            </p:panelGrid>
+        </div>
+    </h:form>
+</h:body>
 </html>

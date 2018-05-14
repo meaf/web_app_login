@@ -6,14 +6,15 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:tp="http://java.sun.com/jsf/composite/toolbox">
 <h:head>
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles.css" />
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles.css"/>
     <title>Project</title>
 </h:head>
 <body>
-    <h:form>
+<h:form>
+    <div class="surveyTable">
         <tp:header/>
-        <p:dataTable var="project" value="#{navigationBean.projects}" >
-            <f:facet name="header" >
+        <p:dataTable var="project" value="#{navigationBean.projects}">
+            <f:facet name="header">
                 PROJECTS
             </f:facet>
             <p:column headerText="Project name" sortBy="#{project.name}" sortable="false">
@@ -22,7 +23,14 @@
             <p:column headerText="status" sortBy="#{project.description}" sortable="false">
                 <h:outputText value="#{project.description}"/>
             </p:column>
+            <p:column style="width:32px;text-align: center">
+                <p:commandButton icon="fa fa-fw fa-edit"
+                                 title="Properties">
+                    <!--<f:setPropertyActionListener value="#{project}" target="#{dtSelectionView.selectedCar}"/>-->
+                </p:commandButton>
+            </p:column>
         </p:dataTable>
-    </h:form>
+    </div>
+</h:form>
 </body>
 </html>

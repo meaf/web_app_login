@@ -16,6 +16,7 @@ public class Answer implements Serializable, IProjectElement {
     @Column(name = "ID")
     private Long id;
 
+    @Lob
     @Column(name = "TEXT")
     private String text;
 
@@ -35,7 +36,7 @@ public class Answer implements Serializable, IProjectElement {
     private User user;
 
     @Column(name = "LAST_UPDATE")
-    private Date lastUpdate;
+    private Date lastUpdate = new Date();
 
     @Column(name = "LAST_ACTION")
     private Date lastAction;
@@ -104,6 +105,22 @@ public class Answer implements Serializable, IProjectElement {
 
     }
 
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Date getLastAction() {
+        return lastAction;
+    }
+
+    public void setLastAction(Date lastAction) {
+        this.lastAction = lastAction;
+    }
+
     public EAnswerStatus getRelativeStatus() {
         return relativeStatus;
     }
@@ -120,5 +137,10 @@ public class Answer implements Serializable, IProjectElement {
         this.comment = comment;
     }
 
+    @PreUpdate
+    @PrePersist
+    public void updateTimeStamps() {
+        lastUpdate = new Date();
+    }
 
 }
