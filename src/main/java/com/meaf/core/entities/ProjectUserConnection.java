@@ -99,6 +99,12 @@ public class ProjectUserConnection implements Serializable {
         this.role = role;
     }
 
+    public ProjectUserConnection(String invite, Project project, EProjectRole role) {
+        this.invite = invite;
+        this.project = project;
+        this.role = role;
+    }
+
     public ProjectUserConnection() {
     }
 

@@ -3,6 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/login.css"/>
@@ -10,6 +11,7 @@
     <title>Login</title>
 </h:head>
 <h:body>
+    <p:growl id="growl" showDetail="true" sticky="true"/>
     <h:form id="registerForm">
         <div class="box">
             <p:panelGrid columns="1" styleClass="wide">
@@ -28,17 +30,23 @@
                             match="pwd2"
                             value="#{sessionBean.password}"
                             placeholder="Password *"
-                            required="true"/>
+                            required="true">
+                    <f:validateLength minimum="6" maximum="32"/>
+                    <p:clientValidator event="keyup"/>
+                </p:password>
                 <p:password id="pwd2"
                             value="#{sessionBean.password}"
                             placeholder="Password confirmation *"
-                            required="true"/>
+                            required="true">
+                    <f:validateLength minimum="6" maximum="32"/>
+                    <p:clientValidator event="keyup"/>
+                </p:password>
                 <h2>Have an invite code?</h2>
                 <p:inputText value="#{sessionBean.invite}" placeholder="Invite code" required="false"/>
             </p:panelGrid>
             <p:panelGrid columns="2" styleClass="wide">
                 <p:button value="Sign in" outcome="index"/>
-                <p:commandButton value="Sign up" styleClass="" action="#{sessionBean.registerUser}"/>
+                <p:commandButton value="Sign up" update="growl" styleClass="" action="#{sessionBean.registerUser}"/>
             </p:panelGrid>
         </div>
     </h:form>

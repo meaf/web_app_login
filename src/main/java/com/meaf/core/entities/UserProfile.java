@@ -38,6 +38,19 @@ public class UserProfile implements Serializable {
     @Column(name = "LAST_UPDATE")
     private Date lastUpdate;
 
+    public UserProfile() {
+    }
+
+    public UserProfile(Date birthDate, String firstName, String lastName, String patronymic, String phoneNumber, String emailAddress, User userId) {
+        this.birthDate = birthDate;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
+        this.userId = userId;
+    }
+
     public Long getId() {
         return id;
     }

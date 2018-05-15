@@ -2,26 +2,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:composite="http://java.sun.com/jsf/composite">
 
-    <composite:interface/>
+<composite:interface/>
 
-    <composite:implementation>
-        <div align="right">
-            <p:panelGrid columns="5">
+<composite:implementation>
+    <div align="right">
+        <p:panelGrid columns="5">
 
-                <p:outputLabel value="Welcome, #{request.remoteUser}"/>
-                <p:outputLabel rendered="#{sessionBean.projectRole != null}" value="Current project: #{sessionBean.currentProject.name}"/>
-                <p:outputLabel rendered="#{sessionBean.projectRole != null}" value="role: #{sessionBean.projectRole}"/>
+            <p:outputLabel value="Welcome, #{request.remoteUser}"/>
+            <p:outputLabel rendered="#{sessionBean.currentProjectRole != null}"
+                           value="Current project: #{sessionBean.currentProject.name}"/>
+            <p:outputLabel rendered="#{sessionBean.currentProjectRole != null}"
+                           value="role: #{sessionBean.currentProjectRole}"/>
 
-                <p:link outcome="index" value="home"/>
-                <p:commandLink value="logout" action="#{sessionBean.logout}" />
-            </p:panelGrid>
-        </div>
-    </composite:implementation>
+            <p:link outcome="index" value="home"/>
+            <p:commandLink value="logout" action="#{sessionBean.logout}"/>
+        </p:panelGrid>
+    </div>
+</composite:implementation>
 </html>
 

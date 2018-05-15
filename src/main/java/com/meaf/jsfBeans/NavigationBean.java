@@ -1,5 +1,6 @@
 package com.meaf.jsfBeans;
 
+import com.meaf.core.dao.service.ProjectUserConnectionService;
 import com.meaf.core.dao.service.project.*;
 import com.meaf.core.entities.*;
 
@@ -28,6 +29,8 @@ public class NavigationBean implements Serializable {
     private QuestionService questionService;
     @Inject
     private SurveyService surveyService;
+    @Inject
+    private ProjectUserConnectionService projectUserConnectionService;
 
     public List<Project> getProjects() {
         return projectService.getAll();
@@ -97,6 +100,10 @@ public class NavigationBean implements Serializable {
 
     public List<Answer> answersBranched(Long rootId) {
         return answerService.getBranch(rootId);
+    }
+
+    public List<ProjectUserConnection> getValidInvites() {
+        return projectUserConnectionService.getUnusedInvites();
     }
 
 }

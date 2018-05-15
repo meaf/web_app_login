@@ -1,11 +1,8 @@
 package com.meaf.jsfBeans;
 
-import com.meaf.core.dao.service.SessionManagementHelper;
-import com.meaf.core.dao.service.UserService;
-import com.meaf.core.entities.Project;
-import com.meaf.core.entities.ProjectUserConnection;
-import com.meaf.core.entities.Role;
-import com.meaf.core.entities.User;
+import com.meaf.core.dao.service.*;
+import com.meaf.core.dao.service.base.Response;
+import com.meaf.core.entities.*;
 import com.meaf.core.meta.EProjectRole;
 import com.meaf.core.meta.EUserRole;
 
@@ -18,6 +15,8 @@ import javax.inject.Named;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Named
@@ -25,9 +24,12 @@ import java.util.List;
 @RequestScoped
 public class SessionBean implements Serializable {
 
-
+    @Inject
+    ProjectUserConnectionService projectUserConnectionService;
     @Inject
     UserService userService;
+    @Inject
+    UserProfileService userProfileService;
     @Inject
     SessionManagementHelper sessionManagementHelper;
 
@@ -39,21 +41,49 @@ public class SessionBean implements Serializable {
     private String email;
     private String phone;
     private String invite;
+    private Date birthDate = new Date();
     private Role role;
+
+    private List<EProjectRole> projectRoles = Arrays.asList(EProjectRole.values());
+    private EProjectRole projectRole;
 
     public void createUser() throws Exception {
         userService.addUser(username, password, role);
 
     }
 
-    public void registerUser() throws Exception {
-        FacesContext context = FacesContext.getCurrentInstance();
-        role = userService.getRoleByName(EUserRole.user);
-        userService.addUser(username, password, role);
-//        User newUser = userService.getUserByName(username);
-//
-//
-//        userService.connectUserToProject();
+    public void registerUser() {
+        Response response = new Response();
+        if (invite == null || invite.isEmpty() || projectUserConnectionService.isInviteValid(invite)) {
+            if (!username.isEmpty() && userService.isUsernameTaken(username)) {
+                try {
+                    role = userService.getRoleByName(EUserRole.user);
+                    userService.addUser(username, password, role);
+
+                    User newUser = userService.getUserByName(username);
+                    userProfileService.add(new UserProfile(birthDate, fname, lname, pname, phone, email, newUser));
+
+                    userService.connectUserWithInvite(newUser, invite);
+                    response.setSeverity(FacesMessage.SEVERITY_INFO);
+                    response.setTitle("Success");
+                    response.setInfo("Log in with your credentials");
+                } catch (Exception ex) {
+                    response.setSeverity(FacesMessage.SEVERITY_ERROR);
+                    response.setTitle("Error");
+                    response.setInfo("Check entered data and try again");
+                    ex.printStackTrace();
+                }
+            } else {
+                response.setSeverity(FacesMessage.SEVERITY_ERROR);
+                response.setTitle("Error");
+                response.setInfo("Username taken");
+            }
+        } else {
+            response.setSeverity(FacesMessage.SEVERITY_WARN);
+            response.setTitle("Error");
+            response.setInfo("Invite code is not valid");
+        }
+        addToast(response);
     }
 
     public void loadStages(Project project) throws IOException {
@@ -104,7 +134,7 @@ public class SessionBean implements Serializable {
         }
     }
 
-    public String getProjectRole() {
+    public String getCurrentProjectRole() {
         ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
         return connection != null
                 ? connection.getRole().name().toUpperCase()
@@ -130,10 +160,59 @@ public class SessionBean implements Serializable {
                 && role.equals(connection.getRole());
     }
 
+    public String generateInvite(EProjectRole role) throws Exception {
+        do {
+            invite = MiscHelper.randomString(8);
+        } while (projectUserConnectionService.isInviteCodeTaken(invite));
+
+        saveInvite(role, invite);
+        return invite;
+    }
+
+    public void saveInvite(EProjectRole role, String invite) throws Exception {
+        Response response = projectUserConnectionService.addInvite(role, invite);
+        addToast(response);
+    }
+
+    private void addToast(Response response) {
+        if (response != null)
+            FacesContext.getCurrentInstance().addMessage(null, response.generateToast());
+    }
+
     /**
      * GET SET section
      */
+    public ProjectUserConnectionService getProjectUserConnectionService() {
+        return projectUserConnectionService;
+    }
 
+    public void setProjectUserConnectionService(ProjectUserConnectionService projectUserConnectionService) {
+        this.projectUserConnectionService = projectUserConnectionService;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public UserProfileService getUserProfileService() {
+        return userProfileService;
+    }
+
+    public void setUserProfileService(UserProfileService userProfileService) {
+        this.userProfileService = userProfileService;
+    }
+
+    public SessionManagementHelper getSessionManagementHelper() {
+        return sessionManagementHelper;
+    }
+
+    public void setSessionManagementHelper(SessionManagementHelper sessionManagementHelper) {
+        this.sessionManagementHelper = sessionManagementHelper;
+    }
 
     public String getUsername() {
         return username;
@@ -149,30 +228,6 @@ public class SessionBean implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public SessionManagementHelper getSessionManagementHelper() {
-        return sessionManagementHelper;
-    }
-
-    public void setSessionManagementHelper(SessionManagementHelper sessionManagementHelper) {
-        this.sessionManagementHelper = sessionManagementHelper;
     }
 
     public String getFname() {
@@ -221,5 +276,37 @@ public class SessionBean implements Serializable {
 
     public void setInvite(String invite) {
         this.invite = invite;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public List<EProjectRole> getProjectRoles() {
+        return projectRoles;
+    }
+
+    public void setProjectRoles(List<EProjectRole> projectRoles) {
+        this.projectRoles = projectRoles;
+    }
+
+    public EProjectRole getProjectRole() {
+        return projectRole;
+    }
+
+    public void setProjectRole(EProjectRole projectRole) {
+        this.projectRole = projectRole;
     }
 }

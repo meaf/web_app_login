@@ -1,10 +1,14 @@
 package com.meaf.core.dao.service;
 
 import com.meaf.core.dao.service.base.ABaseService;
-import com.meaf.core.entities.*;
-import com.meaf.core.meta.EProjectRole;
+import com.meaf.core.dao.service.base.Response;
+import com.meaf.core.entities.ProjectUserConnection;
+import com.meaf.core.entities.Question;
+import com.meaf.core.entities.Role;
+import com.meaf.core.entities.User;
 import com.meaf.core.meta.EUserRole;
 
+import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -41,14 +45,24 @@ public class UserService extends ABaseService<User> {
         return findSingleByWhereClause(Role.class, "rolename", role.name());
     }
 
-    public void connectUserToProject(User user, Project project, EProjectRole role) {
-        ProjectUserConnection con = new ProjectUserConnection(user, project, role);
-    }
+    public Response connectUserWithInvite(User user, String invite) {
+        Response response = new Response();
 
-    public void connectUserWithInvite(User user, String invite) {
+        ProjectUserConnection con = findSingleByWhereClause(ProjectUserConnection.class, "invite", invite);
+        if (con == null || con.getUser() != null) {
+            response.setSeverity(FacesMessage.SEVERITY_WARN);
+            response.setTitle("Invalid invite code");
+            response.setInfo("");
+            return response;
+        }
+        con.setUser(user);
+        getEntityManager().persist(con);
 
+        response.setSeverity(FacesMessage.SEVERITY_INFO);
+        response.setTitle("Invite code");
+        response.setInfo("");
+        return response;
 
-//        ProjectUserConnection con = new ProjectUserConnection(user, project, role);
     }
 
     public void answer(Question question, String answer) {
@@ -91,5 +105,12 @@ public class UserService extends ABaseService<User> {
             throw ex;
         }
         getUTx().commit();
+    }
+
+    public boolean isUsernameTaken(String username) {
+        return getEntityManager()
+                .createQuery("select u from User u where u.username = :username", User.class)
+                .setParameter("username", username)
+                .getResultList().isEmpty();
     }
 }

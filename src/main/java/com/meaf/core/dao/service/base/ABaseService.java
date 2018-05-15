@@ -37,7 +37,7 @@ public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
             getUTx().commit();
             return saved;
         } catch (Exception ex) {
-            getUTx().rollback();
+//            getUTx().rollback();
             throw ex;
         }
     }
@@ -69,7 +69,7 @@ public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
         CriteriaQuery<U> cq = cb.createQuery(clazz);
         Root<U> root = cq.from(clazz);
         cq.select(root).where(cb.equal(root.get(fieldName), val));
-        return getEntityManager().createQuery(cq).getSingleResult();
+        return getEntityManager().createQuery(cq).getResultList().stream().findAny().orElse(null);
     }
 
     protected UserTransaction getUTx() {

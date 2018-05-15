@@ -1,10 +1,12 @@
 package com.meaf.jsfBeans;
 
+import com.meaf.core.dao.service.base.Response;
 import com.meaf.core.dao.service.project.*;
 import com.meaf.core.entities.*;
 import com.meaf.core.meta.EAnswerStatus;
 
 import javax.annotation.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -94,6 +96,11 @@ public class ManagingBean implements Serializable {
         projectStageService.add(managedProjectStage);
 
         managedProjectStage = new ProjectStage();
+    }
+
+    private void addToast(Response response) {
+        if (response != null)
+            FacesContext.getCurrentInstance().addMessage(null, response.generateToast());
     }
 
     /**
