@@ -24,13 +24,13 @@
                     #{managingBean.managedSurvey.topic.toUpperCase()}
                 </f:facet>
                 <p:column headerText="Question" sortBy="#{question.title}" sortable="false">
-                    <p:link outcome="answer" value="#{question.description}">
+                    <p:link outcome="answer" value="#{question.title}">
                         <f:param name="id" value="#{question.id}"/>
                     </p:link>
                 </p:column>
 
-                <p:column headerText="status" sortBy="#{question.status}" sortable="false">
-                    <p:outputLabel value="#{question.status}"/>
+                <p:column headerText="description" sortBy="#{question.description}" sortable="false">
+                    <p:outputLabel value="#{question.description}"/>
                 </p:column>
             </p:dataTable>
 

@@ -12,6 +12,7 @@
 </h:head>
 <h:body>
     <h:form>
+        <p:growl id="growl" showDetail="true" life="1000"/>
         <div class="surveyTable">
             <tp:header/>
             <c:set var="id" value="#{param['id']}"/>
@@ -20,23 +21,38 @@
             #{managingBean.setManagedQuestion(currElement)}
             #{managingBean.answerQuestionUser(managingBean.managedQuestion)}
 
-            <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}">
+            <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}" id="answerPanel">
                 <h1 align="center"><p:outputLabel value="#{managingBean.managedQuestion.title}"/></h1>
+                <h2 align="center"><p:outputLabel value="#{managingBean.managedQuestion.description}"/></h2>
+                <h3 align="center"><p:outputLabel value="#{managingBean.managedAnswer.status}"/></h3>
                 <p:outputLabel value="Your answer:"/><br/>
 
                 <p:textEditor widgetVar="answerEditor" value="#{managingBean.managedAnswer.text}" height="300"
-                              style="margin-bottom:10px; background-color: #f1f5f8" required="true"/>
+                              style="margin-bottom:10px; background-color: #f1f5f8" required="true"
+                              readonly="#{!managingBean.getManagedAnswerEditable()}"/>
 
-                <p:panelGrid columns="3">
-                    <p:commandLink value="Submit" action="#{managingBean.addAnswer(true)}"/>
-                    <p:commandLink value="Draft" action="#{managingBean.addAnswer(false)}"/>
+                <p:panelGrid columns="3" rendered="#{managingBean.getManagedAnswerEditable()}">
+                    <p:commandLink value="Submit" update="growl" oncomplete="PF('confirmation').show()"/>
+                    <p:commandLink value="Draft" action="#{managingBean.addAnswer(false)}" update="growl answerPanel"/>
                     <p:commandLink value="Clear" type="button" onclick="PF('answerEditor').clear();"/>
                 </p:panelGrid>
             </p:outputPanel>
 
+
+            <p:dialog header="Submit answer?" width="20%" resizable="false" closable="false"
+                      modal="true" hideEffect="fade" showEffect="fade" widgetVar="confirmation">
+                <h:panelGrid columns="2" width="90%">
+                    <p:commandButton value="Submit" action="#{managingBean.addAnswer(true)}"
+                                     update="growl answerPanel"
+                                     oncomplete="PF('confirmation').hide()"/>
+                    <p:commandButton value="Cancel" oncomplete="PF('confirmation').hide()"/>
+                </h:panelGrid>
+            </p:dialog>
+
             <!--// org list-->
             <p:outputPanel style="display:block" rendered="#{sessionBean.userOrganizer}">
-                <p:accordionPanel var="answer" value="#{navigationBean.answersAll()}" multiple="true">
+                <p:accordionPanel var="answer" value="#{navigationBean.answersAllByQuestion(currElement)}"
+                                  multiple="true">
                     <p:tab title="#{answer.user.username}">
                         <h:panelGrid columns="1" cellpadding="3" width="100%" styleClass="hideToolbar borderless">
                             <p:outputLabel value="#{answer.status}"/>

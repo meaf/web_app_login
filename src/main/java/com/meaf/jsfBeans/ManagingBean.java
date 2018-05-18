@@ -6,6 +6,7 @@ import com.meaf.core.entities.*;
 import com.meaf.core.meta.EAnswerStatus;
 
 import javax.annotation.ManagedBean;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -52,6 +53,7 @@ public class ManagingBean implements Serializable {
     }
 
     public void addAnswer(boolean isCompleted) throws Exception {
+        Response response = new Response();
         if (managedAnswer.getText().isEmpty()) {
             managedAnswer.setStatus(EAnswerStatus.NEW);
         } else if (!isCompleted) {
@@ -60,8 +62,18 @@ public class ManagingBean implements Serializable {
             managedAnswer.setStatus(EAnswerStatus.SUBMITTED);
         }
         managedAnswer.setQuestion(managedQuestion);
-        answerService.add(managedAnswer);
+        try {
+            answerService.add(managedAnswer);
+            response.setSeverity(FacesMessage.SEVERITY_INFO);
+            response.setTitle("Success");
+            response.setInfo("Answer saved as " + managedAnswer.getStatus().name().toLowerCase());
+        } catch (Exception ex) {
+            response.setSeverity(FacesMessage.SEVERITY_WARN);
+            response.setTitle("Error");
+            response.setInfo("failed to save answer; try again");
+        }
 
+        addToast(response);
 //        managedAnswer = new Answer();
     }
 
@@ -111,6 +123,13 @@ public class ManagingBean implements Serializable {
             managedAnswer = new Answer();
         return managedAnswer;
     }
+
+    public boolean getManagedAnswerEditable() {
+        return managedAnswer == null
+                || managedAnswer.getStatus().equals(EAnswerStatus.NEW)
+                || managedAnswer.getStatus().equals(EAnswerStatus.DRAFT);
+    }
+
 
     public void setManagedAnswer(Answer managedAnswer) {
         this.managedAnswer = managedAnswer;

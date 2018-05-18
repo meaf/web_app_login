@@ -4,11 +4,13 @@ import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.dao.service.base.Response;
 import com.meaf.core.entities.Project;
 import com.meaf.core.entities.ProjectUserConnection;
+import com.meaf.core.entities.User;
 import com.meaf.core.meta.EProjectRole;
 
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Named
 public class ProjectUserConnectionService extends ABaseService<ProjectUserConnection> {
@@ -76,5 +78,18 @@ public class ProjectUserConnectionService extends ABaseService<ProjectUserConnec
             ex.printStackTrace();
         }
         return response;
+    }
+
+    public List<Project> getUserProjects(User user) {
+        return getEntityManager()
+                .createQuery("select u from ProjectUserConnection u " +
+                        "where u.user = :user " +
+                        "and u.role = :role", ProjectUserConnection.class)
+                .setParameter("user", user)
+                .setParameter("role", EProjectRole.ORGANIZER)
+                .getResultList()
+                .stream()
+                .map(ProjectUserConnection::getProject)
+                .collect(Collectors.toList());
     }
 }

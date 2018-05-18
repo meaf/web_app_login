@@ -179,6 +179,11 @@ public class SessionBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, response.generateToast());
     }
 
+    public boolean isOrganizing(Project project) {
+        User currentUser = sessionManagementHelper.getCurrentUser();
+        return projectUserConnectionService.getUserProjects(currentUser).stream().anyMatch(p -> p.getId() == project.getId());
+    }
+
     /**
      * GET SET section
      */

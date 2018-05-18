@@ -30,8 +30,6 @@ public class Survey implements Serializable, IProjectElement {
     @JoinColumn(name = "PROJECT_STAGE")
     private ProjectStage stage;
 
-    // todo: sub-surveys
-
     @Column(name = "LAST_UPDATE")
     private Date lastUpdate;
 

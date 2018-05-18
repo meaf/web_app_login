@@ -10,7 +10,7 @@
     <title>Project</title>
 </h:head>
 <h:body>
-    <p:growl id="growl" showDetail="true" sticky="true"/>
+    <p:growl id="growl" showDetail="true"/>
     <h:form>
         <div class="surveyTable">
             <tp:header/>
@@ -25,7 +25,8 @@
                     <h:outputText value="#{project.description}"/>
                 </p:column>
                 <p:column style="width:32px;text-align: center">
-                    <p:commandButton icon="fa fa-fw fa-edit"
+                    <p:commandButton rendered="#{sessionBean.isOrganizing(project)}"
+                                     icon="fa fa-fw fa-edit"
                                      title="Properties"
                                      oncomplete="PF('invs').show()">
                         <!--<f:setPropertyActionListener value="#{project}" target="#{dtSelectionView.selectedCar}"/>-->
@@ -46,11 +47,11 @@
             </p:column>
         </p:dataTable>
 
-        <h:panelGrid columns="3" width="100%">
-            <p:selectOneMenu value="#{sessionBean.projectRole}" converter="omnifaces.SelectItemsConverter">
-                <f:selectItems value="#{sessionBean.projectRoles}" var="projectRole" itemValue="#{projectRole}"
-                               itemLabel="#{projectRole.name()}"/>
-            </p:selectOneMenu>
+        <!--<p:selectOneMenu value="#{sessionBean.projectRole}" converter="omnifaces.SelectItemsConverter">-->
+        <!--<f:selectItems value="#{sessionBean.projectRoles}" var="projectRole" itemValue="#{projectRole}"-->
+        <!--itemLabel="#{projectRole.name()}"/>-->
+        <!--</p:selectOneMenu>-->
+        <h:panelGrid columns="2" width="100%">
             <p:commandButton value="Add Expert" action="#{sessionBean.generateInvite(sessionBean.projectRoles.get(0))}"
                              update="invTable growl"/>
             <p:commandButton value="Add Organizer"

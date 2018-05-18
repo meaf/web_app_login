@@ -83,6 +83,11 @@ public class NavigationBean implements Serializable {
         return answerService.getAll();
     }
 
+    public List<Answer> answersAllByQuestion(Question question) {
+        return answerService.getAllByQuestion(question);
+    }
+
+
     /**
      * BY ROOT
      */

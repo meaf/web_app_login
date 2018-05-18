@@ -3,6 +3,7 @@ package com.meaf.core.dao.service.project;
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.entities.Answer;
 import com.meaf.core.entities.ProjectUserConnection;
+import com.meaf.core.entities.Question;
 import com.meaf.core.meta.EProjectRole;
 
 import javax.faces.bean.SessionScoped;
@@ -10,6 +11,7 @@ import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 @Named
@@ -61,5 +63,13 @@ public class AnswerService extends ABaseService<Answer> {
     public Answer add(Answer obj) throws Exception {
         obj.setUser(sessionManagementHelper.getCurrentUser());
         return super.add(obj);
+    }
+
+    public List<Answer> getAllByQuestion(Question question) {
+        return new ArrayList<>(getEntityManager()
+                .createQuery("select u from Answer u " +
+                        "where u.question = :question", Answer.class)
+                .setParameter("question", question)
+                .getResultList());
     }
 }
