@@ -15,16 +15,17 @@
         <div class="surveyTable">
             <tp:header/>
             <p:dataTable var="project" value="#{navigationBean.projects}">
-                <f:facet name="header">
-                    PROJECTS
-                </f:facet>
+                <f:facet name="header">PROJECTS</f:facet>
                 <p:column headerText="Project name" sortBy="#{project.name}" sortable="false">
                     <p:commandLink action="#{sessionBean.loadStages(project)}" value="#{project.name}"/>
                 </p:column>
                 <p:column headerText="Description" sortBy="#{project.description}" sortable="false">
                     <h:outputText value="#{project.description}"/>
                 </p:column>
-                <p:column style="width:32px;text-align: center">
+                <p:column headerText="Status" style="width:100px">
+                    <h:outputText value="#{statisticsBean.calculateStatus(project)}"/>
+                </p:column>
+                <p:column rendered="#{sessionBean.isOrganizingAny()}" style="width:37px;text-align: center">
                     <p:commandButton rendered="#{sessionBean.isOrganizing(project)}"
                                      icon="fa fa-fw fa-edit"
                                      title="Properties"

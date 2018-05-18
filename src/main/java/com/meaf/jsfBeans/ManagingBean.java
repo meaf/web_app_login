@@ -42,17 +42,17 @@ public class ManagingBean implements Serializable {
     private Project managedProject;
 
     public void loadAnswer(Question question) {
-        answerService.getBranch(question.getId());
+        answerService.getBranched(question.getId());
     }
 
     public void answerQuestionUser(Question question) {
-        List<Answer> answers = answerService.getBranch(question.getId());
+        List<Answer> answers = answerService.getBranched(question.getId());
         if (answers == null || answers.isEmpty())
             managedAnswer = new Answer("", EAnswerStatus.NEW, question, null);
         else managedAnswer = answers.get(0);
     }
 
-    public void addAnswer(boolean isCompleted) throws Exception {
+    public void addAnswer(boolean isCompleted) {
         Response response = new Response();
         if (managedAnswer.getText().isEmpty()) {
             managedAnswer.setStatus(EAnswerStatus.NEW);
@@ -96,7 +96,7 @@ public class ManagingBean implements Serializable {
         Project currentProject = projectService.getCurrentProject();
 
         projectStageService
-                .getBranch(currentProject.getId())
+                .getBranched(currentProject.getId())
                 .stream()
                 .max(Comparator.comparing(ProjectStage::getNumber))
                 .ifPresent(ps -> {

@@ -25,10 +25,10 @@ public class UserProfile implements Serializable {
     @Column(name = "PATRONYMIC")
     private String patronymic;
 
-    @Column(name = "phone")
+    @Column(name = "PHONE")
     private String phoneNumber;
 
-    @Column(name = "emailAddress")
+    @Column(name = "EMAIL")
     private String emailAddress;
 
     @OneToOne

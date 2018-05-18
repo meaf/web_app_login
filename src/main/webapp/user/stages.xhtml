@@ -16,19 +16,21 @@
             <tp:header/>
             <c:set var="currElement" value="#{sessionBean.currentProject}"/>
 
-            <p:dataTable id="stagesTable" var="step" value="#{navigationBean.projectSteps}">
-                <f:facet name="header">
-                    #{sessionBean.currentProject.name.toUpperCase()}
-                </f:facet>
+            <p:dataTable id="stagesTable" var="stage" value="#{navigationBean.projectStages}">
+                <f:facet name="header">#{sessionBean.currentProject.name.toUpperCase()}</f:facet>
 
-                <p:column headerText="name" sortBy="#{step.name}" sortable="false">
-                    <p:link outcome="surveys" value="#{step.name}">
-                        <f:param name="id" value="#{step.id}"/>
+                <p:column headerText="name" sortBy="#{stage.name}" sortable="false">
+                    <p:link outcome="surveys" value="#{stage.name}">
+                        <f:param name="id" value="#{stage.id}"/>
                     </p:link>
                 </p:column>
 
-                <p:column headerText="prevStageName" sortBy="#{step.previousStage.name}" sortable="false">
-                    <h:outputText value="#{step.previousStage.name}"/>
+                <p:column headerText="prevStageName" sortBy="#{stage.previousStage.name}" sortable="false">
+                    <h:outputText value="#{stage.previousStage.name}"/>
+                </p:column>
+
+                <p:column headerText="Status" style="width:100px">
+                    <h:outputText value="#{statisticsBean.calculateStatus(stage)}"/>
                 </p:column>
             </p:dataTable>
 

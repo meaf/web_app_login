@@ -106,15 +106,70 @@
         </insert>
         <insert tableName="USERS">
             <column name="ID">1</column>
+            <column name="USERNAME">volodymyr_sonechko</column>
+            <column name="PASSWORD">volodymyr_sonechko</column>
+            <column name="ROLE_ID">1</column>
+        </insert>
+        <insert tableName="USERS">
+            <column name="ID">2</column>
+            <column name="USERNAME">illia_mur</column>
+            <column name="PASSWORD">illia_mur</column>
+            <column name="ROLE_ID">1</column>
+        </insert>
+        <insert tableName="USERS">
+            <column name="ID">3</column>
             <column name="USERNAME">dobrynia_nick</column>
             <column name="PASSWORD">dobrynia_nick</column>
             <column name="ROLE_ID">1</column>
         </insert>
         <insert tableName="USERS">
-            <column name="ID">2</column>
+            <column name="ID">4</column>
             <column name="USERNAME">alyosha_pop</column>
             <column name="PASSWORD">alyosha_pop</column>
             <column name="ROLE_ID">1</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="userProfiles" author="meaf">
+        <insert tableName="USER_PROFILES">
+            <column name="ID">1</column>
+            <column name="USER_ID">1</column>
+            <column name="BIRTH_DATE">1955-12-05</column>
+            <column name="EMAIL">vson@fake.mail</column>
+            <column name="FIRST_NAME">Володимир</column>
+            <column name="LAST_NAME">Сонечко</column>
+            <column name="PATRONYMIC"></column>
+            <column name="PHONE">88005553535</column>
+        </insert>
+        <insert tableName="USER_PROFILES">
+            <column name="ID">2</column>
+            <column name="USER_ID">2</column>
+            <column name="BIRTH_DATE">1956-04-01</column>
+            <column name="EMAIL">imur@fake.mail</column>
+            <column name="FIRST_NAME">Ілля</column>
+            <column name="LAST_NAME">Муромець</column>
+            <column name="PATRONYMIC"></column>
+            <column name="PHONE"></column>
+        </insert>
+        <insert tableName="USER_PROFILES">
+            <column name="ID">3</column>
+            <column name="USER_ID">3</column>
+            <column name="BIRTH_DATE">1955-12-05</column>
+            <column name="EMAIL">vson@fake.mail</column>
+            <column name="FIRST_NAME">Добриня</column>
+            <column name="LAST_NAME">Микитович</column>
+            <column name="PATRONYMIC"></column>
+            <column name="PHONE"></column>
+        </insert>
+        <insert tableName="USER_PROFILES">
+            <column name="ID">4</column>
+            <column name="USER_ID">4</column>
+            <column name="BIRTH_DATE">1962-11-11</column>
+            <column name="EMAIL">apop@fake.mail</column>
+            <column name="FIRST_NAME">Олексій</column>
+            <column name="LAST_NAME">Попович</column>
+            <column name="PATRONYMIC"></column>
+            <column name="PHONE"></column>
         </insert>
     </changeSet>
 
@@ -130,13 +185,149 @@
             <column name="ID">1</column>
             <column name="PROJECT_ID">0</column>
             <column name="USER_ID">1</column>
-            <column name="ROLE">EXPERT</column>
+            <column name="ROLE">ORGANIZER</column>
         </insert>
         <insert tableName="PROJECT_USER_CONNECTIONS">
             <column name="ID">2</column>
             <column name="PROJECT_ID">0</column>
             <column name="USER_ID">2</column>
-            <column name="ROLE">ORGANIZER</column>
+            <column name="ROLE">EXPERT</column>
+        </insert>
+        <insert tableName="PROJECT_USER_CONNECTIONS">
+            <column name="ID">3</column>
+            <column name="PROJECT_ID">0</column>
+            <column name="USER_ID">3</column>
+            <column name="ROLE">EXPERT</column>
+        </insert>
+        <insert tableName="PROJECT_USER_CONNECTIONS">
+            <column name="ID">4</column>
+            <column name="PROJECT_ID">0</column>
+            <column name="USER_ID">4</column>
+            <column name="ROLE">EXPERT</column>
+        </insert>
+        <insert tableName="PROJECT_USER_CONNECTIONS">
+            <column name="ID">10</column>
+            <column name="PROJECT_ID">0</column>
+            <column name="USER_ID"></column>
+            <column name="ROLE">EXPERT</column>
+            <column name="INVITE">XOXOXOXO</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="answersIllia" author="meaf">
+        <insert tableName="ANSWERS">
+            <column name="ID">20</column>
+            <column name="USER_ID">2</column>
+            <column name="QUESTION_ID">0</column>
+            <column name="LAST_UPDATE">2018-05-15</column>
+            <column name="STATUS">DRAFT</column>
+            <column name="TEXT">Illia's draft safe 0</column>
+            <column name="COMMENT">commment safe draft tho</column>
+        </insert>
+        <insert tableName="ANSWERS">
+            <column name="ID">21</column>
+            <column name="USER_ID">2</column>
+            <column name="QUESTION_ID">1</column>
+            <column name="LAST_UPDATE">2018-05-13</column>
+            <column name="STATUS">SUBMITTED</column>
+            <column name="TEXT">Illia's answer help 1</column>
+            <column name="COMMENT"></column>
+        </insert>
+        <insert tableName="ANSWERS">
+            <column name="ID">24</column>
+            <column name="USER_ID">2</column>
+            <column name="QUESTION_ID">4</column>
+            <column name="LAST_UPDATE">2018-05-11</column>
+            <column name="STATUS">NEW</column>
+            <column name="TEXT"></column>
+            <column name="COMMENT">comment tho</column>
+        </insert>
+        <insert tableName="ANSWERS">
+            <column name="ID">25</column>
+            <column name="USER_ID">2</column>
+            <column name="QUESTION_ID">5</column>
+            <column name="LAST_UPDATE">2018-05-12</column>
+            <column name="STATUS">SUBMITTED</column>
+            <column name="TEXT">Illia's answer addInfo</column>
+            <column name="COMMENT"></column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="answersDobrynia" author="meaf">
+        <insert tableName="ANSWERS">
+            <column name="ID">32</column>
+            <column name="USER_ID">3</column>
+            <column name="QUESTION_ID">2</column>
+            <column name="LAST_UPDATE">2018-05-14</column>
+            <column name="STATUS">DRAFT</column>
+            <column name="TEXT">Dobrynia's draft zasoby</column>
+            <column name="COMMENT"></column>
+        </insert>
+        <insert tableName="ANSWERS">
+            <column name="ID">33</column>
+            <column name="USER_ID">3</column>
+            <column name="QUESTION_ID">3</column>
+            <column name="LAST_UPDATE">2018-05-15</column>
+            <column name="STATUS">SUBMITTED</column>
+            <column name="TEXT">Dobrynia's answer umovy</column>
+            <column name="COMMENT"></column>
+        </insert>
+        <insert tableName="ANSWERS">
+            <column name="ID">34</column>
+            <column name="USER_ID">3</column>
+            <column name="QUESTION_ID">4</column>
+            <column name="LAST_UPDATE">2018-05-15</column>
+            <column name="STATUS">NEW</column>
+            <column name="TEXT"></column>
+            <column name="COMMENT">comment tho</column>
+        </insert>
+        <insert tableName="ANSWERS">
+            <column name="ID">35</column>
+            <column name="USER_ID">3</column>
+            <column name="QUESTION_ID">5</column>
+            <column name="LAST_UPDATE">2018-05-15</column>
+            <column name="STATUS">SUBMITTED</column>
+            <column name="TEXT">Dobrynia's answer addinfo</column>
+            <column name="COMMENT">and comment tho</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="answersPopovych" author="meaf">
+        <insert tableName="ANSWERS">
+            <column name="ID">41</column>
+            <column name="USER_ID">4</column>
+            <column name="QUESTION_ID">1</column>
+            <column name="LAST_UPDATE">2018-05-12</column>
+            <column name="STATUS">DRAFT</column>
+            <column name="TEXT">Popovych's draft help</column>
+            <column name="COMMENT"></column>
+        </insert>
+        <insert tableName="ANSWERS">
+            <column name="ID">42</column>
+            <column name="USER_ID">4</column>
+            <column name="QUESTION_ID">2</column>
+            <column name="LAST_UPDATE">2018-05-13</column>
+            <column name="STATUS">SUBMITTED</column>
+            <column name="TEXT">Popovych's answer boom</column>
+            <column name="COMMENT"></column>
+        </insert>
+        <insert tableName="ANSWERS">
+            <column name="ID">44</column>
+            <column name="USER_ID">4</column>
+            <column name="QUESTION_ID">4</column>
+            <column name="LAST_UPDATE">2018-05-16</column>
+            <column name="STATUS">NEW</column>
+            <column name="TEXT"></column>
+            <column name="COMMENT">comment tho</column>
+        </insert>
+        <insert tableName="ANSWERS">
+            <column name="ID">45</column>
+            <column name="USER_ID">4</column>
+            <column name="QUESTION_ID">5</column>
+            <column name="LAST_UPDATE">2018-05-18</column>
+            <column name="STATUS">SUBMITTED</column>
+            <column name="TEXT">Popovych's answer addinfo</column>
+            <column name="COMMENT">and comment tho</column>
         </insert>
     </changeSet>
 

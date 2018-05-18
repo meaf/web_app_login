@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Named
 public class ProjectUserConnectionService extends ABaseService<ProjectUserConnection> {
     @Override
-    public List<ProjectUserConnection> getBranch(Long rootNode) throws IllegalAccessException {
+    public List<ProjectUserConnection> getBranched(Long rootNode) throws IllegalAccessException {
         throw new IllegalAccessException("has no root");
     }
 
@@ -60,7 +60,7 @@ public class ProjectUserConnectionService extends ABaseService<ProjectUserConnec
                 .getResultList().isEmpty();
     }
 
-    public Response addInvite(EProjectRole role, String invite) throws Exception {
+    public Response addInvite(EProjectRole role, String invite) {
         Response response = new Response();
         try {
             super.add(new ProjectUserConnection(invite,
@@ -81,15 +81,19 @@ public class ProjectUserConnectionService extends ABaseService<ProjectUserConnec
     }
 
     public List<Project> getUserProjects(User user) {
+        return getUserConnections(user)
+                .stream()
+                .map(ProjectUserConnection::getProject)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProjectUserConnection> getUserConnections(User user) {
         return getEntityManager()
                 .createQuery("select u from ProjectUserConnection u " +
                         "where u.user = :user " +
                         "and u.role = :role", ProjectUserConnection.class)
                 .setParameter("user", user)
                 .setParameter("role", EProjectRole.ORGANIZER)
-                .getResultList()
-                .stream()
-                .map(ProjectUserConnection::getProject)
-                .collect(Collectors.toList());
+                .getResultList();
     }
 }

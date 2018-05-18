@@ -21,7 +21,7 @@ public class ProjectService extends ABaseService<Project> {
 
 
     @Override
-    public List<Project> getBranch(Long rootNode) throws IllegalAccessException {
+    public List<Project> getBranched(Long rootNode) throws IllegalAccessException {
         throw new IllegalAccessException("is the rootest");
     }
 

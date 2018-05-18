@@ -70,7 +70,7 @@ public class UserService extends ABaseService<User> {
     }
 
     @Override
-    public List<User> getBranch(Long rootNode) throws IllegalAccessException {
+    public List<User> getBranched(Long rootNode) throws IllegalAccessException {
         throw new IllegalAccessException("has no root");
     }
 

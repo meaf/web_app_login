@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -60,7 +61,7 @@ public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
 
     protected <P extends IProjectElement> List<P> filterOtherUsers(List<P> projElements) {
         if (projElements == null)
-            return null;
+            return new LinkedList<>();
         return projElements.stream().filter(userFilter).collect(Collectors.toList());
     }
 

@@ -36,7 +36,7 @@ public class NavigationBean implements Serializable {
         return projectService.getAll();
     }
 
-    public List<ProjectStage> getProjectSteps() {
+    public List<ProjectStage> getProjectStages() {
         httpRequest.getRemoteUser();
         return projectStageService.getAll();
     }
@@ -91,20 +91,20 @@ public class NavigationBean implements Serializable {
     /**
      * BY ROOT
      */
-    public List<ProjectStage> stagesBranched(Long rootId) throws IllegalAccessException {
-        return projectStageService.getBranch(rootId);
+    public List<ProjectStage> stagesBranched(Long rootId) {
+        return projectStageService.getBranched(rootId);
     }
 
-    public List<Survey> surveysBranched(Long rootId) throws IllegalAccessException {
-        return surveyService.getBranch(rootId);
+    public List<Survey> surveysBranched(Long rootId) {
+        return surveyService.getBranched(rootId);
     }
 
-    public List<Question> questionsBranched(Long rootId) throws IllegalAccessException {
-        return questionService.getBranch(rootId);
+    public List<Question> questionsBranched(Long rootId) {
+        return questionService.getBranched(rootId);
     }
 
     public List<Answer> answersBranched(Long rootId) {
-        return answerService.getBranch(rootId);
+        return answerService.getBranched(rootId);
     }
 
     public List<ProjectUserConnection> getValidInvites() {

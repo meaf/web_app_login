@@ -19,7 +19,7 @@ public class SurveyService extends ABaseService<Survey> {
     }
 
     @Override
-    public List<Survey> getBranch(Long rootNode) throws IllegalAccessException {
+    public List<Survey> getBranched(Long rootNode) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Survey> cq = cb.createQuery(Survey.class);
         Root<Survey> root = cq.from(Survey.class);

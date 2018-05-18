@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Named
@@ -19,7 +20,7 @@ import java.util.List;
 public class AnswerService extends ABaseService<Answer> {
 
     @Override
-    public List<Answer> getBranch(Long rootNode) {
+    public List<Answer> getBranched(Long rootNode) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Answer> cq = cb.createQuery(Answer.class);
         Root<Answer> root = cq.from(Answer.class);
@@ -34,7 +35,7 @@ public class AnswerService extends ABaseService<Answer> {
             if (EProjectRole.ORGANIZER.equals(connection.getRole()))
                 return answers;
         }
-        return null;
+        return new LinkedList<>();
     }
 
     @Override

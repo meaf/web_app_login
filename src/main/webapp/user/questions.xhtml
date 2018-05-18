@@ -20,9 +20,8 @@
             #{managingBean.setManagedSurvey(currElement)}
             <p:dataTable id="questionsTable" var="question"
                          value="#{navigationBean.questionsBranched(managingBean.managedSurvey.id)}">
-                <f:facet name="header">
-                    #{managingBean.managedSurvey.topic.toUpperCase()}
-                </f:facet>
+                <f:facet name="header">#{managingBean.managedSurvey.topic.toUpperCase()}</f:facet>
+
                 <p:column headerText="Question" sortBy="#{question.title}" sortable="false">
                     <p:link outcome="answer" value="#{question.title}">
                         <f:param name="id" value="#{question.id}"/>
@@ -31,6 +30,10 @@
 
                 <p:column headerText="description" sortBy="#{question.description}" sortable="false">
                     <p:outputLabel value="#{question.description}"/>
+                </p:column>
+
+                <p:column headerText="Status" style="width:100px">
+                    <h:outputText value="#{statisticsBean.calculateStatus(question)}"/>
                 </p:column>
             </p:dataTable>
 

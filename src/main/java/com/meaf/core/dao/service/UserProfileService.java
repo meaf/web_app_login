@@ -9,7 +9,7 @@ import java.util.List;
 @Named
 public class UserProfileService extends ABaseService<UserProfile> {
     @Override
-    public List<UserProfile> getBranch(Long rootNode) throws IllegalAccessException {
+    public List<UserProfile> getBranched(Long rootNode) throws IllegalAccessException {
         throw new IllegalAccessException("has no root");
     }
 

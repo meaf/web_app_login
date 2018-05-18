@@ -13,7 +13,7 @@ import java.util.List;
 public class ProjectStageService extends ABaseService<ProjectStage> {
 
     @Override
-    public List<ProjectStage> getBranch(Long rootNode) throws IllegalAccessException {
+    public List<ProjectStage> getBranched(Long rootNode) {
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<ProjectStage> cq = cb.createQuery(ProjectStage.class);

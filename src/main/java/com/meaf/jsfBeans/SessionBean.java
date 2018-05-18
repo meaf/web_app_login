@@ -184,6 +184,12 @@ public class SessionBean implements Serializable {
         return projectUserConnectionService.getUserProjects(currentUser).stream().anyMatch(p -> p.getId() == project.getId());
     }
 
+
+    public boolean isOrganizingAny() {
+        List<ProjectUserConnection> connections = projectUserConnectionService.getUserConnections(sessionManagementHelper.getCurrentUser());
+        return connections.stream().anyMatch(c -> c.getRole() == EProjectRole.ORGANIZER);
+    }
+
     /**
      * GET SET section
      */

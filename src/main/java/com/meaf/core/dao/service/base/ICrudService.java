@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ICrudService<T> {
 
-    List<T> getBranch(Long rootNode) throws IllegalAccessException;
+    List<T> getBranched(Long rootNode) throws IllegalAccessException;
 
     List<T> getAll();
 

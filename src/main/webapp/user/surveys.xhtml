@@ -18,18 +18,17 @@
             <c:set var="currElement" value="#{navigationBean.projectStageById(id)}"/>
             #{managingBean.setManagedProjectStage(currElement)}
 
-            <p:dataTable id="surveysTable" var="surv"
+            <p:dataTable id="surveysTable" var="survey"
                          value="#{navigationBean.surveysBranched(managingBean.managedProjectStage.id)}">
-                <f:facet name="header">
-                    #{managingBean.managedProjectStage.name.toUpperCase()}
-                </f:facet>
-                <p:column headerText="name" sortBy="#{surv.topic}" sortable="false">
-                    <p:link outcome="questions" value="#{surv.topic}">
-                        <f:param name="id" value="#{surv.id}"/>
+                <f:facet name="header">#{managingBean.managedProjectStage.name.toUpperCase()}</f:facet>
+                <p:column headerText="name" sortBy="#{survey.topic}" sortable="false">
+                    <p:link outcome="questions" value="#{survey.topic}">
+                        <f:param name="id" value="#{survey.id}"/>
                     </p:link>
                 </p:column>
-                <p:column headerText="status" sortBy="#{surv.status}" sortable="false">
-                    <h:outputText value="#{surv.status}"/>
+
+                <p:column headerText="Status" style="width:100px">
+                    <h:outputText value="#{statisticsBean.calculateStatus(survey)}"/>
                 </p:column>
             </p:dataTable>
 

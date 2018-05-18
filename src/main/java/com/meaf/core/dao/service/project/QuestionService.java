@@ -20,7 +20,7 @@ public class QuestionService extends ABaseService<Question> {
     }
 
     @Override
-    public List<Question> getBranch(Long rootNode) throws IllegalAccessException {
+    public List<Question> getBranched(Long rootNode) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Question> cq = cb.createQuery(Question.class);
         Root<Question> root = cq.from(Question.class);
