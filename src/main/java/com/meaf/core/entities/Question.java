@@ -118,4 +118,8 @@ public class Question implements Serializable, IProjectElement {
         lastUpdate = new Date();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Question && ((Question) obj).getId().equals(id);
+    }
 }

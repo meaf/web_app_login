@@ -45,4 +45,10 @@ public class Role implements Serializable {
     public String toString() {
         return String.format("%s[id=%d]", getClass().getSimpleName(), getId());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Role && ((Role) obj).getId().equals(id);
+    }
+
 }

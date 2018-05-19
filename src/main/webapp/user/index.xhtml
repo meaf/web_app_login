@@ -30,7 +30,13 @@
                                      icon="fa fa-fw fa-edit"
                                      title="Properties"
                                      oncomplete="PF('invs').show()">
-                        <!--<f:setPropertyActionListener value="#{project}" target="#{dtSelectionView.selectedCar}"/>-->
+                    </p:commandButton>
+                </p:column>
+                <p:column style="width:37px;text-align: center">
+                    <p:commandButton icon="fa fa-fw fa-pie-chart"
+                                     title="Statistics"
+                                     onclick="#{statisticsBean.setHandledProject(project)}"
+                                     oncomplete="PF('stats').show()">
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -59,6 +65,20 @@
                              action="#{sessionBean.generateInvite(sessionBean.projectRoles.get(1))}"
                              update="invTable growl"/>
         </h:panelGrid>
+    </p:dialog>
+
+    <p:dialog header="Statatistic" width="80%" showEffect="fade" modal="true" hideEffect="fade" widgetVar="stats"
+              resizable="false">
+
+        <p:tabView dynamic="true" cache="true" effect="fold">
+            <p:tab title="General info">
+                <p:chart type="pie" model="#{statisticsBean.drawPieChart()}" style="width:400px;height:300px"/>
+            </p:tab>
+            <p:tab title="Users specific">
+                <p:chart type="bar" model="#{statisticsBean.drawBarChart()}" style=""/>
+            </p:tab>
+        </p:tabView>
+
     </p:dialog>
 </h:body>
 </html>

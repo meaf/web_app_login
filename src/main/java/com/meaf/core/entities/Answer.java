@@ -143,4 +143,8 @@ public class Answer implements Serializable, IProjectElement {
         lastUpdate = new Date();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Answer && ((Answer) obj).getId().equals(id);
+    }
 }

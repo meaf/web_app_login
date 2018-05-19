@@ -114,4 +114,8 @@ public class ProjectUserConnection implements Serializable {
         lastUpdate = new Date();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ProjectUserConnection && ((ProjectUserConnection) obj).getId().equals(id);
+    }
 }

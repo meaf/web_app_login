@@ -128,4 +128,8 @@ public class Survey implements Serializable, IProjectElement {
         lastUpdate = new Date();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Survey && ((Survey) obj).getId().equals(id);
+    }
 }

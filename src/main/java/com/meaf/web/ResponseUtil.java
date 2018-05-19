@@ -1,6 +1,6 @@
 //package com.meaf.web;
 //
-//import com.meaf.core.dao.service.UserService;
+//import com.meaf.core.dao.service.users.UserService;
 //import com.meaf.core.entities.Role;
 //
 //import javax.inject.Inject;

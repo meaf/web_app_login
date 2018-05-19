@@ -27,7 +27,7 @@ public class Project implements Serializable, IProjectElement {
     @Column(name = "LAST_ACTION")
     private Date lastAction;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -90,4 +90,8 @@ public class Project implements Serializable, IProjectElement {
         lastUpdate = new Date();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Project && ((Project) obj).getId().equals(id);
+    }
 }

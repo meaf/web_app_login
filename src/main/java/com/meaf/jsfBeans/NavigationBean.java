@@ -1,18 +1,16 @@
 package com.meaf.jsfBeans;
 
-import com.meaf.core.dao.service.ProjectUserConnectionService;
 import com.meaf.core.dao.service.project.*;
+import com.meaf.core.dao.service.users.ProjectUserConnectionService;
 import com.meaf.core.entities.*;
 
-import javax.annotation.ManagedBean;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
 
-@Named
 @ManagedBean
 @RequestScoped
 public class NavigationBean implements Serializable {

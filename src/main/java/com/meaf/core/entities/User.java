@@ -67,4 +67,9 @@ public class User implements Serializable {
 
     public User() {
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof User && ((User) obj).getId().equals(id);
+    }
 }

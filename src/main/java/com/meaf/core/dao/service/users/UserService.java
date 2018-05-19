@@ -1,4 +1,4 @@
-package com.meaf.core.dao.service;
+package com.meaf.core.dao.service.users;
 
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.dao.service.base.Response;

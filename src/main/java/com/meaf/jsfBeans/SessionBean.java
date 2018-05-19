@@ -1,17 +1,20 @@
 package com.meaf.jsfBeans;
 
-import com.meaf.core.dao.service.*;
+import com.meaf.core.dao.service.MiscHelper;
+import com.meaf.core.dao.service.SessionManagementHelper;
 import com.meaf.core.dao.service.base.Response;
+import com.meaf.core.dao.service.users.ProjectUserConnectionService;
+import com.meaf.core.dao.service.users.UserProfileService;
+import com.meaf.core.dao.service.users.UserService;
 import com.meaf.core.entities.*;
 import com.meaf.core.meta.EProjectRole;
 import com.meaf.core.meta.EUserRole;
 
-import javax.annotation.ManagedBean;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,7 +22,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-@Named
 @ManagedBean
 @RequestScoped
 public class SessionBean implements Serializable {
@@ -181,12 +183,12 @@ public class SessionBean implements Serializable {
 
     public boolean isOrganizing(Project project) {
         User currentUser = sessionManagementHelper.getCurrentUser();
-        return projectUserConnectionService.getUserProjects(currentUser).stream().anyMatch(p -> p.getId() == project.getId());
+        return projectUserConnectionService.getUserProjects(currentUser, EProjectRole.ORGANIZER).stream().anyMatch(p -> p.getId() == project.getId());
     }
 
 
     public boolean isOrganizingAny() {
-        List<ProjectUserConnection> connections = projectUserConnectionService.getUserConnections(sessionManagementHelper.getCurrentUser());
+        List<ProjectUserConnection> connections = projectUserConnectionService.getUserConnections(sessionManagementHelper.getCurrentUser(), EProjectRole.ORGANIZER);
         return connections.stream().anyMatch(c -> c.getRole() == EProjectRole.ORGANIZER);
     }
 

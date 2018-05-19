@@ -21,12 +21,7 @@ public class AnswerService extends ABaseService<Answer> {
 
     @Override
     public List<Answer> getBranched(Long rootNode) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Answer> cq = cb.createQuery(Answer.class);
-        Root<Answer> root = cq.from(Answer.class);
-        cq.select(root).where(cb.equal(root.get("question").get("id"), rootNode));
-        List<Answer> answers = getEntityManager().createQuery(cq).getResultList();
-
+        List<Answer> answers = getBranchedUnfiltered(rootNode);
         ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
         if (connection != null) {
             if (EProjectRole.EXPERT.equals(connection.getRole())) {
@@ -64,6 +59,15 @@ public class AnswerService extends ABaseService<Answer> {
     public Answer add(Answer obj) throws Exception {
         obj.setUser(sessionManagementHelper.getCurrentUser());
         return super.add(obj);
+    }
+
+    public List<Answer> getBranchedUnfiltered(Long rootNode) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Answer> cq = cb.createQuery(Answer.class);
+        Root<Answer> root = cq.from(Answer.class);
+        cq.select(root).where(cb.equal(root.get("question").get("id"), rootNode));
+        List<Answer> answers = getEntityManager().createQuery(cq).getResultList();
+        return answers;
     }
 
     public List<Answer> getAllByQuestion(Question question) {

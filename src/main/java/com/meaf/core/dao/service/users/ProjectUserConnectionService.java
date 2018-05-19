@@ -1,4 +1,4 @@
-package com.meaf.core.dao.service;
+package com.meaf.core.dao.service.users;
 
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.dao.service.base.Response;
@@ -80,20 +80,32 @@ public class ProjectUserConnectionService extends ABaseService<ProjectUserConnec
         return response;
     }
 
-    public List<Project> getUserProjects(User user) {
-        return getUserConnections(user)
+    public List<Project> getUserProjects(User user, EProjectRole role) {
+        return getUserConnections(user, role)
                 .stream()
                 .map(ProjectUserConnection::getProject)
                 .collect(Collectors.toList());
     }
 
-    public List<ProjectUserConnection> getUserConnections(User user) {
+    public List<ProjectUserConnection> getUserConnections(User user, EProjectRole role) {
         return getEntityManager()
                 .createQuery("select u from ProjectUserConnection u " +
                         "where u.user = :user " +
                         "and u.role = :role", ProjectUserConnection.class)
                 .setParameter("user", user)
-                .setParameter("role", EProjectRole.ORGANIZER)
+                .setParameter("role", role)
                 .getResultList();
     }
+
+    public List<ProjectUserConnection> getProjectConnections(Project project, EProjectRole role) {
+        return getEntityManager()
+                .createQuery("select u from ProjectUserConnection u " +
+                        "where u.project = :project " +
+                        "and u.role = :role " +
+                        "and u.user is not null ", ProjectUserConnection.class)
+                .setParameter("project", project)
+                .setParameter("role", role)
+                .getResultList();
+    }
+
 }

@@ -49,4 +49,9 @@ public class SysProperties implements Serializable {
 
     public SysProperties() {
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof SysProperties && ((SysProperties) obj).getId().equals(id);
+    }
 }

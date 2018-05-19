@@ -5,35 +5,29 @@ import com.meaf.core.dao.service.project.*;
 import com.meaf.core.entities.*;
 import com.meaf.core.meta.EAnswerStatus;
 
-import javax.annotation.ManagedBean;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
-@Named
 @ManagedBean
 @ViewScoped
 public class ManagingBean implements Serializable {
 
-    private ProjectService projectService;
-    private ProjectStageService projectStageService;
-    private SurveyService surveyService;
-    private QuestionService questionService;
-    private AnswerService answerService;
-
     @Inject
-    public ManagingBean(AnswerService answerService, ProjectService projectService, ProjectStageService projectStageService, QuestionService questionService, SurveyService surveyService) {
-        this.answerService = answerService;
-        this.projectService = projectService;
-        this.projectStageService = projectStageService;
-        this.questionService = questionService;
-        this.surveyService = surveyService;
-    }
+    private ProjectService projectService;
+    @Inject
+    private ProjectStageService projectStageService;
+    @Inject
+    private SurveyService surveyService;
+    @Inject
+    private QuestionService questionService;
+    @Inject
+    private AnswerService answerService;
 
     private Answer managedAnswer;
     private Question managedQuestion;

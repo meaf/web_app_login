@@ -129,5 +129,9 @@ public class UserProfile implements Serializable {
         lastUpdate = new Date();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof UserProfile && ((UserProfile) obj).getId().equals(id);
+    }
 }
 
