@@ -132,31 +132,40 @@ public class StatisticsBean implements Serializable {
 
 
     public String calculateStatus(Question question) {
-        ESurveyStatus status = calculate(answersAccountant.getQuestionRelatedAnswers(question, isUserInProjectRole(EProjectRole.EXPERT)));
+        ESurveyStatus status = calculate(
+                answersAccountant.getQuestionRelatedAnswers(question, isUserInProjectRole(EProjectRole.EXPERT)),
+                1); // only one answer to question
         return status.name();
     }
 
     public String calculateStatus(Survey survey) {
-        ESurveyStatus status = calculate(answersAccountant.getSurveyRelatedAnswers(survey, isUserInProjectRole(EProjectRole.EXPERT)));
+        ESurveyStatus status = calculate(
+                answersAccountant.getSurveyRelatedAnswers(survey, isUserInProjectRole(EProjectRole.EXPERT)),
+                answersAccountant.getSurveyRelatedQuestions(survey).size());
         return status.name();
     }
 
     public String calculateStatus(ProjectStage projectStage) {
-        ESurveyStatus status = calculate(answersAccountant.getStagesRelatedAnswers(projectStage, isUserInProjectRole(EProjectRole.EXPERT)));
+        ESurveyStatus status = calculate(
+                answersAccountant.getStagesRelatedAnswers(projectStage, isUserInProjectRole(EProjectRole.EXPERT)),
+                answersAccountant.getStagesRelatedQuestions(projectStage).size());
         return status.name();
     }
 
     public String calculateStatus(Project project) {
-        ESurveyStatus status = calculate(answersAccountant.getProjectRelatedAnswers(project));
+        ESurveyStatus status = calculate(
+                answersAccountant.getProjectRelatedAnswers(project),
+                answersAccountant.getProjectRelatedQuestions(project).size());
         return status.name();
     }
 
-    public ESurveyStatus calculate(List<Answer> answers) {
+    public ESurveyStatus calculate(List<Answer> answers, int expectedAnswersAmount) {
+        if (expectedAnswersAmount == answers.size() && answers.size() != 0) {
+            if (answers.stream().allMatch(q -> q.getStatus().equals(EAnswerStatus.SUBMITTED)))
+                return ESurveyStatus.ANSWERED;
+        }
         if (answers.stream().allMatch(q -> q.getStatus().equals(EAnswerStatus.NEW)))
             return ESurveyStatus.NEW;
-        if (answers.stream().allMatch(q -> q.getStatus().equals(EAnswerStatus.SUBMITTED)))
-            return ESurveyStatus.ANSWERED;
-
         if (answers.stream().anyMatch(q -> q.getStatus().equals(EAnswerStatus.SUBMITTED)))
             return ESurveyStatus.PARTIALY_ANSWERED;
         if (answers.stream().anyMatch(q -> q.getStatus().equals(EAnswerStatus.DRAFT)))
