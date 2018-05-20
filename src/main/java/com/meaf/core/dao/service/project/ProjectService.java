@@ -31,7 +31,7 @@ public class ProjectService extends ABaseService<Project> {
                 .createQuery("select u from Project u", Project.class)
                 .getResultList()
                 .stream()
-                .filter(userFilter)
+                .filter(userProjectFilter)
                 .collect(Collectors.toList());
     }
 

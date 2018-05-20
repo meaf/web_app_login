@@ -12,14 +12,16 @@
 </h:head>
 <h:body>
     <h:form>
+        <p:growl id="growl" showDetail="true" life="1000"/>
+        <c:set var="id" value="#{param['id']}"/>
+        <c:set var="currElement" value="#{navigationBean.projectStageById(id)}"/>
         <div class="surveyTable">
             <tp:header/>
-            <c:set var="id" value="#{param['id']}"/>
-            <c:set var="currElement" value="#{navigationBean.projectStageById(id)}"/>
             #{managingBean.setManagedProjectStage(currElement)}
 
             <p:dataTable id="surveysTable" var="survey"
                          value="#{navigationBean.surveysBranched(managingBean.managedProjectStage.id)}">
+                <h1>#{id}</h1>
                 <f:facet name="header">#{managingBean.managedProjectStage.name.toUpperCase()}</f:facet>
                 <p:column headerText="name" sortBy="#{survey.topic}" sortable="false">
                     <p:link outcome="questions" value="#{survey.topic}">
@@ -30,16 +32,39 @@
                 <p:column headerText="Status" style="width:100px">
                     <h:outputText value="#{statisticsBean.calculateStatus(survey)}"/>
                 </p:column>
+                <p:column rendered="#{sessionBean.userOrganizer and managingBean.canUserDeleteAnySurvey(currElement)}"
+                          style="width:37px;text-align: center">
+                    <p:commandButton
+                            rendered="#{sessionBean.userOrganizer and sessionBean.canUserDelete(statisticsBean.calculateStatus(survey))}"
+                            icon="fa fa-trash-o"
+                            title="Delete"
+                            oncomplete="PF('delConfirm').show()">
+                    </p:commandButton>
+                </p:column>
+
+                <p:dialog header="Delete?" width="20%" resizable="false" closable="false"
+                          modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
+                    <h:panelGrid columns="2" width="90%">
+                        <p:commandButton value="Submit" action="#{managingBean.removeSurvey()}"
+                                         update="growl stagesTable"
+                                         oncomplete="PF('delConfirm').hide()"/>
+                        <p:commandButton value="Cancel" oncomplete="PF('delConfirm').hide()"/>
+                    </h:panelGrid>
+                </p:dialog>
             </p:dataTable>
 
-            <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
-                <p:outputLabel value="Add Survey: "/>
-                <p:inputText value="#{managingBean.managedSurvey.topic}"/>
-                <p:commandLink value="add" action="#{managingBean.addSurvey}" update="surveysTable"/>
-                <p:commandLink value="refresh">
-                    <f:ajax execute="@form" render="surveysTable"/>
-                </p:commandLink>
-            </h:panelGrid>
+
+            <div align="right">
+                <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
+                    <p:outputLabel value="Add Survey: "/>
+                    <p:inputText value="#{managingBean.managedSurvey.topic}" placeholder="topic"/>
+                    <p:inputText value="#{managingBean.managedSurvey.description}" placeholder="description"/>
+                    <p:commandButton value="add" action="#{managingBean.addSurvey}" update="surveysTable growl"/>
+                    <p:commandButton value="refresh">
+                        <f:ajax execute="@form" render="surveysTable"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </div>
         </div>
     </h:form>
 </h:body>

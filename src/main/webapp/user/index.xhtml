@@ -10,7 +10,7 @@
     <title>Project</title>
 </h:head>
 <h:body>
-    <p:growl id="growl" showDetail="true"/>
+    <p:growl id="growl" showDetail="true" life="1000"/>
     <h:form>
         <div class="surveyTable">
             <tp:header/>
@@ -27,13 +27,13 @@
                 </p:column>
                 <p:column rendered="#{sessionBean.isOrganizingAny()}" style="width:37px;text-align: center">
                     <p:commandButton rendered="#{sessionBean.isOrganizing(project)}"
-                                     icon="fa fa-fw fa-edit"
+                                     icon="fa fa-edit"
                                      title="Properties"
                                      oncomplete="PF('invs').show()">
                     </p:commandButton>
                 </p:column>
                 <p:column style="width:37px;text-align: center">
-                    <p:commandButton icon="fa fa-fw fa-pie-chart"
+                    <p:commandButton icon="fa fa-pie-chart"
                                      title="Statistics"
                                      onclick="#{statisticsBean.setHandledProject(project)}"
                                      oncomplete="PF('stats').show()">
@@ -67,15 +67,20 @@
         </h:panelGrid>
     </p:dialog>
 
-    <p:dialog header="Statatistic" width="80%" showEffect="fade" modal="true" hideEffect="fade" widgetVar="stats"
+    <p:dialog width="60%" showEffect="fade" modal="true" hideEffect="fade" widgetVar="stats"
               resizable="false">
+
 
         <p:tabView dynamic="true" cache="true" effect="fold">
             <p:tab title="General info">
-                <p:chart type="pie" model="#{statisticsBean.drawPieChart()}" style="width:400px;height:300px"/>
+                <div align="center">
+                    <p:chart type="pie" model="#{statisticsBean.drawPieChart()}" style="width:600px;height:400px"/>
+                </div>
             </p:tab>
             <p:tab title="Users specific">
-                <p:chart type="bar" model="#{statisticsBean.drawBarChart()}" style=""/>
+                <div align="center">
+                    <p:chart type="bar" model="#{statisticsBean.drawBarChart()}" style=""/>
+                </div>
             </p:tab>
         </p:tabView>
 

@@ -8,6 +8,7 @@ import com.meaf.core.dao.service.users.UserProfileService;
 import com.meaf.core.dao.service.users.UserService;
 import com.meaf.core.entities.*;
 import com.meaf.core.meta.EProjectRole;
+import com.meaf.core.meta.ESurveyStatus;
 import com.meaf.core.meta.EUserRole;
 
 import javax.faces.application.FacesMessage;
@@ -122,7 +123,9 @@ public class SessionBean implements Serializable {
                 redirectPage = "/user/index.xhtml";
             context.getExternalContext().redirect(redirectPage);
         } catch (ServletException se) {
-            context.addMessage("loginForm:username", new FacesMessage("Authentication Failed. Check username or password."));
+            password = "";
+            Response response = new Response(FacesMessage.SEVERITY_ERROR, "Authentication Failed", "Incorrect username or password");
+            addToast(response);
         }
     }
 
@@ -186,11 +189,16 @@ public class SessionBean implements Serializable {
         return projectUserConnectionService.getUserProjects(currentUser, EProjectRole.ORGANIZER).stream().anyMatch(p -> p.getId() == project.getId());
     }
 
-
     public boolean isOrganizingAny() {
         List<ProjectUserConnection> connections = projectUserConnectionService.getUserConnections(sessionManagementHelper.getCurrentUser(), EProjectRole.ORGANIZER);
         return connections.stream().anyMatch(c -> c.getRole() == EProjectRole.ORGANIZER);
     }
+
+    public boolean canUserDelete(String status) {
+        return sessionManagementHelper.getCurrentSessionProjectUserConnection().getRole() == EProjectRole.ORGANIZER
+                && status.trim().equals(ESurveyStatus.NEW.name());
+    }
+
 
     /**
      * GET SET section

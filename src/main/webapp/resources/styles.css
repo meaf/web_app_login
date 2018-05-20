@@ -48,6 +48,7 @@ table.wide>*>*>*>input{
     width: 95%;
     margin: 0 auto 0 auto;
     padding: 10px 0px;
+    text-align: justify;
 }
 
 .box{
@@ -69,4 +70,19 @@ table.wide>*>*>*>input{
     width: 95%;
     margin: 0 auto 0 auto;
     padding: 10px 0px;
+}
+
+.transparentBG{
+    background: transparent;
+    border: 0;
+}
+
+table.transparentBG>*>*>td{
+    background: transparent;
+    border-width: 0!important;
+}
+
+table.transparentBG>*>tr{
+    background: transparent;
+    border-width: 0!important;
 }

@@ -108,4 +108,14 @@ public class ProjectUserConnectionService extends ABaseService<ProjectUserConnec
                 .getResultList();
     }
 
+    public ProjectUserConnection getUserProjectConnections(User user, Project project) {
+        return getEntityManager()
+                .createQuery("select u from ProjectUserConnection u " +
+                        "where u.user = :user " +
+                        "and u.project = :project", ProjectUserConnection.class)
+                .setParameter("user", user)
+                .setParameter("project", project)
+                .getSingleResult();
+    }
+
 }

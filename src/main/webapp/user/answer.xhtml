@@ -31,10 +31,12 @@
                               style="margin-bottom:10px; background-color: #f1f5f8" required="true"
                               readonly="#{!managingBean.getManagedAnswerEditable()}"/>
 
-                <p:panelGrid columns="3" rendered="#{managingBean.getManagedAnswerEditable()}">
-                    <p:commandLink value="Submit" update="growl" oncomplete="PF('confirmation').show()"/>
-                    <p:commandLink value="Draft" action="#{managingBean.addAnswer(false)}" update="growl answerPanel"/>
-                    <p:commandLink value="Clear" type="button" onclick="PF('answerEditor').clear();"/>
+                <p:panelGrid columns="3" styleClass="transparentBG"
+                             rendered="#{managingBean.getManagedAnswerEditable()}">
+                    <p:commandButton value="Submit" update="growl" oncomplete="PF('confirmation').show()"/>
+                    <p:commandButton value="Draft" action="#{managingBean.addAnswer(false)}"
+                                     update="growl answerPanel"/>
+                    <p:commandButton value="Clear" type="button" onclick="PF('answerEditor').clear();"/>
                 </p:panelGrid>
             </p:outputPanel>
 

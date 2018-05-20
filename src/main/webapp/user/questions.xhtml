@@ -12,6 +12,7 @@
 </h:head>
 <h:body>
     <h:form>
+        <p:growl id="growl" showDetail="true" life="1000"/>
         <div class="surveyTable">
             <c:set var="id" value="#{param['id']}"/>
             <c:set var="currElement" value="#{navigationBean.surveyById(id)}"/>
@@ -35,18 +36,41 @@
                 <p:column headerText="Status" style="width:100px">
                     <h:outputText value="#{statisticsBean.calculateStatus(question)}"/>
                 </p:column>
+                <p:column rendered="#{sessionBean.userOrganizer and managingBean.canUserDeleteAnyQuestion(currElement)}"
+                          style="width:37px;text-align: center">
+                    <p:commandButton
+                            rendered="#{sessionBean.userOrganizer and sessionBean.canUserDelete(statisticsBean.calculateStatus(question))}"
+                            icon="fa fa-trash-o"
+                            title="Delete"
+                            action="#{managingBean.setRemovableItemId(question.id)}"
+                            oncomplete="PF('delConfirm').show()">
+                    </p:commandButton>
+                </p:column>
+                <p:dialog header="Delete?" width="20%" resizable="false" closable="false"
+                          modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
+                    <h:panelGrid columns="2" width="90%">
+                        <p:commandButton value="Submit" action="#{managingBean.removeQuestion()}"
+                                         update="growl questionsTable"
+                                         oncomplete="PF('delConfirm').hide()"/>
+                        <p:commandButton value="Cancel" oncomplete="PF('delConfirm').hide()"/>
+                    </h:panelGrid>
+                </p:dialog>
             </p:dataTable>
 
-            <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
-                <p:outputLabel value="Add question: "/>
-                <p:inputText value="#{managingBean.managedQuestion.title}"/>
 
-                <p:commandLink value="add" action="#{managingBean.addQuestion}" update="questionsTable"/>
+            <div align="right">
+                <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
+                    <p:outputLabel value="Add question: "/>
+                    <p:inputText value="#{managingBean.managedQuestion.title}" placeholder="topic"/>
+                    <p:inputText value="#{managingBean.managedQuestion.description}" placeholder="description"/>
 
-                <p:commandLink value="refresh">
-                    <f:ajax execute="@form" render="questionsTable"/>
-                </p:commandLink>
-            </h:panelGrid>
+                    <p:commandButton value="add" action="#{managingBean.addQuestion}" update="questionsTable growl"/>
+
+                    <p:commandButton value="refresh">
+                        <f:ajax execute="@form" render="questionsTable"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </div>
         </div>
     </h:form>
 

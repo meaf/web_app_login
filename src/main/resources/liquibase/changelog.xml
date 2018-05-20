@@ -264,6 +264,15 @@
             <column name="COMMENT"></column>
         </insert>
         <insert tableName="ANSWERS">
+            <column name="ID">31</column>
+            <column name="USER_ID">3</column>
+            <column name="QUESTION_ID">1</column>
+            <column name="LAST_UPDATE">2018-05-12</column>
+            <column name="STATUS">DRAFT</column>
+            <column name="TEXT">Dobrynia's draft help</column>
+            <column name="COMMENT"></column>
+        </insert>
+        <insert tableName="ANSWERS">
             <column name="ID">33</column>
             <column name="USER_ID">3</column>
             <column name="QUESTION_ID">3</column>
@@ -293,15 +302,6 @@
     </changeSet>
 
     <changeSet id="answersPopovych" author="meaf">
-        <insert tableName="ANSWERS">
-            <column name="ID">41</column>
-            <column name="USER_ID">4</column>
-            <column name="QUESTION_ID">1</column>
-            <column name="LAST_UPDATE">2018-05-12</column>
-            <column name="STATUS">DRAFT</column>
-            <column name="TEXT">Popovych's draft help</column>
-            <column name="COMMENT"></column>
-        </insert>
         <insert tableName="ANSWERS">
             <column name="ID">42</column>
             <column name="USER_ID">4</column>

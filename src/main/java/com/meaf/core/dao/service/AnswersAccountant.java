@@ -28,24 +28,27 @@ public class AnswersAccountant {
     private AnswerService answerService;
     @Inject
     private ProjectUserConnectionService projectUserConnectionService;
+    @Inject
+    private SessionManagementHelper sessionManagementHelper;
 
-    public List<Answer> getQuestionRelatedAnswers(@NotNull Question question) {
-        return answerService.getBranchedUnfiltered(question.getId());
+    public List<Answer> getQuestionRelatedAnswers(@NotNull Question question, boolean filter) {
+        return filter ? answerService.getBranched(question.getId()) : answerService.getBranchedUnfiltered(question.getId());
     }
 
-    public List<Answer> getSurveyRelatedAnswers(@NotNull Survey survey) {
+    public List<Answer> getSurveyRelatedAnswers(@NotNull Survey survey, boolean filter) {
         List<Question> questions = questionService.getBranched(survey.getId());
-        return questions.stream().map(this::getQuestionRelatedAnswers).collect(LinkedList::new, List::addAll, List::addAll);
+        return questions.stream().map(s -> getQuestionRelatedAnswers(s, filter)).collect(LinkedList::new, List::addAll, List::addAll);
     }
 
-    public List<Answer> getStagesRelatedAnswers(@NotNull ProjectStage stage) {
+    public List<Answer> getStagesRelatedAnswers(@NotNull ProjectStage stage, boolean filter) {
         List<Survey> surveys = surveyService.getBranched(stage.getId());
-        return surveys.stream().map(this::getSurveyRelatedAnswers).collect(LinkedList::new, List::addAll, List::addAll);
+        return surveys.stream().map(s -> getSurveyRelatedAnswers(s, filter)).collect(LinkedList::new, List::addAll, List::addAll);
     }
 
     public List<Answer> getProjectRelatedAnswers(@NotNull Project project) {
+        boolean filter = projectUserConnectionService.getUserProjectConnections(sessionManagementHelper.getCurrentUser(), project).getRole() == EProjectRole.EXPERT;
         List<ProjectStage> projectStages = projectStageService.getBranched(project.getId());
-        return projectStages.stream().map(this::getStagesRelatedAnswers).collect(LinkedList::new, List::addAll, List::addAll);
+        return projectStages.stream().map(s -> getStagesRelatedAnswers(s, filter)).collect(LinkedList::new, List::addAll, List::addAll);
     }
 
     public List<Question> getSurveyRelatedQuestions(@NotNull Survey survey) {

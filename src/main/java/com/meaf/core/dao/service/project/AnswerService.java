@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Named
 @SessionScoped
@@ -25,7 +26,10 @@ public class AnswerService extends ABaseService<Answer> {
         ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
         if (connection != null) {
             if (EProjectRole.EXPERT.equals(connection.getRole())) {
-                return filterOtherUsers(answers);
+                return filterOtherUsersProjects(answers)
+                        .stream()
+                        .filter(a -> a.getUser().equals(sessionManagementHelper.getCurrentUser()))
+                        .collect(Collectors.toList());
             }
             if (EProjectRole.ORGANIZER.equals(connection.getRole()))
                 return answers;

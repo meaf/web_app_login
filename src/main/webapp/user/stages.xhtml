@@ -12,6 +12,7 @@
 </h:head>
 <h:body>
     <h:form>
+        <p:growl id="growl" showDetail="true" life="1000"/>
         <div class="surveyTable">
             <tp:header/>
             <c:set var="currElement" value="#{sessionBean.currentProject}"/>
@@ -32,18 +33,39 @@
                 <p:column headerText="Status" style="width:100px">
                     <h:outputText value="#{statisticsBean.calculateStatus(stage)}"/>
                 </p:column>
+                <p:column rendered="#{sessionBean.userOrganizer and managingBean.canUserDeleteAnyStage(currElement)}"
+                          style="width:37px;text-align: center">
+                    <p:commandButton
+                            rendered="#{sessionBean.userOrganizer and sessionBean.canUserDelete(statisticsBean.calculateStatus(stage))}"
+                            icon="fa fa-trash-o"
+                            title="Delete"
+                            oncomplete="PF('delConfirm').show()">
+                    </p:commandButton>
+                </p:column>
+
+                <p:dialog header="Delete?" width="20%" resizable="false" closable="false"
+                          modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
+                    <h:panelGrid columns="2" width="90%">
+                        <p:commandButton value="Submit" action="#{managingBean.removeStage()}"
+                                         update="growl stagesTable"
+                                         oncomplete="PF('delConfirm').hide()"/>
+                        <p:commandButton value="Cancel" oncomplete="PF('delConfirm').hide()"/>
+                    </h:panelGrid>
+                </p:dialog>
             </p:dataTable>
 
-            <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
-                <p:outputLabel value="Next stage: "/>
-                <p:inputText value="#{managingBean.managedProjectStage.name}"/>
+            <div align="right">
+                <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
+                    <p:outputLabel value="Next stage: "/>
+                    <p:inputText value="#{managingBean.managedProjectStage.name}" placeholder="name"/>
 
-                <p:commandLink value="add" action="#{managingBean.addProjectStage}" update="stagesTable"/>
+                    <p:commandButton value="add" action="#{managingBean.addProjectStage}" update="stagesTable"/>
 
-                <p:commandLink value="refresh">
-                    <f:ajax execute="@form" render="stagesTable"/>
-                </p:commandLink>
-            </h:panelGrid>
+                    <p:commandButton value="refresh">
+                        <f:ajax execute="@form" render="stagesTable"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </div>
         </div>
     </h:form>
 </h:body>

@@ -8,6 +8,14 @@ public class Response {
     private String info;
     private Exception ex;
 
+    public Response() {
+    }
+
+    public Response(FacesMessage.Severity severity, String title, String info) {
+        this.severity = severity;
+        this.title = title;
+        this.info = info;
+    }
 
     public FacesMessage generateToast() {
         FacesMessage facesMessage = new FacesMessage();

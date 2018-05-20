@@ -1,8 +1,10 @@
 package com.meaf.jsfBeans;
 
 import com.meaf.core.dao.service.AnswersAccountant;
+import com.meaf.core.dao.service.SessionManagementHelper;
 import com.meaf.core.entities.*;
 import com.meaf.core.meta.EAnswerStatus;
+import com.meaf.core.meta.EProjectRole;
 import com.meaf.core.meta.ESurveyStatus;
 import org.primefaces.model.chart.*;
 
@@ -21,6 +23,8 @@ public class StatisticsBean implements Serializable {
 
     @Inject
     AnswersAccountant answersAccountant;
+    @Inject
+    SessionManagementHelper sessionManagementHelper;
 
     private Question handledQuestion;
     private Survey handledSurvey;
@@ -50,7 +54,8 @@ public class StatisticsBean implements Serializable {
         pieModel.set("Drafted", drafted);
         pieModel.set("New", remaining);
         pieModel.setTitle("Answers");
-        pieModel.setLegendPosition("e");
+        pieModel.setLegendPosition("ne");
+        pieModel.setLegendPlacement(LegendPlacement.OUTSIDE);
 
         return pieModel;
     }
@@ -87,9 +92,10 @@ public class StatisticsBean implements Serializable {
         xAxis.setLabel("");
         xAxis.setMin(0);
         xAxis.setMax(questions.size());
+        xAxis.setTickInterval("2");
 
         barChartModel.setStacked(true);
-        barChartModel.setAnimate(true);
+//        barChartModel.setAnimate(true);
         barChartModel.setLegendPosition("ne");
         barChartModel.setLegendPlacement(LegendPlacement.INSIDE);
 
@@ -118,19 +124,25 @@ public class StatisticsBean implements Serializable {
 
     }
 
+    public boolean isUserInProjectRole(EProjectRole role) {
+        ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
+        return connection != null
+                && role.equals(connection.getRole());
+    }
+
 
     public String calculateStatus(Question question) {
-        ESurveyStatus status = calculate(answersAccountant.getQuestionRelatedAnswers(question));
+        ESurveyStatus status = calculate(answersAccountant.getQuestionRelatedAnswers(question, isUserInProjectRole(EProjectRole.EXPERT)));
         return status.name();
     }
 
     public String calculateStatus(Survey survey) {
-        ESurveyStatus status = calculate(answersAccountant.getSurveyRelatedAnswers(survey));
+        ESurveyStatus status = calculate(answersAccountant.getSurveyRelatedAnswers(survey, isUserInProjectRole(EProjectRole.EXPERT)));
         return status.name();
     }
 
     public String calculateStatus(ProjectStage projectStage) {
-        ESurveyStatus status = calculate(answersAccountant.getStagesRelatedAnswers(projectStage));
+        ESurveyStatus status = calculate(answersAccountant.getStagesRelatedAnswers(projectStage, isUserInProjectRole(EProjectRole.EXPERT)));
         return status.name();
     }
 

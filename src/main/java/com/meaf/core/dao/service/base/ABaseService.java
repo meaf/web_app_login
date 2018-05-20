@@ -52,17 +52,17 @@ public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
         return true;
     }
 
-    protected Predicate<IProjectElement> userFilter = iProjectElement ->
+    protected Predicate<IProjectElement> userProjectFilter = iProjectElement ->
             sessionManagementHelper
                     .getCurrentUserProjects().stream()
                     .map(Project::getId)
                     .collect(Collectors.toList())
                     .contains(iProjectElement.getRootProject().getId());
 
-    protected <P extends IProjectElement> List<P> filterOtherUsers(List<P> projElements) {
+    protected <P extends IProjectElement> List<P> filterOtherUsersProjects(List<P> projElements) {
         if (projElements == null)
             return new LinkedList<>();
-        return projElements.stream().filter(userFilter).collect(Collectors.toList());
+        return projElements.stream().filter(userProjectFilter).collect(Collectors.toList());
     }
 
     protected <U> U findSingleByWhereClause(Class clazz, String fieldName, Object val) {

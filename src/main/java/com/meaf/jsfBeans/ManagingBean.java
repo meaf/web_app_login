@@ -1,5 +1,6 @@
 package com.meaf.jsfBeans;
 
+import com.meaf.core.dao.service.AnswersAccountant;
 import com.meaf.core.dao.service.base.Response;
 import com.meaf.core.dao.service.project.*;
 import com.meaf.core.entities.*;
@@ -28,12 +29,15 @@ public class ManagingBean implements Serializable {
     private QuestionService questionService;
     @Inject
     private AnswerService answerService;
+    @Inject
+    private AnswersAccountant answersAccountant;
 
     private Answer managedAnswer;
     private Question managedQuestion;
     private Survey managedSurvey;
     private ProjectStage managedProjectStage;
     private Project managedProject;
+    private Long removableItemId;
 
     public void loadAnswer(Question question) {
         answerService.getBranched(question.getId());
@@ -72,22 +76,46 @@ public class ManagingBean implements Serializable {
     }
 
     public void addQuestion() throws Exception {
+
+        Response response;
+        Project currentProject = projectService.getCurrentProject();
+        if (managedQuestion.getTitle().trim().isEmpty() || managedQuestion.getDescription().trim().isEmpty()) {
+            response = new Response(FacesMessage.SEVERITY_ERROR, "Error", "Fill all required fields");
+            addToast(response);
+            return;
+        }
         managedQuestion.setSurvey(managedSurvey);
         questionService.add(managedQuestion);
 
         managedQuestion = new Question();
+
+        response = new Response(FacesMessage.SEVERITY_INFO, "Success", "question created");
+        addToast(response);
     }
 
     public void addSurvey() throws Exception {
+        Response response;
+        if (managedSurvey.getTopic().trim().isEmpty() || managedSurvey.getDescription().trim().isEmpty()) {
+            response = new Response(FacesMessage.SEVERITY_ERROR, "Error", "Fill all required fields");
+            addToast(response);
+            return;
+        }
         managedSurvey.setStage(managedProjectStage);
         surveyService.add(managedSurvey);
 
         managedSurvey = new Survey();
+        response = new Response(FacesMessage.SEVERITY_INFO, "Success", "survey created");
+        addToast(response);
     }
 
     public void addProjectStage() throws Exception {
-
+        Response response;
         Project currentProject = projectService.getCurrentProject();
+        if (managedProjectStage.getName() == null || managedProjectStage.getName().trim().isEmpty()) {
+            response = new Response(FacesMessage.SEVERITY_ERROR, "Error", "Enter next stage's name");
+            addToast(response);
+            return;
+        }
 
         projectStageService
                 .getBranched(currentProject.getId())
@@ -98,10 +126,83 @@ public class ManagingBean implements Serializable {
                     managedProjectStage.setNumber(ps.getNumber() + 1);
                 });
         managedProjectStage.setProject(currentProject);
-
         projectStageService.add(managedProjectStage);
-
         managedProjectStage = new ProjectStage();
+
+        response = new Response(FacesMessage.SEVERITY_INFO, "Success", "stage created");
+        addToast(response);
+    }
+
+    public void removeSurvey() {
+        Response response = new Response();
+        try {
+            surveyService.delete(removableItemId);
+            response.setSeverity(FacesMessage.SEVERITY_INFO);
+            response.setTitle("Success");
+            response.setInfo("survey deleted");
+        } catch (Exception e) {
+            response.setSeverity(FacesMessage.SEVERITY_ERROR);
+            response.setTitle("Failed");
+            response.setInfo("failed to delete survey...");
+            e.printStackTrace();
+        }
+    }
+
+    public void removeStage() {
+        Response response = new Response();
+        try {
+            projectStageService.delete(removableItemId);
+            response.setSeverity(FacesMessage.SEVERITY_INFO);
+            response.setTitle("Success");
+            response.setInfo("stage deleted");
+        } catch (Exception e) {
+            response.setSeverity(FacesMessage.SEVERITY_ERROR);
+            response.setTitle("Failed");
+            response.setInfo("failed to delete stage...");
+            e.printStackTrace();
+        }
+    }
+
+    public void removeQuestion() {
+        Response response = new Response();
+        try {
+            questionService.delete(removableItemId);
+            response.setSeverity(FacesMessage.SEVERITY_INFO);
+            response.setTitle("Success");
+            response.setInfo("question deleted");
+        } catch (Exception e) {
+            response.setSeverity(FacesMessage.SEVERITY_ERROR);
+            response.setTitle("Failed");
+            response.setInfo("failed to delete question...");
+            e.printStackTrace();
+        }
+    }
+
+    public boolean canUserDeleteAnyStage(Project project) {
+        List<ProjectStage> projectStages = projectStageService.getBranched(project.getId());
+        return projectStages.stream().anyMatch(s -> {
+            List<Answer> answers = answersAccountant.getStagesRelatedAnswers(s, false);
+            return answers.isEmpty()
+                    || answers.stream().allMatch(q -> q.getStatus().equals(EAnswerStatus.NEW));
+        });
+    }
+
+    public boolean canUserDeleteAnySurvey(ProjectStage projectStage) {
+        List<Survey> surveys = surveyService.getBranched(projectStage.getId());
+        return surveys.stream().anyMatch(s -> {
+            List<Answer> answers = answersAccountant.getSurveyRelatedAnswers(s, false);
+            return answers.isEmpty()
+                    || answers.stream().allMatch(q -> q.getStatus().equals(EAnswerStatus.NEW));
+        });
+    }
+
+    public boolean canUserDeleteAnyQuestion(Survey survey) {
+        List<Question> questions = questionService.getBranched(survey.getId());
+        return questions.stream().anyMatch(s -> {
+            List<Answer> answers = answersAccountant.getQuestionRelatedAnswers(s, false);
+            return answers.isEmpty()
+                    || answers.stream().allMatch(q -> q.getStatus().equals(EAnswerStatus.NEW));
+        });
     }
 
     private void addToast(Response response) {
@@ -167,5 +268,13 @@ public class ManagingBean implements Serializable {
 
     public void setManagedProject(Project managedProject) {
         this.managedProject = managedProject;
+    }
+
+    public void setRemovableItemId(Long removableItemId) {
+        this.removableItemId = removableItemId;
+    }
+
+    public Long getRemovableItemId() {
+        return removableItemId;
     }
 }
