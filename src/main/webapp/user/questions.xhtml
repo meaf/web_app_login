@@ -11,12 +11,12 @@
     <title>Questions</title>
 </h:head>
 <h:body>
-    <h:form>
-        <p:growl id="growl" showDetail="true" life="1000"/>
-        <div class="surveyTable">
+    <p:growl id="growl" showDetail="true" life="1000"/>
+    <div class="surveyTable">
+        <tp:header/>
+        <h:form>
             <c:set var="id" value="#{param['id']}"/>
             <c:set var="currElement" value="#{navigationBean.surveyById(id)}"/>
-            <tp:header/>
 
             #{managingBean.setManagedSurvey(currElement)}
             <p:dataTable id="questionsTable" var="question"
@@ -36,10 +36,11 @@
                 <p:column headerText="Status" style="width:100px">
                     <h:outputText value="#{statisticsBean.calculateStatus(question)}"/>
                 </p:column>
-                <p:column rendered="#{sessionBean.userOrganizer and managingBean.canUserDeleteAnyQuestion(currElement)}"
+                <p:column rendered="#{sessionBean.userOrganizer
+                and managingBean.canUserDeleteAnyQuestion(managingBean.managedSurvey)}"
                           style="width:37px;text-align: center">
                     <p:commandButton
-                            rendered="#{sessionBean.userOrganizer and sessionBean.canUserDelete(statisticsBean.calculateStatus(question))}"
+                            rendered="#{sessionBean.canUserDelete(statisticsBean.calculateStatus(question))}"
                             icon="fa fa-trash-o"
                             title="Delete"
                             action="#{managingBean.setRemovableItemId(question.id)}"
@@ -71,8 +72,8 @@
                     </p:commandButton>
                 </h:panelGrid>
             </div>
-        </div>
-    </h:form>
+        </h:form>
+    </div>
 
 </h:body>
 </html>

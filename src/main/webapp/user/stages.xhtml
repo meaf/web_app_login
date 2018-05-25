@@ -11,10 +11,10 @@
     <title>Stages</title>
 </h:head>
 <h:body>
-    <h:form>
-        <p:growl id="growl" showDetail="true" life="1000"/>
-        <div class="surveyTable">
-            <tp:header/>
+    <p:growl id="growl" showDetail="true" life="1000"/>
+    <div class="surveyTable">
+        <tp:header/>
+        <h:form>
             <c:set var="currElement" value="#{sessionBean.currentProject}"/>
 
             <p:dataTable id="stagesTable" var="stage" value="#{navigationBean.projectStages}">
@@ -33,12 +33,14 @@
                 <p:column headerText="Status" style="width:100px">
                     <h:outputText value="#{statisticsBean.calculateStatus(stage)}"/>
                 </p:column>
-                <p:column rendered="#{sessionBean.userOrganizer and managingBean.canUserDeleteAnyStage(currElement)}"
+                <p:column rendered="#{sessionBean.userOrganizer
+                and managingBean.canUserDeleteAnyStage(currElement)}"
                           style="width:37px;text-align: center">
                     <p:commandButton
-                            rendered="#{sessionBean.userOrganizer and sessionBean.canUserDelete(statisticsBean.calculateStatus(stage))}"
+                            rendered="#{sessionBean.canUserDelete(statisticsBean.calculateStatus(stage))}"
                             icon="fa fa-trash-o"
                             title="Delete"
+                            action="#{managingBean.setRemovableItemId(stage.id)}"
                             oncomplete="PF('delConfirm').show()">
                     </p:commandButton>
                 </p:column>
@@ -66,7 +68,7 @@
                     </p:commandButton>
                 </h:panelGrid>
             </div>
-        </div>
-    </h:form>
+        </h:form>
+    </div>
 </h:body>
 </html>

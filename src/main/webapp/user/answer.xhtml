@@ -11,10 +11,10 @@
     <title>Answer</title>
 </h:head>
 <h:body>
-    <h:form>
-        <p:growl id="growl" showDetail="true" life="1000"/>
-        <div class="surveyTable">
-            <tp:header/>
+    <p:growl id="growl" showDetail="true" life="1000"/>
+    <div class="surveyTable">
+        <tp:header/>
+        <h:form>
             <c:set var="id" value="#{param['id']}"/>
             <c:set var="currElement" value="#{navigationBean.questionById(id)}"/>
 
@@ -53,7 +53,8 @@
 
             <!--// org list-->
             <p:outputPanel style="display:block" rendered="#{sessionBean.userOrganizer}">
-                <p:accordionPanel var="answer" value="#{navigationBean.answersAllByQuestion(currElement)}"
+                <p:accordionPanel var="answer"
+                                  value="#{navigationBean.answersAllByQuestion(managingBean.managedQuestion)}"
                                   multiple="true">
                     <p:tab title="#{answer.user.username}">
                         <h:panelGrid columns="1" cellpadding="3" width="100%" styleClass="hideToolbar borderless">
@@ -65,8 +66,8 @@
                     </p:tab>
                 </p:accordionPanel>
             </p:outputPanel>
-        </div>
-    </h:form>
+        </h:form>
+    </div>
 </h:body>
 </html>
 

@@ -11,9 +11,9 @@
 </h:head>
 <h:body>
     <p:growl id="growl" showDetail="true" life="1000"/>
-    <h:form>
-        <div class="surveyTable">
-            <tp:header/>
+    <div class="surveyTable">
+        <tp:header/>
+        <h:form>
             <p:dataTable var="project" value="#{navigationBean.projects}">
                 <f:facet name="header">PROJECTS</f:facet>
                 <p:column headerText="Project name" sortBy="#{project.name}" sortable="false">
@@ -40,8 +40,8 @@
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
-        </div>
-    </h:form>
+        </h:form>
+    </div>
 
     <p:dialog header="Invite codes" width="25%" showEffect="fade" modal="true" hideEffect="fade" widgetVar="invs"
               resizable="false">

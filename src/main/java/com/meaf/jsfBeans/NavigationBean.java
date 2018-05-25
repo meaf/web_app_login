@@ -5,14 +5,14 @@ import com.meaf.core.dao.service.users.ProjectUserConnectionService;
 import com.meaf.core.entities.*;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class NavigationBean implements Serializable {
 
     @Inject

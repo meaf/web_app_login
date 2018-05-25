@@ -3,23 +3,25 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface/>
 
 <composite:implementation>
     <div align="right">
-        <p:panelGrid columns="5">
+        <h:form>
+            <p:panelGrid columns="5">
+                <p:outputLabel value="Welcome, #{request.remoteUser}"/>
+                <p:outputLabel rendered="#{sessionBean.currentProjectRole != null}"
+                               value="Current project: #{sessionBean.currentProject.name}"/>
+                <p:outputLabel rendered="#{sessionBean.currentProjectRole != null}"
+                               value="role: #{sessionBean.currentProjectRole}"/>
 
-            <p:outputLabel value="Welcome, #{request.remoteUser}"/>
-            <p:outputLabel rendered="#{sessionBean.currentProjectRole != null}"
-                           value="Current project: #{sessionBean.currentProject.name}"/>
-            <p:outputLabel rendered="#{sessionBean.currentProjectRole != null}"
-                           value="role: #{sessionBean.currentProjectRole}"/>
-
-            <p:link outcome="index" value="home"/>
-            <p:commandLink value="logout" action="#{sessionBean.logout}"/>
-        </p:panelGrid>
+                <p:link outcome="index" value="home"/>
+                <p:commandLink value="logout" action="#{sessionBean.logout}"/>
+            </p:panelGrid>
+        </h:form>
     </div>
 </composite:implementation>
 </html>

@@ -13,7 +13,7 @@ import com.meaf.core.meta.EUserRole;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class SessionBean implements Serializable {
 
     @Inject
