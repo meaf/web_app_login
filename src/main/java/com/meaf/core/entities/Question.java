@@ -6,6 +6,7 @@ import com.meaf.core.meta.ESurveyStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "QUESTIONS")
@@ -29,6 +30,9 @@ public class Question implements Serializable, IProjectElement {
     @ManyToOne
     @JoinColumn(name = "SURVEY_ID")
     private Survey survey;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    private Set<Answer> answers;
 
     @Column(name = "LAST_UPDATE")
     private Date lastUpdate;

@@ -8,7 +8,7 @@ import com.meaf.core.meta.EAnswerStatus;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.Serializable;
@@ -16,7 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ManagingBean implements Serializable {
 
     @Inject

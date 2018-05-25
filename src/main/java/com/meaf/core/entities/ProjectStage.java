@@ -5,6 +5,7 @@ import com.meaf.core.dao.service.base.IProjectElement;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "PROJECT_STAGES")
@@ -28,6 +29,9 @@ public class ProjectStage implements Serializable, IProjectElement {
     @ManyToOne
     @JoinColumn(name = "PROJECT")
     private Project project;
+
+    @OneToMany(mappedBy = "stage", cascade = CascadeType.REMOVE)
+    private Set<Survey> surveys;
 
     @Column(name = "LAST_UPDATE")
     private Date lastUpdate;

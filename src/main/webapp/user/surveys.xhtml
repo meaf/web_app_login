@@ -33,9 +33,9 @@
                     <h:outputText value="#{statisticsBean.calculateStatus(survey)}"/>
                 </p:column>
                 <p:column
-                        rendered="#{sessionBean.userOrganizer
-                        and managingBean.canUserDeleteAnySurvey(managingBean.managedProjectStage)}"
+                        rendered="#{sessionBean.userOrganizer}"
                         style="width:37px;text-align: center">
+                    <!--and managingBean.canUserDeleteAnySurvey(managingBean.managedProjectStage)-->
                     <p:commandButton
                             rendered="#{sessionBean.canUserDelete(statisticsBean.calculateStatus(survey))}"
                             icon="fa fa-trash-o"
@@ -45,17 +45,17 @@
                         <f:ajax execute="@form"/>
                     </p:commandButton>
                 </p:column>
-
-                <p:dialog header="Delete?" width="20%" resizable="false" closable="false"
-                          modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
-                    <h:panelGrid columns="2" width="90%">
-                        <p:commandButton value="Submit" action="#{managingBean.removeSurvey()}"
-                                         update="growl stagesTable"
-                                         oncomplete="PF('delConfirm').hide()"/>
-                        <p:commandButton value="Cancel" oncomplete="PF('delConfirm').hide()"/>
-                    </h:panelGrid>
-                </p:dialog>
             </p:dataTable>
+
+            <p:dialog header="Delete?" width="20%" resizable="false" closable="false"
+                      modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
+                <h:panelGrid columns="2" width="90%">
+                    <p:commandButton value="Submit" action="#{managingBean.removeSurvey()}"
+                                     update="growl surveysTable"
+                                     oncomplete="PF('delConfirm').hide()"/>
+                    <p:commandButton value="Cancel" oncomplete="PF('delConfirm').hide()"/>
+                </h:panelGrid>
+            </p:dialog>
 
             <div align="right">
                 <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">

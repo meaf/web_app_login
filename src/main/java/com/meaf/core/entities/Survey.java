@@ -6,6 +6,7 @@ import com.meaf.core.meta.ESurveyStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "SURVEYS")
@@ -26,9 +27,12 @@ public class Survey implements Serializable, IProjectElement {
     @Column(name = "STATUS", columnDefinition = "varchar(32) default 'NEW'")
     private ESurveyStatus status = ESurveyStatus.NEW;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "PROJECT_STAGE")
     private ProjectStage stage;
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.REMOVE)
+    private Set<Question> questions;
 
     @Column(name = "LAST_UPDATE")
     private Date lastUpdate;

@@ -45,16 +45,16 @@
                     </p:commandButton>
                 </p:column>
 
-                <p:dialog header="Delete?" width="20%" resizable="false" closable="false"
-                          modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
-                    <h:panelGrid columns="2" width="90%">
-                        <p:commandButton value="Submit" action="#{managingBean.removeStage()}"
-                                         update="growl stagesTable"
-                                         oncomplete="PF('delConfirm').hide()"/>
-                        <p:commandButton value="Cancel" oncomplete="PF('delConfirm').hide()"/>
-                    </h:panelGrid>
-                </p:dialog>
             </p:dataTable>
+            <p:dialog header="Delete?" width="20%" resizable="false" closable="false"
+                      modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
+                <h:panelGrid columns="2" width="90%">
+                    <p:commandButton value="Submit" action="#{managingBean.removeStage()}"
+                                     update="growl stagesTable"
+                                     oncomplete="PF('delConfirm').hide()"/>
+                    <p:commandButton value="Cancel" oncomplete="PF('delConfirm').hide()"/>
+                </h:panelGrid>
+            </p:dialog>
 
             <div align="right">
                 <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
