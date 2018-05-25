@@ -26,6 +26,9 @@ public class User implements Serializable {
     @JoinColumn(name = "ROLE_ID")
     private Role role;
 
+    @OneToOne(mappedBy = "user")
+    private UserProfile userProfile;
+
 
     public Long getId() {
         return id;
@@ -71,5 +74,23 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof User && ((User) obj).getId().equals(id);
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    public String getUserFullName() {
+        return userProfile.getLastName() + " " +
+                (userProfile.getFirstName() == null
+                        ? ""
+                        : userProfile.getFirstName().substring(0, 1).toUpperCase() + ". ") +
+                (userProfile.getPatronymic() == null
+                        ? ""
+                        : userProfile.getPatronymic().substring(0, 1).toUpperCase() + ". ");
     }
 }

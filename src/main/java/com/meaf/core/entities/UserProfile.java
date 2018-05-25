@@ -33,7 +33,7 @@ public class UserProfile implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "USER_ID")
-    private User userId;
+    private User user;
 
     @Column(name = "LAST_UPDATE")
     private Date lastUpdate;
@@ -41,14 +41,14 @@ public class UserProfile implements Serializable {
     public UserProfile() {
     }
 
-    public UserProfile(Date birthDate, String firstName, String lastName, String patronymic, String phoneNumber, String emailAddress, User userId) {
+    public UserProfile(Date birthDate, String firstName, String lastName, String patronymic, String phoneNumber, String emailAddress, User user) {
         this.birthDate = birthDate;
         this.firstName = firstName;
         this.lastName = lastName;
         this.patronymic = patronymic;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
-        this.userId = userId;
+        this.user = user;
     }
 
     public Long getId() {
@@ -107,12 +107,12 @@ public class UserProfile implements Serializable {
         this.emailAddress = emailAddress;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User userId) {
+        user = userId;
     }
 
     public Date getLastUpdate() {

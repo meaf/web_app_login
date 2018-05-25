@@ -56,7 +56,7 @@
                 <p:accordionPanel var="answer"
                                   value="#{navigationBean.answersAllByQuestion(managingBean.managedQuestion)}"
                                   multiple="true">
-                    <p:tab title="#{answer.user.username}">
+                    <p:tab title="#{answer.user.userFullName}">
                         <h:panelGrid columns="1" cellpadding="3" width="100%" styleClass="hideToolbar borderless">
                             <p:outputLabel value="#{answer.status}"/>
                             <p:textEditor value="#{answer.text}"

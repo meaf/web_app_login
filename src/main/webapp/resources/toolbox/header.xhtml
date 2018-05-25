@@ -12,7 +12,7 @@
     <div align="right">
         <h:form>
             <p:panelGrid columns="5">
-                <p:outputLabel value="Welcome, #{request.remoteUser}"/>
+                <p:outputLabel value="Welcome, #{sessionBean.currentUser.userFullName}"/>
                 <p:outputLabel rendered="#{sessionBean.currentProjectRole != null}"
                                value="Current project: #{sessionBean.currentProject.name}"/>
                 <p:outputLabel rendered="#{sessionBean.currentProjectRole != null}"

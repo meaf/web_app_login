@@ -104,6 +104,10 @@ public class SessionBean implements Serializable {
         return sessionManagementHelper.getCurrentProject();
     }
 
+    public User getCurrentUser() {
+        return sessionManagementHelper.getCurrentUser();
+    }
+
     public List<Role> getRolesList() {
         return userService.getRolesList();
     }
