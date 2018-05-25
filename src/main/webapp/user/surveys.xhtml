@@ -23,13 +23,19 @@
             <p:dataTable id="surveysTable" var="survey"
                          value="#{navigationBean.surveysBranched(managingBean.managedProjectStage.id)}">
                 <f:facet name="header">#{managingBean.managedProjectStage.name.toUpperCase()}</f:facet>
-                <p:column headerText="name" sortBy="#{survey.topic}" sortable="false">
+                <p:column headerText="Назва" sortBy="#{survey.topic}" sortable="false">
                     <p:link outcome="questions" value="#{survey.topic}">
                         <f:param name="id" value="#{survey.id}"/>
                     </p:link>
                 </p:column>
 
-                <p:column headerText="Status" style="width:100px">
+                <p:column headerText="Опис" sortBy="#{survey.description}" sortable="false">
+                    <h:outputText value="#{survey.description}">
+                        <f:param name="id" value="#{survey.id}"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Статус" style="width:100px">
                     <h:outputText value="#{statisticsBean.calculateStatus(survey)}"/>
                 </p:column>
                 <p:column
@@ -39,7 +45,7 @@
                     <p:commandButton
                             rendered="#{sessionBean.canUserDelete(statisticsBean.calculateStatus(survey))}"
                             icon="fa fa-trash-o"
-                            title="Delete"
+                            title="Видалити"
                             action="#{managingBean.setRemovableItemId(survey.id)}"
                             oncomplete="PF('delConfirm').show()">
                         <f:ajax execute="@form"/>
@@ -50,22 +56,22 @@
             <p:dialog header="Delete?" width="20%" resizable="false" closable="false"
                       modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
                 <h:panelGrid columns="2" width="90%">
-                    <p:commandButton value="Submit" action="#{managingBean.removeSurvey()}"
+                    <p:commandButton value="Підтвердити" action="#{managingBean.removeSurvey()}"
                                      update="growl surveysTable"
                                      oncomplete="PF('delConfirm').hide()"/>
-                    <p:commandButton value="Cancel" oncomplete="PF('delConfirm').hide()"/>
+                    <p:commandButton value="Відмінити" oncomplete="PF('delConfirm').hide()"/>
                 </h:panelGrid>
             </p:dialog>
 
             <div align="right">
                 <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
-                    <p:outputLabel value="Add Survey: "/>
-                    <p:inputText value="#{managingBean.managedSurvey.topic}" placeholder="topic"/>
-                    <p:inputText value="#{managingBean.managedSurvey.description}" placeholder="description"/>
-                    <p:commandButton value="add" action="#{managingBean.addSurvey}" update="surveysTable growl">
+                    <p:outputLabel value="Додати збірку питань: "/>
+                    <p:inputText value="#{managingBean.managedSurvey.topic}" placeholder="тема"/>
+                    <p:inputText value="#{managingBean.managedSurvey.description}" placeholder="опис"/>
+                    <p:commandButton value="Додати" action="#{managingBean.addSurvey}" update="surveysTable growl">
                         <f:ajax execute="@form" render="none"/>
                     </p:commandButton>
-                    <p:commandButton value="refresh">
+                    <p:commandButton value="Оновити">
                         <f:ajax execute="@form" render="surveysTable"/>
                     </p:commandButton>
                 </h:panelGrid>

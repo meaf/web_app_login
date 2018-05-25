@@ -14,13 +14,13 @@
         <p:growl id="growl" showDetail="true" life="1000"/>
         <div class="box">
             <h:panelGrid columns="1" styleClass="wide">
-                <h1>Log In</h1>
-                <p:inputText placeholder="Username" value="#{sessionBean.username}"/>
-                <p:password placeholder="Password" value="#{sessionBean.password}"/>
+                <h1>Вхід</h1>
+                <p:inputText placeholder="Логін" value="#{sessionBean.username}"/>
+                <p:password placeholder="Пароль" value="#{sessionBean.password}"/>
 
                 <h:panelGrid columns="2" styleClass="wide">
-                    <p:commandButton value="Sign in" update="growl" action="#{sessionBean.login}"/>
-                    <p:button outcome="register" value="Sign up"/>
+                    <p:commandButton value="Вхід" update="growl" action="#{sessionBean.login}"/>
+                    <p:button outcome="register" value="Зареєструватися"/>
                 </h:panelGrid>
             </h:panelGrid>
         </div>

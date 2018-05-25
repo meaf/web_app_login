@@ -12,14 +12,14 @@
     <div align="right">
         <h:form>
             <p:panelGrid columns="5">
-                <p:outputLabel value="Welcome, #{sessionBean.currentUser.userFullName}"/>
+                <p:outputLabel value="Ласкаво просимо, #{sessionBean.currentUser.userFullName}"/>
                 <p:outputLabel rendered="#{sessionBean.currentProjectRole != null}"
-                               value="Current project: #{sessionBean.currentProject.name}"/>
+                               value="Проект: #{sessionBean.currentProject.name}"/>
                 <p:outputLabel rendered="#{sessionBean.currentProjectRole != null}"
-                               value="role: #{sessionBean.currentProjectRole}"/>
+                               value="Роль: #{sessionBean.currentProjectRole}"/>
 
-                <p:link outcome="index" value="home"/>
-                <p:commandLink value="logout" action="#{sessionBean.logout}"/>
+                <p:link outcome="index" value="Додому"/>
+                <p:commandLink value="Вихід" action="#{sessionBean.logout}"/>
             </p:panelGrid>
         </h:form>
     </div>

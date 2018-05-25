@@ -23,17 +23,17 @@
                          value="#{navigationBean.questionsBranched(managingBean.managedSurvey.id)}">
                 <f:facet name="header">#{managingBean.managedSurvey.topic.toUpperCase()}</f:facet>
 
-                <p:column headerText="Question" sortBy="#{question.title}" sortable="false">
+                <p:column headerText="Питання" sortBy="#{question.title}" sortable="false">
                     <p:link outcome="answer" value="#{question.title}">
                         <f:param name="id" value="#{question.id}"/>
                     </p:link>
                 </p:column>
 
-                <p:column headerText="description" sortBy="#{question.description}" sortable="false">
+                <p:column headerText="Опис" sortBy="#{question.description}" sortable="false">
                     <p:outputLabel value="#{question.description}"/>
                 </p:column>
 
-                <p:column headerText="Status" style="width:100px">
+                <p:column headerText="Статус" style="width:100px">
                     <h:outputText value="#{statisticsBean.calculateStatus(question)}"/>
                 </p:column>
                 <p:column rendered="#{sessionBean.userOrganizer
@@ -42,7 +42,7 @@
                     <p:commandButton
                             rendered="#{sessionBean.canUserDelete(statisticsBean.calculateStatus(question))}"
                             icon="fa fa-trash-o"
-                            title="Delete"
+                            title="Видалити"
                             action="#{managingBean.setRemovableItemId(question.id)}"
                             oncomplete="PF('delConfirm').show()">
                     </p:commandButton>
@@ -51,23 +51,23 @@
             <p:dialog header="Delete?" width="20%" resizable="false" closable="false"
                       modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
                 <h:panelGrid columns="2" width="90%">
-                    <p:commandButton value="Submit" action="#{managingBean.removeQuestion()}"
+                    <p:commandButton value="Підтвердити" action="#{managingBean.removeQuestion()}"
                                      update="growl questionsTable"
                                      oncomplete="PF('delConfirm').hide()"/>
-                    <p:commandButton value="Cancel" oncomplete="PF('delConfirm').hide()"/>
+                    <p:commandButton value="Відмінити" oncomplete="PF('delConfirm').hide()"/>
                 </h:panelGrid>
             </p:dialog>
 
 
             <div align="right">
                 <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
-                    <p:outputLabel value="Add question: "/>
+                    <p:outputLabel value="Додати питання: "/>
                     <p:inputText value="#{managingBean.managedQuestion.title}" placeholder="topic"/>
                     <p:inputText value="#{managingBean.managedQuestion.description}" placeholder="description"/>
 
-                    <p:commandButton value="add" action="#{managingBean.addQuestion}" update="questionsTable growl"/>
+                    <p:commandButton value="Додати" action="#{managingBean.addQuestion}" update="questionsTable growl"/>
 
-                    <p:commandButton value="refresh">
+                    <p:commandButton value="Оновити">
                         <f:ajax execute="@form" render="questionsTable"/>
                     </p:commandButton>
                 </h:panelGrid>

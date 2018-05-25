@@ -12,13 +12,13 @@
 <h:body>
     <div class="adminPanel">
         <h:form>
-            <p:commandLink value="logout" action="#{sessionBean.logout}" styleClass="custom"/>
+            <p:commandLink value="Вихів" action="#{sessionBean.logout}" styleClass="custom"/>
 
             <h:panelGrid columns="8">
-                <p:outputLabel value="Login: "/>
+                <p:outputLabel value="Логін: "/>
                 <p:inputText value="#{sessionBean.username}"/>
 
-                <p:outputLabel value="Password: "/>
+                <p:outputLabel value="Пароль: "/>
                 <p:inputText value="#{sessionBean.password}"/>
 
 
@@ -27,10 +27,10 @@
                                    itemLabel="#{role.rolename}"/>
                 </p:selectOneMenu>
 
-                <p:commandLink value="add" action="#{sessionBean.createUser()}" update="usersTable">
+                <p:commandLink value="Додати" action="#{sessionBean.createUser()}" update="usersTable">
                 </p:commandLink>
 
-                <p:commandLink value="refresh">
+                <p:commandLink value="Оновити">
                     <f:ajax execute="@form" render="usersTable"/>
                 </p:commandLink>
             </h:panelGrid>
@@ -39,13 +39,13 @@
         <p:dataTable id="usersTable" value="#{sessionBean.usersList}" var="user">
             <p:column>
                 <f:facet name="header">
-                    <h:outputText value="Username"/>
+                    <h:outputText value="Логін"/>
                 </f:facet>
                 <h:outputText value="#{user.username}"/>
             </p:column>
             <p:column>
                 <f:facet name="header">
-                    <h:outputText value="Role"/>
+                    <h:outputText value="Роль"/>
                 </f:facet>
                 <h:outputText value="#{user.role.rolename}"/>
             </p:column>

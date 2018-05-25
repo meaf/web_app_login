@@ -15,26 +15,26 @@
         <tp:header/>
         <h:form>
             <p:dataTable var="project" value="#{navigationBean.projects}">
-                <f:facet name="header">PROJECTS</f:facet>
-                <p:column headerText="Project name" sortBy="#{project.name}" sortable="false">
+                <f:facet name="header">Проекти</f:facet>
+                <p:column headerText="Назва проекту" sortBy="#{project.name}" sortable="false">
                     <p:commandLink action="#{sessionBean.loadStages(project)}" value="#{project.name}"/>
                 </p:column>
-                <p:column headerText="Description" sortBy="#{project.description}" sortable="false">
+                <p:column headerText="Опис" sortBy="#{project.description}" sortable="false">
                     <h:outputText value="#{project.description}"/>
                 </p:column>
-                <p:column headerText="Status" style="width:100px">
+                <p:column headerText="Статус" style="width:100px">
                     <h:outputText value="#{statisticsBean.calculateStatus(project)}"/>
                 </p:column>
                 <p:column rendered="#{sessionBean.isOrganizingAny()}" style="width:37px;text-align: center">
                     <p:commandButton rendered="#{sessionBean.isOrganizing(project)}"
                                      icon="fa fa-edit"
-                                     title="Properties"
+                                     title="Опції"
                                      oncomplete="PF('invs').show()">
                     </p:commandButton>
                 </p:column>
                 <p:column style="width:37px;text-align: center">
                     <p:commandButton icon="fa fa-pie-chart"
-                                     title="Statistics"
+                                     title="Статистика"
                                      onclick="#{statisticsBean.setHandledProject(project)}"
                                      oncomplete="PF('stats').show()">
                     </p:commandButton>
@@ -43,13 +43,14 @@
         </h:form>
     </div>
 
-    <p:dialog header="Invite codes" width="25%" showEffect="fade" modal="true" hideEffect="fade" widgetVar="invs"
+    <p:dialog header="Запросити корстувача" width="25%" showEffect="fade" modal="true" hideEffect="fade"
+              widgetVar="invs"
               resizable="false">
         <p:dataTable id="invTable" var="invite" value="#{navigationBean.validInvites}">
-            <p:column headerText="Role" sortBy="#{invite.role}" sortable="false">
+            <p:column headerText="Роль" sortBy="#{invite.role}" sortable="false">
                 <h:outputText value="#{invite.role}"/>
             </p:column>
-            <p:column headerText="Code" sortBy="#{invite.invite}" sortable="false">
+            <p:column headerText="Код-запрошення" sortBy="#{invite.invite}" sortable="false">
                 <h:outputText value="#{invite.invite}"/>
             </p:column>
         </p:dataTable>
@@ -59,9 +60,10 @@
         <!--itemLabel="#{projectRole.name()}"/>-->
         <!--</p:selectOneMenu>-->
         <h:panelGrid columns="2" width="100%">
-            <p:commandButton value="Add Expert" action="#{sessionBean.generateInvite(sessionBean.projectRoles.get(0))}"
+            <p:commandButton value="Додати експерта"
+                             action="#{sessionBean.generateInvite(sessionBean.projectRoles.get(0))}"
                              update="invTable growl"/>
-            <p:commandButton value="Add Organizer"
+            <p:commandButton value="Додати організатора"
                              action="#{sessionBean.generateInvite(sessionBean.projectRoles.get(1))}"
                              update="invTable growl"/>
         </h:panelGrid>
@@ -72,12 +74,12 @@
 
 
         <p:tabView dynamic="true" cache="true" effect="fold">
-            <p:tab title="General info">
+            <p:tab title="Загальна інформація">
                 <div align="center">
                     <p:chart type="pie" model="#{statisticsBean.drawPieChart()}" style="width:600px;height:400px"/>
                 </div>
             </p:tab>
-            <p:tab title="Users specific">
+            <p:tab title="Інформація по користувачам">
                 <div align="center">
                     <p:chart type="bar" model="#{statisticsBean.drawBarChart()}" style=""/>
                 </div>
