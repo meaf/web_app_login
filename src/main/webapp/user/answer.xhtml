@@ -24,30 +24,30 @@
             <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}" id="answerPanel">
                 <h1 align="center"><p:outputLabel value="#{managingBean.managedQuestion.title}"/></h1>
                 <h2 align="center"><p:outputLabel value="#{managingBean.managedQuestion.description}"/></h2>
-                <h3 align="center"><p:outputLabel value="#{managingBean.managedAnswer.status}"/></h3>
+                <h3 align="center"><p:outputLabel value="#{managingBean.managedAnswer.status.local}"/></h3>
                 <p:outputLabel value="Ваша відповідь:"/><br/>
 
-                <p:textEditor widgetVar="answerEditor" value="#{managingBean.managedAnswer.text}" height="300"
+                <p:textEditor widgetVar="answerEditor" value="#{managingBean.managedAnswer.text}" height="500"
                               style="margin-bottom:10px; background-color: #f1f5f8" required="true"
                               readonly="#{!managingBean.getManagedAnswerEditable()}"/>
 
-                <p:panelGrid columns="3" styleClass="transparentBG"
+                <p:panelGrid columns="3" styleClass="transparentBG floatRight"
                              rendered="#{managingBean.getManagedAnswerEditable()}">
-                    <p:commandButton value="Submit" update="growl" oncomplete="PF('confirmation').show()"/>
-                    <p:commandButton value="Draft" action="#{managingBean.addAnswer(false)}"
+                    <p:commandButton value="Відповісти" update="growl" oncomplete="PF('confirmation').show()"/>
+                    <p:commandButton value="Зберігти чернетку" action="#{managingBean.addAnswer(false)}"
                                      update="growl answerPanel"/>
-                    <p:commandButton value="Clear" type="button" onclick="PF('answerEditor').clear();"/>
+                    <p:commandButton value="Очистити" type="button" onclick="PF('answerEditor').clear();"/>
                 </p:panelGrid>
             </p:outputPanel>
 
 
-            <p:dialog header="Submit answer?" width="20%" resizable="false" closable="false"
+            <p:dialog header="Затвердити відповідь?" width="18%" resizable="false" closable="false"
                       modal="true" hideEffect="fade" showEffect="fade" widgetVar="confirmation">
                 <h:panelGrid columns="2" width="90%">
-                    <p:commandButton value="Submit" action="#{managingBean.addAnswer(true)}"
+                    <p:commandButton value="Відправити" action="#{managingBean.addAnswer(true)}"
                                      update="growl answerPanel"
                                      oncomplete="PF('confirmation').hide()"/>
-                    <p:commandButton value="Cancel" oncomplete="PF('confirmation').hide()"/>
+                    <p:commandButton value="Відміна" oncomplete="PF('confirmation').hide()"/>
                 </h:panelGrid>
             </p:dialog>
 

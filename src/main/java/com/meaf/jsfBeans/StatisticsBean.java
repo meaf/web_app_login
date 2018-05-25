@@ -50,10 +50,10 @@ public class StatisticsBean implements Serializable {
         Long drafted = answers.stream().filter(a -> a.getStatus() == EAnswerStatus.DRAFT).count();
         Long remaining = Math.subtractExact(pendingAnswers.longValue(), (Math.addExact(submitted, drafted)));
 
-        pieModel.set("Submitted", submitted);
-        pieModel.set("Drafted", drafted);
-        pieModel.set("New", remaining);
-        pieModel.setTitle("Answers");
+        pieModel.set(EAnswerStatus.SUBMITTED.getLocal(), submitted);
+        pieModel.set(EAnswerStatus.DRAFT.getLocal(), drafted);
+        pieModel.set(EAnswerStatus.NEW.getLocal(), remaining);
+        pieModel.setTitle("Відповіді");
         pieModel.setLegendPosition("ne");
         pieModel.setLegendPlacement(LegendPlacement.OUTSIDE);
 
@@ -97,21 +97,21 @@ public class StatisticsBean implements Serializable {
         barChartModel.setStacked(true);
 //        barChartModel.setAnimate(true);
         barChartModel.setLegendPosition("ne");
-        barChartModel.setLegendPlacement(LegendPlacement.INSIDE);
+        barChartModel.setLegendPlacement(LegendPlacement.OUTSIDE);
 
         return barChartModel;
     }
 
     private ChartSeries constructUserChartSeries(List<Answer> answers, List<Question> questions, List<User> users, EAnswerStatus status) {
-
-
-        Map<String, List<Answer>> chartMap = answers.stream().filter(a -> a.getStatus() == status).collect(Collectors.groupingBy(a -> a.getUser().getUsername()));
+        Map<String, List<Answer>> chartMap = answers
+                .stream()
+                .filter(a -> a.getStatus() == status)
+                .collect(Collectors.groupingBy(a -> a.getUser().getUserFullName()));
 
         ChartSeries chartSeries = new ChartSeries();
-        chartSeries.setLabel(status.name());
-
+        chartSeries.setLabel(status.getLocal());
         users.stream()
-                .map(User::getUsername)
+                .map(User::getUserFullName)
                 .forEach(u -> {
                     if (!chartMap.keySet().contains(u))
                         chartMap.put(u, new LinkedList<>());
@@ -119,7 +119,6 @@ public class StatisticsBean implements Serializable {
                 });
 
         chartMap.forEach((k, v) -> chartSeries.set(k, v.size()));
-
         return chartSeries;
 
     }
@@ -135,28 +134,28 @@ public class StatisticsBean implements Serializable {
         ESurveyStatus status = calculate(
                 answersAccountant.getQuestionRelatedAnswers(question, isUserInProjectRole(EProjectRole.EXPERT)),
                 1); // only one answer to question
-        return status.name();
+        return status.getLocal();
     }
 
     public String calculateStatus(Survey survey) {
         ESurveyStatus status = calculate(
                 answersAccountant.getSurveyRelatedAnswers(survey, isUserInProjectRole(EProjectRole.EXPERT)),
                 answersAccountant.getSurveyRelatedQuestions(survey).size());
-        return status.name();
+        return status.getLocal();
     }
 
     public String calculateStatus(ProjectStage projectStage) {
         ESurveyStatus status = calculate(
                 answersAccountant.getStagesRelatedAnswers(projectStage, isUserInProjectRole(EProjectRole.EXPERT)),
                 answersAccountant.getStagesRelatedQuestions(projectStage).size());
-        return status.name();
+        return status.getLocal();
     }
 
     public String calculateStatus(Project project) {
         ESurveyStatus status = calculate(
                 answersAccountant.getProjectRelatedAnswers(project),
                 answersAccountant.getProjectRelatedQuestions(project).size());
-        return status.name();
+        return status.getLocal();
     }
 
     public ESurveyStatus calculate(List<Answer> answers, int expectedAnswersAmount) {

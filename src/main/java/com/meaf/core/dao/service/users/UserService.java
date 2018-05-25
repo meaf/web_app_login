@@ -51,7 +51,7 @@ public class UserService extends ABaseService<User> {
         ProjectUserConnection con = findSingleByWhereClause(ProjectUserConnection.class, "invite", invite);
         if (con == null || con.getUser() != null) {
             response.setSeverity(FacesMessage.SEVERITY_WARN);
-            response.setTitle("Invalid invite code");
+            response.setTitle("Запрошення не вірне");
             response.setInfo("");
             return response;
         }
@@ -59,7 +59,7 @@ public class UserService extends ABaseService<User> {
         getEntityManager().persist(con);
 
         response.setSeverity(FacesMessage.SEVERITY_INFO);
-        response.setTitle("Invite code");
+        response.setTitle("Успіх!");
         response.setInfo("");
         return response;
 

@@ -68,23 +68,23 @@ public class SessionBean implements Serializable {
 
                     userService.connectUserWithInvite(newUser, invite);
                     response.setSeverity(FacesMessage.SEVERITY_INFO);
-                    response.setTitle("Success");
-                    response.setInfo("Log in with your credentials");
+                    response.setTitle("Успіх");
+                    response.setInfo("Тепер увійдіть використовуючи введені данні");
                 } catch (Exception ex) {
                     response.setSeverity(FacesMessage.SEVERITY_ERROR);
-                    response.setTitle("Error");
-                    response.setInfo("Check entered data and try again");
+                    response.setTitle("Невдача");
+                    response.setInfo("Перевірте правильність введення даних та спробуйте знову");
                     ex.printStackTrace();
                 }
             } else {
                 response.setSeverity(FacesMessage.SEVERITY_ERROR);
-                response.setTitle("Error");
-                response.setInfo("Username taken");
+                response.setTitle("Невдача");
+                response.setInfo("Користувач з таким логіном вже існує");
             }
         } else {
             response.setSeverity(FacesMessage.SEVERITY_WARN);
-            response.setTitle("Error");
-            response.setInfo("Invite code is not valid");
+            response.setTitle("Невдача");
+            response.setInfo("Запрошення не вірне");
         }
         addToast(response);
     }
@@ -128,7 +128,7 @@ public class SessionBean implements Serializable {
             context.getExternalContext().redirect(redirectPage);
         } catch (ServletException se) {
             password = "";
-            Response response = new Response(FacesMessage.SEVERITY_ERROR, "Authentication Failed", "Incorrect username or password");
+            Response response = new Response(FacesMessage.SEVERITY_ERROR, "Вхід не здійснено", "Неправильний логін чи пароль");
             addToast(response);
         }
     }
@@ -146,7 +146,7 @@ public class SessionBean implements Serializable {
     public String getCurrentProjectRole() {
         ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
         return connection != null
-                ? connection.getRole().name().toUpperCase()
+                ? connection.getRole().getLocal().toUpperCase()
                 : null;
     }
 
@@ -200,7 +200,7 @@ public class SessionBean implements Serializable {
 
     public boolean canUserDelete(String status) {
         return sessionManagementHelper.getCurrentSessionProjectUserConnection().getRole() == EProjectRole.ORGANIZER
-                && status.trim().equals(ESurveyStatus.NEW.name());
+                && status.trim().equals(ESurveyStatus.NEW.getLocal());
     }
 
 

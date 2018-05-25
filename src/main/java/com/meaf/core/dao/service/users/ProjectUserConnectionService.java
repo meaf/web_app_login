@@ -68,13 +68,13 @@ public class ProjectUserConnectionService extends ABaseService<ProjectUserConnec
                     role));
 
             response.setSeverity(FacesMessage.SEVERITY_INFO);
-            response.setTitle("Success");
-            response.setInfo("invite created");
+            response.setTitle("Успіх");
+            response.setInfo("Запрошення створено");
         } catch (Exception ex) {
             response.setEx(ex);
             response.setSeverity(FacesMessage.SEVERITY_ERROR);
-            response.setTitle("Success");
-            response.setInfo("invite created");
+            response.setTitle("Невдача");
+            response.setInfo("Щось пішло не так...");
             ex.printStackTrace();
         }
         return response;

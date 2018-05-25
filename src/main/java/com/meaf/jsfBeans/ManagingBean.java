@@ -63,12 +63,12 @@ public class ManagingBean implements Serializable {
         try {
             answerService.add(managedAnswer);
             response.setSeverity(FacesMessage.SEVERITY_INFO);
-            response.setTitle("Success");
-            response.setInfo("Answer saved as " + managedAnswer.getStatus().name().toLowerCase());
+            response.setTitle("Успіх");
+            response.setInfo("Відповідь збережена як " + managedAnswer.getStatus().getLocal().toLowerCase());
         } catch (Exception ex) {
             response.setSeverity(FacesMessage.SEVERITY_WARN);
-            response.setTitle("Error");
-            response.setInfo("failed to save answer; try again");
+            response.setTitle("Невдача");
+            response.setInfo("Не вдалося зберегти відповідь; спробуйте знову");
         }
 
         addToast(response);
@@ -80,7 +80,7 @@ public class ManagingBean implements Serializable {
         Response response;
         Project currentProject = projectService.getCurrentProject();
         if (managedQuestion.getTitle().trim().isEmpty() || managedQuestion.getDescription().trim().isEmpty()) {
-            response = new Response(FacesMessage.SEVERITY_ERROR, "Error", "Fill all required fields");
+            response = new Response(FacesMessage.SEVERITY_ERROR, "Невдача", "Заповніть всі обов'язкові поля");
             addToast(response);
             return;
         }
@@ -89,14 +89,14 @@ public class ManagingBean implements Serializable {
 
         managedQuestion = new Question();
 
-        response = new Response(FacesMessage.SEVERITY_INFO, "Success", "question created");
+        response = new Response(FacesMessage.SEVERITY_INFO, "Успіх", "питання створено");
         addToast(response);
     }
 
     public void addSurvey() throws Exception {
         Response response;
         if (managedSurvey.getTopic().trim().isEmpty() || managedSurvey.getDescription().trim().isEmpty()) {
-            response = new Response(FacesMessage.SEVERITY_ERROR, "Error", "Fill all required fields");
+            response = new Response(FacesMessage.SEVERITY_ERROR, "Невдача", "Заповніть всі обов'язкові поля");
             addToast(response);
             return;
         }
@@ -104,7 +104,7 @@ public class ManagingBean implements Serializable {
         surveyService.add(managedSurvey);
 
         managedSurvey = new Survey();
-        response = new Response(FacesMessage.SEVERITY_INFO, "Success", "survey created");
+        response = new Response(FacesMessage.SEVERITY_INFO, "Успіх", "");
         addToast(response);
     }
 
@@ -112,7 +112,7 @@ public class ManagingBean implements Serializable {
         Response response;
         Project currentProject = projectService.getCurrentProject();
         if (managedProjectStage.getName() == null || managedProjectStage.getName().trim().isEmpty()) {
-            response = new Response(FacesMessage.SEVERITY_ERROR, "Error", "Enter next stage's name");
+            response = new Response(FacesMessage.SEVERITY_ERROR, "Невдача", "Введіть назву наступної стадії");
             addToast(response);
             return;
         }
@@ -129,7 +129,7 @@ public class ManagingBean implements Serializable {
         projectStageService.add(managedProjectStage);
         managedProjectStage = new ProjectStage();
 
-        response = new Response(FacesMessage.SEVERITY_INFO, "Success", "stage created");
+        response = new Response(FacesMessage.SEVERITY_INFO, "Успіх", "стадію додано");
         addToast(response);
     }
 
@@ -138,12 +138,12 @@ public class ManagingBean implements Serializable {
         try {
             surveyService.delete(removableItemId);
             response.setSeverity(FacesMessage.SEVERITY_INFO);
-            response.setTitle("Success");
-            response.setInfo("survey deleted");
+            response.setTitle("Успіх");
+            response.setInfo("збірка питань видалена");
         } catch (Exception e) {
             response.setSeverity(FacesMessage.SEVERITY_ERROR);
-            response.setTitle("Failed");
-            response.setInfo("failed to delete survey...");
+            response.setTitle("Невдача");
+            response.setInfo("не вдалося видалити збірку...");
             e.printStackTrace();
         }
     }
@@ -153,12 +153,12 @@ public class ManagingBean implements Serializable {
         try {
             projectStageService.delete(removableItemId);
             response.setSeverity(FacesMessage.SEVERITY_INFO);
-            response.setTitle("Success");
-            response.setInfo("stage deleted");
+            response.setTitle("Успіх");
+            response.setInfo("стадія видалена");
         } catch (Exception e) {
             response.setSeverity(FacesMessage.SEVERITY_ERROR);
-            response.setTitle("Failed");
-            response.setInfo("failed to delete stage...");
+            response.setTitle("Невдача");
+            response.setInfo("не вдалося видалити стадію...");
             e.printStackTrace();
         }
     }
@@ -168,12 +168,12 @@ public class ManagingBean implements Serializable {
         try {
             questionService.delete(removableItemId);
             response.setSeverity(FacesMessage.SEVERITY_INFO);
-            response.setTitle("Success");
-            response.setInfo("question deleted");
+            response.setTitle("Успіх");
+            response.setInfo("питання видалено");
         } catch (Exception e) {
             response.setSeverity(FacesMessage.SEVERITY_ERROR);
-            response.setTitle("Failed");
-            response.setInfo("failed to delete question...");
+            response.setTitle("Невдача");
+            response.setInfo("не вдалося видалити питання...");
             e.printStackTrace();
         }
     }
