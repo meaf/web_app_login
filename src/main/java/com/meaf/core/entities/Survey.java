@@ -41,7 +41,7 @@ public class Survey implements Serializable, IProjectElement {
     private Date lastAction;
 
     @Transient
-    private ESurveyStatus relativeStatus;
+    private ESurveyStatus surveyStatus;
 
     public Long getId() {
         return id;
@@ -94,12 +94,20 @@ public class Survey implements Serializable, IProjectElement {
         getStage().updateActionTime();
     }
 
-    public ESurveyStatus getRelativeStatus() {
-        return relativeStatus;
+    public Set<Question> getQuestions() {
+        return questions;
     }
 
-    public void setRelativeStatus(ESurveyStatus relativeStatus) {
-        this.relativeStatus = relativeStatus;
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
+
+    public ESurveyStatus getSurveyStatus() {
+        return surveyStatus;
+    }
+
+    public void setSurveyStatus(ESurveyStatus surveyStatus) {
+        this.surveyStatus = surveyStatus;
     }
 
     public String getDescription() {

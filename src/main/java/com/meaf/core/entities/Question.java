@@ -40,6 +40,9 @@ public class Question implements Serializable, IProjectElement {
     @Column(name = "LAST_ACTION")
     private Date lastAction;
 
+    @Transient
+    private ESurveyStatus surveyStatus;
+
 
     public Long getId() {
         return id;
@@ -114,6 +117,22 @@ public class Question implements Serializable, IProjectElement {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public ESurveyStatus getSurveyStatus() {
+        return surveyStatus;
+    }
+
+    public void setSurveyStatus(ESurveyStatus surveyStatus) {
+        this.surveyStatus = surveyStatus;
     }
 
     @PreUpdate

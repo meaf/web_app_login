@@ -9,7 +9,7 @@ import com.meaf.core.meta.ESurveyStatus;
 import org.primefaces.model.chart.*;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class StatisticsBean implements Serializable {
 
     @Inject

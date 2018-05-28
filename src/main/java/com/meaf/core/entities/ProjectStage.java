@@ -1,6 +1,7 @@
 package com.meaf.core.entities;
 
 import com.meaf.core.dao.service.base.IProjectElement;
+import com.meaf.core.meta.ESurveyStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -39,6 +40,8 @@ public class ProjectStage implements Serializable, IProjectElement {
     @Column(name = "LAST_ACTION")
     private Date lastAction;
 
+    @Transient
+    private ESurveyStatus surveyStatus;
 
     public Long getId() {
         return id;
@@ -104,6 +107,22 @@ public class ProjectStage implements Serializable, IProjectElement {
 
     public void setLastAction(Date lastAction) {
         this.lastAction = lastAction;
+    }
+
+    public Set<Survey> getSurveys() {
+        return surveys;
+    }
+
+    public void setSurveys(Set<Survey> surveys) {
+        this.surveys = surveys;
+    }
+
+    public ESurveyStatus getSurveyStatus() {
+        return surveyStatus;
+    }
+
+    public void setSurveyStatus(ESurveyStatus surveyStatus) {
+        this.surveyStatus = surveyStatus;
     }
 
     @Override

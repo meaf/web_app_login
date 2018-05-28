@@ -40,8 +40,8 @@
                             rendered="#{sessionBean.canUserDelete(statisticsBean.calculateStatus(stage))}"
                             icon="fa fa-trash-o"
                             title="Видалити"
-                            action="#{managingBean.setRemovableItemId(stage.id)}"
-                            oncomplete="PF('delConfirm').show()">
+                            action="#{managingBean.setRemovableItemId(stage.id)}">
+                        <f:ajax execute="@none" onevent="PF('delConfirm').show()"/>
                     </p:commandButton>
                 </p:column>
 
@@ -64,7 +64,7 @@
                     <p:commandButton value="Додати" action="#{managingBean.addProjectStage}" update="stagesTable"/>
 
                     <p:commandButton value="Оновити">
-                        <f:ajax execute="@form" render="stagesTable"/>
+                        <f:ajax render="stagesTable"/>
                     </p:commandButton>
                 </h:panelGrid>
             </div>

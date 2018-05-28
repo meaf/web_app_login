@@ -48,7 +48,7 @@
                             title="Видалити"
                             action="#{managingBean.setRemovableItemId(survey.id)}"
                             oncomplete="PF('delConfirm').show()">
-                        <f:ajax execute="@form"/>
+                        <f:ajax execute="@none" onevent="PF('delConfirm').show()"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -56,9 +56,11 @@
             <p:dialog header="Видалити?" width="20%" resizable="false" closable="false"
                       modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
                 <h:panelGrid columns="2" width="90%">
-                    <p:commandButton value="Підтвердити" action="#{managingBean.removeSurvey()}"
+                    <p:commandButton value="Підтвердити"
                                      update="growl surveysTable"
-                                     oncomplete="PF('delConfirm').hide()"/>
+                                     oncomplete="PF('delConfirm').hide()">
+                        <f:ajax execute="@none" listener="#{managingBean.removeSurvey()}"/>
+                    </p:commandButton>
                     <p:commandButton value="Відмінити" oncomplete="PF('delConfirm').hide()"/>
                 </h:panelGrid>
             </p:dialog>
@@ -69,10 +71,10 @@
                     <p:inputText value="#{managingBean.managedSurvey.topic}" placeholder="тема"/>
                     <p:inputText value="#{managingBean.managedSurvey.description}" placeholder="опис"/>
                     <p:commandButton value="Додати" action="#{managingBean.addSurvey}" update="surveysTable growl">
-                        <f:ajax execute="@form" render="none"/>
+                        <f:ajax render="surveysTable"/>
                     </p:commandButton>
                     <p:commandButton value="Оновити">
-                        <f:ajax execute="@form" render="surveysTable"/>
+                        <f:ajax render="surveysTable"/>
                     </p:commandButton>
                 </h:panelGrid>
             </div>
