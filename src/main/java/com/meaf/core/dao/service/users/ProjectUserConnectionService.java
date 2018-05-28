@@ -2,18 +2,24 @@ package com.meaf.core.dao.service.users;
 
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.dao.service.base.Response;
+import com.meaf.core.dao.service.base.SysPropertiesManager;
 import com.meaf.core.entities.Project;
 import com.meaf.core.entities.ProjectUserConnection;
+import com.meaf.core.entities.SysProperties;
 import com.meaf.core.entities.User;
 import com.meaf.core.meta.EProjectRole;
 
 import javax.faces.application.FacesMessage;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Named
 public class ProjectUserConnectionService extends ABaseService<ProjectUserConnection> {
+    @Inject
+    SysPropertiesManager sysPropertiesManager;
+
     @Override
     public List<ProjectUserConnection> getBranched(Long rootNode) throws IllegalAccessException {
         throw new IllegalAccessException("has no root");
@@ -32,8 +38,8 @@ public class ProjectUserConnectionService extends ABaseService<ProjectUserConnec
     }
 
     @Override
-    public void update(ProjectUserConnection user) {
-        throw new UnsupportedOperationException("nope");
+    public void update(ProjectUserConnection con) {
+        getEntityManager().persist(con);
     }
 
     public List<ProjectUserConnection> getUnusedInvites() {
@@ -67,8 +73,14 @@ public class ProjectUserConnectionService extends ABaseService<ProjectUserConnec
                     findSingleByWhereClause(Project.class, "id", 0),
                     role));
 
-
-//            con.
+            if (role == EProjectRole.EXPERT) {
+                SysProperties sysProperty = sysPropertiesManager.getByKey("project_experts");
+                Long userNum = Long.parseLong(sysProperty.getValue()) + 1;
+                con.setNumber(userNum);
+                update(con);
+                sysProperty.setValue("" + (userNum));
+                getEntityManager().merge(sysProperty);
+            }
 
             response.setSeverity(FacesMessage.SEVERITY_INFO);
             response.setTitle("Успіх");

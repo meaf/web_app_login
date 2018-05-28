@@ -8,7 +8,7 @@
       xmlns:tp="http://java.sun.com/jsf/composite/toolbox">
 <h:head>
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles.css"/>
-    <title>Questions</title>
+    <title>Питання</title>
 </h:head>
 <h:body>
     <p:growl id="growl" showDetail="true" life="1000"/>
@@ -61,8 +61,8 @@
             <div align="right">
                 <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
                     <p:outputLabel value="Додати питання: "/>
-                    <p:inputText value="#{managingBean.managedQuestion.title}" placeholder="topic"/>
-                    <p:inputText value="#{managingBean.managedQuestion.description}" placeholder="description"/>
+                    <p:inputText value="#{managingBean.managedQuestion.title}" placeholder="тема"/>
+                    <p:inputText value="#{managingBean.managedQuestion.description}" placeholder="опис"/>
 
                     <p:commandButton value="Додати" action="#{managingBean.addQuestion}" update="questionsTable growl"/>
 

@@ -192,18 +192,21 @@
             <column name="PROJECT_ID">0</column>
             <column name="USER_ID">2</column>
             <column name="ROLE">EXPERT</column>
+            <column name="NUMBER">1</column>
         </insert>
         <insert tableName="PROJECT_USER_CONNECTIONS">
             <column name="ID">3</column>
             <column name="PROJECT_ID">0</column>
             <column name="USER_ID">3</column>
             <column name="ROLE">EXPERT</column>
+            <column name="NUMBER">2</column>
         </insert>
         <insert tableName="PROJECT_USER_CONNECTIONS">
             <column name="ID">4</column>
             <column name="PROJECT_ID">0</column>
             <column name="USER_ID">4</column>
             <column name="ROLE">EXPERT</column>
+            <column name="NUMBER">3</column>
         </insert>
         <insert tableName="PROJECT_USER_CONNECTIONS">
             <column name="ID">10</column>
@@ -211,6 +214,14 @@
             <column name="USER_ID"></column>
             <column name="ROLE">EXPERT</column>
             <column name="INVITE">XOXOXOXO</column>
+            <column name="NUMBER">4</column>
+        </insert>
+
+        <!--Anonymity-->
+        <insert tableName="SYS_PROPERTIES">
+            <column name="ID">0</column>
+            <column name="NAME">project_experts</column>
+            <column name="VALUE">4</column>
         </insert>
     </changeSet>
 

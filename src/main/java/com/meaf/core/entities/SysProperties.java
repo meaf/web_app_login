@@ -13,7 +13,7 @@ public class SysProperties implements Serializable {
     private Long id;
 
     @Column(name = "NAME")
-    private String key;
+    private String name;
 
     @Column(name = "VALUE")
     private String value;
@@ -27,11 +27,11 @@ public class SysProperties implements Serializable {
     }
 
     public String getKey() {
-        return key;
+        return name;
     }
 
     public void setKey(String name) {
-        key = name;
+        name = name;
     }
 
     public String getValue() {
@@ -43,7 +43,7 @@ public class SysProperties implements Serializable {
     }
 
     public SysProperties(String key, String value) {
-        this.key = key;
+        name = key;
         this.value = value;
     }
 

@@ -8,7 +8,7 @@
       xmlns:tp="http://java.sun.com/jsf/composite/toolbox">
 <h:head>
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles.css"/>
-    <title>Answer</title>
+    <title>Відповідь</title>
 </h:head>
 <h:body>
     <p:growl id="growl" showDetail="true" life="1000"/>
@@ -19,12 +19,21 @@
             <c:set var="currElement" value="#{navigationBean.questionById(id)}"/>
             #{managingBean.setManagedQuestion(currElement)}
             #{managingBean.answerQuestionUser(managingBean.managedQuestion)}
-            <div style="background-color: #f1f5f8">
-                <h1 align="center"><p:outputLabel value="#{managingBean.managedQuestion.title}"/></h1>
-                <h2 align="center"><p:outputLabel value="#{managingBean.managedQuestion.description}"/></h2>
-                <h3 align="center"><p:outputLabel value="#{managingBean.managedAnswer.status.local}"/></h3>
-                <p:outputLabel value="Ваша відповідь:"/><br/>
-            </div>
+
+            <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}">
+                <div style="background-color: #f1f5f8">
+                    <h1 align="center">
+                        <p:outputLabel value="#{managingBean.managedQuestion.title}"/>
+                    </h1>
+                    <h2 align="center">
+                        <p:outputLabel value="#{managingBean.managedQuestion.description}"/>
+                    </h2>
+                    <h3 align="center">
+                        <p:outputLabel value="#{managingBean.managedAnswer.status.local}"/>
+                    </h3>
+                    <p:outputLabel value="Ваша відповідь:"/><br/>
+                </div>
+            </p:outputPanel>
 
             <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}" id="answerPanel">
                 <p:textEditor widgetVar="answerEditor" value="#{managingBean.managedAnswer.text}" height="500"
@@ -54,17 +63,20 @@
             <!--// org list-->
             <p:outputPanel style="display:block" rendered="#{sessionBean.userOrganizer}">
                 <p:accordionPanel var="answer"
-                                  value="#{navigationBean.answersAllByQuestion(managingBean.managedQuestion)}"
+                                  value="#{navigationBean.fetchOrgViewByQuestion(managingBean.managedQuestion)}"
                                   multiple="true">
-                    <p:tab title="#{answer.user.userFullName}">
+                    <p:tab title="#{answer.userNumber}">
                         <h:panelGrid columns="1" cellpadding="3" width="100%" styleClass="hideToolbar borderless">
-                            <p:outputLabel value="#{answer.status}"/>
+                            <!--<p:outputLabel value="#{answer.status}"/>-->
                             <p:textEditor value="#{answer.text}"
-                                          readonly="true"
-                            />
+                                          readonly="true"/>
                         </h:panelGrid>
                     </p:tab>
                 </p:accordionPanel>
+                <p:outputPanel style="background-color: #f1f5f8;height: 100px;padding: 10px;"
+                               rendered="#{navigationBean.fetchOrgViewByQuestion(managingBean.managedQuestion).isEmpty()}">
+                    <p:outputLabel value="Поки що нема відправлених відповідей"/>
+                </p:outputPanel>
             </p:outputPanel>
         </h:form>
     </div>

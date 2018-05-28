@@ -36,6 +36,9 @@ public class ProjectUserConnection implements Serializable {
     @Column(name = "INVITE")
     private String invite;
 
+    @Column(name = "NUMBER")
+    private Long number;
+
 
     public Long getId() {
         return id;
@@ -91,6 +94,14 @@ public class ProjectUserConnection implements Serializable {
 
     public void setInvite(String invite) {
         this.invite = invite;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
     }
 
     public ProjectUserConnection(User user, Project project, EProjectRole role) {

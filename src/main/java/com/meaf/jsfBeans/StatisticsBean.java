@@ -12,11 +12,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.meaf.core.meta.ProjectConstants.EXPERT_LOCAL_PREFIX;
 
 @ManagedBean
 @SessionScoped
@@ -94,9 +93,6 @@ public class StatisticsBean implements Serializable {
         ChartSeries submittedChartSeries = constructUserChartSeries(answers, questions, users, EAnswerStatus.SUBMITTED);
         barChartModel.addSeries(submittedChartSeries);
 
-//        Axis yAxis = barChartModel.getAxis(AxisType.Y);
-//        yAxis.setLabel("Y axis");
-
         Axis xAxis = barChartModel.getAxis(AxisType.X);
         xAxis.setLabel("");
         xAxis.setMin(0);
@@ -111,16 +107,17 @@ public class StatisticsBean implements Serializable {
         return barChartModel;
     }
 
+
     private ChartSeries constructUserChartSeries(List<Answer> answers, List<Question> questions, List<User> users, EAnswerStatus status) {
         Map<String, List<Answer>> chartMap = answers
                 .stream()
                 .filter(a -> a.getStatus() == status)
-                .collect(Collectors.groupingBy(a -> a.getUser().getUserFullName()));
+                .collect(Collectors.groupingBy(a -> EXPERT_LOCAL_PREFIX + sessionManagementHelper.getConnectionBetween(handledProject, a.getUser()).getNumber().toString()));
 
         ChartSeries chartSeries = new ChartSeries();
         chartSeries.setLabel(status.getLocal());
         users.stream()
-                .map(User::getUserFullName)
+                .map(u -> EXPERT_LOCAL_PREFIX + sessionManagementHelper.getConnectionBetween(handledProject, u).getNumber().toString())
                 .forEach(u -> {
                     if (!chartMap.keySet().contains(u))
                         chartMap.put(u, new LinkedList<>());
@@ -168,6 +165,15 @@ public class StatisticsBean implements Serializable {
     }
 
     public ESurveyStatus calculate(List<Answer> answers, int expectedAnswersAmount) {
+        Optional<Answer> optAnswer = answers.stream().findAny();
+        if (optAnswer.isPresent()) {
+            Project project = optAnswer.get().getRootProject();
+            if (sessionManagementHelper.getConnectionBetween(project, sessionManagementHelper.getCurrentUser()).getRole() == EProjectRole.ORGANIZER) {
+                int usersInProject = answersAccountant.getProjectExperts(project).size();
+                expectedAnswersAmount *= usersInProject;
+            }
+        } else
+            return ESurveyStatus.NEW;
         if (expectedAnswersAmount == answers.size() && answers.size() != 0) {
             if (answers.stream().allMatch(q -> q.getStatus().equals(EAnswerStatus.SUBMITTED)))
                 return ESurveyStatus.ANSWERED;

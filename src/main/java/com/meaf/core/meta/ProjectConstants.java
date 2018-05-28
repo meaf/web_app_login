@@ -6,5 +6,6 @@ public class ProjectConstants {
     public static final String SESSION_PARAM__CURRENT_PROJECT_USER_CONNECTION = "currentProjectUserConnection";
     public static final String SESSION_PARAM__CURRENT_USER = "sessionUser";
     public static final String PERSISTENCE_UNIT_NAME = "WalDB";
+    public static final String EXPERT_LOCAL_PREFIX = "Експерт №";
 
 }

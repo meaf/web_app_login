@@ -1,17 +1,19 @@
 package com.meaf.core.dao.service.project;
 
+import com.meaf.core.dao.service.SessionManagementHelper;
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.entities.Answer;
 import com.meaf.core.entities.ProjectUserConnection;
 import com.meaf.core.entities.Question;
+import com.meaf.core.meta.EAnswerStatus;
 import com.meaf.core.meta.EProjectRole;
 
 import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,9 @@ import java.util.stream.Collectors;
 @Named
 @SessionScoped
 public class AnswerService extends ABaseService<Answer> {
+
+    @Inject
+    SessionManagementHelper sessionManagementHelper;
 
     @Override
     public List<Answer> getBranched(Long rootNode) {
@@ -80,11 +85,18 @@ public class AnswerService extends ABaseService<Answer> {
         return answers;
     }
 
-    public List<Answer> getAllByQuestion(Question question) {
-        return new ArrayList<>(getEntityManager()
-                .createQuery("select u from Answer u " +
-                        "where u.question = :question", Answer.class)
-                .setParameter("question", question)
-                .getResultList());
+    public List<Answer> getOrgViewByQuestion(Question question) {
+        List<Answer> answers = getBranchedUnfiltered(question.getId()).stream()
+                .filter(a -> a.getStatus() == EAnswerStatus.SUBMITTED)
+                .map(this::markWithUserNumber)
+                .collect(Collectors.toList());
+        return answers;
+    }
+
+    private Answer markWithUserNumber(Answer ans) {
+        ProjectUserConnection connection =
+                sessionManagementHelper.getConnectionBetween(ans.getRootProject(), ans.getUser());
+        ans.setUserNumber(connection.getNumber());
+        return ans;
     }
 }

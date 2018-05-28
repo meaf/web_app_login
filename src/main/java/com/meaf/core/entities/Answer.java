@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+import static com.meaf.core.meta.ProjectConstants.EXPERT_LOCAL_PREFIX;
+
 @Entity
 @Table(name = "ANSWERS")
 public class Answer implements Serializable, IProjectElement {
@@ -43,6 +45,9 @@ public class Answer implements Serializable, IProjectElement {
 
     @Transient
     private EAnswerStatus relativeStatus;
+    
+    @Transient
+    private Long userNumber;
 
 
     public Long getId() {
@@ -137,6 +142,14 @@ public class Answer implements Serializable, IProjectElement {
         this.comment = comment;
     }
 
+    public String getUserNumber() {
+        return EXPERT_LOCAL_PREFIX + userNumber;
+    }
+
+    public void setUserNumber(Long userNumber) {
+        this.userNumber = userNumber;
+    }
+
     @PreUpdate
     @PrePersist
     public void updateTimeStamps() {
@@ -147,4 +160,5 @@ public class Answer implements Serializable, IProjectElement {
     public boolean equals(Object obj) {
         return obj instanceof Answer && ((Answer) obj).getId().equals(id);
     }
+
 }

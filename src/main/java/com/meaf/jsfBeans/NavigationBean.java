@@ -81,8 +81,8 @@ public class NavigationBean implements Serializable {
         return answerService.getAll();
     }
 
-    public List<Answer> answersAllByQuestion(Question question) {
-        return answerService.getAllByQuestion(question);
+    public List<Answer> fetchOrgViewByQuestion(Question question) {
+        return answerService.getOrgViewByQuestion(question);
     }
 
 
