@@ -63,9 +63,12 @@ public class ProjectUserConnectionService extends ABaseService<ProjectUserConnec
     public Response addInvite(EProjectRole role, String invite) {
         Response response = new Response();
         try {
-            super.add(new ProjectUserConnection(invite,
+            ProjectUserConnection con = super.add(new ProjectUserConnection(invite,
                     findSingleByWhereClause(Project.class, "id", 0),
                     role));
+
+
+//            con.
 
             response.setSeverity(FacesMessage.SEVERITY_INFO);
             response.setTitle("Успіх");

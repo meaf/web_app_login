@@ -17,7 +17,6 @@
         <h:form>
             <c:set var="id" value="#{param['id']}"/>
             <c:set var="currElement" value="#{navigationBean.surveyById(id)}"/>
-
             #{managingBean.setManagedSurvey(currElement)}
             <p:dataTable id="questionsTable" var="question"
                          value="#{navigationBean.questionsBranched(managingBean.managedSurvey.id)}">

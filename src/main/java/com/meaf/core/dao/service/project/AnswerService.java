@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Named
@@ -23,16 +24,21 @@ public class AnswerService extends ABaseService<Answer> {
     @Override
     public List<Answer> getBranched(Long rootNode) {
         List<Answer> answers = getBranchedUnfiltered(rootNode);
-        ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
-        if (connection != null) {
-            if (EProjectRole.EXPERT.equals(connection.getRole())) {
-                return filterOtherUsersProjects(answers)
-                        .stream()
-                        .filter(a -> a.getUser().equals(sessionManagementHelper.getCurrentUser()))
-                        .collect(Collectors.toList());
+        Optional<Answer> optAnsw = answers.stream().findAny();
+        if (optAnsw.isPresent()) {
+            ProjectUserConnection connection = sessionManagementHelper.getCurrentSessionProjectUserConnection();
+            if (connection == null)
+                connection = sessionManagementHelper.getConnectionBetween(optAnsw.get().getRootProject(), sessionManagementHelper.getCurrentUser());
+            if (connection != null) {
+                if (EProjectRole.EXPERT.equals(connection.getRole())) {
+                    return filterOtherUsersProjects(answers)
+                            .stream()
+                            .filter(a -> a.getUser().equals(sessionManagementHelper.getCurrentUser()))
+                            .collect(Collectors.toList());
+                }
+                if (EProjectRole.ORGANIZER.equals(connection.getRole()))
+                    return answers;
             }
-            if (EProjectRole.ORGANIZER.equals(connection.getRole()))
-                return answers;
         }
         return new LinkedList<>();
     }

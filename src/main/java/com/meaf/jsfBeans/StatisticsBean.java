@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,11 @@ public class StatisticsBean implements Serializable {
         Project project = getHandledProject();
         List<Answer> answers = answersAccountant.getProjectRelatedAnswers(project);
         List<Question> questions = answersAccountant.getProjectRelatedQuestions(project);
-        List<User> users = answersAccountant.getProjectExperts(project);
+        ProjectUserConnection con = sessionManagementHelper.getConnectionBetween(project, sessionManagementHelper.getCurrentUser());
+
+        List<User> users = con.getRole() == EProjectRole.EXPERT
+                ? Arrays.asList(con.getUser())
+                : answersAccountant.getProjectExperts(project);
 
         return constructPie(answers, questions, users);
     }
@@ -65,7 +70,11 @@ public class StatisticsBean implements Serializable {
         Project project = getHandledProject();
         List<Answer> answers = answersAccountant.getProjectRelatedAnswers(project);
         List<Question> questions = answersAccountant.getProjectRelatedQuestions(project);
-        List<User> users = answersAccountant.getProjectExperts(project);
+        ProjectUserConnection con = sessionManagementHelper.getConnectionBetween(project, sessionManagementHelper.getCurrentUser());
+
+        List<User> users = con.getRole() == EProjectRole.EXPERT
+                ? Arrays.asList(con.getUser())
+                : answersAccountant.getProjectExperts(project);
 
         return constructBar(answers, questions, users);
     }

@@ -17,18 +17,18 @@
         <h:form>
             <c:set var="id" value="#{param['id']}"/>
             <c:set var="currElement" value="#{navigationBean.questionById(id)}"/>
-
             #{managingBean.setManagedQuestion(currElement)}
             #{managingBean.answerQuestionUser(managingBean.managedQuestion)}
-
-            <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}" id="answerPanel">
+            <div style="background-color: #f1f5f8">
                 <h1 align="center"><p:outputLabel value="#{managingBean.managedQuestion.title}"/></h1>
                 <h2 align="center"><p:outputLabel value="#{managingBean.managedQuestion.description}"/></h2>
                 <h3 align="center"><p:outputLabel value="#{managingBean.managedAnswer.status.local}"/></h3>
                 <p:outputLabel value="Ваша відповідь:"/><br/>
+            </div>
 
+            <p:outputPanel style="display:block" rendered="#{sessionBean.userExpert}" id="answerPanel">
                 <p:textEditor widgetVar="answerEditor" value="#{managingBean.managedAnswer.text}" height="500"
-                              style="margin-bottom:10px; background-color: #f1f5f8" required="true"
+                              style="margin-bottom:10px; background-color: #f1f5f8" required="false"
                               readonly="#{!managingBean.getManagedAnswerEditable()}"/>
 
                 <p:panelGrid columns="3" styleClass="transparentBG floatRight"
