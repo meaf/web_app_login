@@ -30,12 +30,13 @@ public class StatisticsBean implements Serializable {
     private Survey handledSurvey;
     private ProjectStage handledProjectStage;
     private Project handledProject;
+    private ProjectUserConnection connection;
 
 
     public PieChartModel drawPieChart() {
         Project project = getHandledProject();
-        List<Answer> answers = answersAccountant.getProjectRelatedAnswers(project);
-        List<Question> questions = answersAccountant.getProjectRelatedQuestions(project);
+        Set<Answer> answers = answersAccountant.getProjectRelatedAnswers(project);
+        Set<Question> questions = answersAccountant.getProjectRelatedQuestions(project);
         ProjectUserConnection con = sessionManagementHelper.getConnectionBetween(project, sessionManagementHelper.getCurrentUser());
 
         List<User> users = con.getRole() == EProjectRole.EXPERT
@@ -45,7 +46,7 @@ public class StatisticsBean implements Serializable {
         return constructPie(answers, questions, users);
     }
 
-    private PieChartModel constructPie(List<Answer> answers, List<Question> questions, List<User> users) {
+    private PieChartModel constructPie(Set<Answer> answers, Set<Question> questions, List<User> users) {
 
         PieChartModel pieModel = new PieChartModel();
 
@@ -67,8 +68,8 @@ public class StatisticsBean implements Serializable {
 
     public BarChartModel drawBarChart() {
         Project project = getHandledProject();
-        List<Answer> answers = answersAccountant.getProjectRelatedAnswers(project);
-        List<Question> questions = answersAccountant.getProjectRelatedQuestions(project);
+        Set<Answer> answers = answersAccountant.getProjectRelatedAnswers(project);
+        Set<Question> questions = answersAccountant.getProjectRelatedQuestions(project);
         ProjectUserConnection con = sessionManagementHelper.getConnectionBetween(project, sessionManagementHelper.getCurrentUser());
 
         List<User> users = con.getRole() == EProjectRole.EXPERT
@@ -78,7 +79,7 @@ public class StatisticsBean implements Serializable {
         return constructBar(answers, questions, users);
     }
 
-    private BarChartModel constructBar(List<Answer> answers, List<Question> questions, List<User> users) {
+    private BarChartModel constructBar(Set<Answer> answers, Set<Question> questions, List<User> users) {
 
         BarChartModel barChartModel = new HorizontalBarChartModel();
 
@@ -108,7 +109,7 @@ public class StatisticsBean implements Serializable {
     }
 
 
-    private ChartSeries constructUserChartSeries(List<Answer> answers, List<Question> questions, List<User> users, EAnswerStatus status) {
+    private ChartSeries constructUserChartSeries(Set<Answer> answers, Set<Question> questions, List<User> users, EAnswerStatus status) {
         Map<String, List<Answer>> chartMap = answers
                 .stream()
                 .filter(a -> a.getStatus() == status)
@@ -135,8 +136,10 @@ public class StatisticsBean implements Serializable {
                 && role.equals(connection.getRole());
     }
 
+    private static Map<User, ProjectUserConnection> connections;
 
     public String calculateStatus(Question question) {
+        setConnection(sessionManagementHelper.getCurrentSessionProjectUserConnection());
         ESurveyStatus status = calculate(
                 answersAccountant.getQuestionRelatedAnswers(question, isUserInProjectRole(EProjectRole.EXPERT)),
                 1); // only one answer to question
@@ -144,6 +147,7 @@ public class StatisticsBean implements Serializable {
     }
 
     public String calculateStatus(Survey survey) {
+        setConnection(sessionManagementHelper.getCurrentSessionProjectUserConnection());
         ESurveyStatus status = calculate(
                 answersAccountant.getSurveyRelatedAnswers(survey, isUserInProjectRole(EProjectRole.EXPERT)),
                 answersAccountant.getSurveyRelatedQuestions(survey).size());
@@ -151,6 +155,7 @@ public class StatisticsBean implements Serializable {
     }
 
     public String calculateStatus(ProjectStage projectStage) {
+        setConnection(sessionManagementHelper.getCurrentSessionProjectUserConnection());
         ESurveyStatus status = calculate(
                 answersAccountant.getStagesRelatedAnswers(projectStage, isUserInProjectRole(EProjectRole.EXPERT)),
                 answersAccountant.getStagesRelatedQuestions(projectStage).size());
@@ -158,17 +163,18 @@ public class StatisticsBean implements Serializable {
     }
 
     public String calculateStatus(Project project) {
+        setConnection(sessionManagementHelper.getConnectionBetween(project, sessionManagementHelper.getCurrentUser()));
         ESurveyStatus status = calculate(
                 answersAccountant.getProjectRelatedAnswers(project),
                 answersAccountant.getProjectRelatedQuestions(project).size());
         return status.getLocal();
     }
 
-    public ESurveyStatus calculate(List<Answer> answers, int expectedAnswersAmount) {
+    public ESurveyStatus calculate(Set<Answer> answers, int expectedAnswersAmount) {
         Optional<Answer> optAnswer = answers.stream().findAny();
         if (optAnswer.isPresent()) {
             Project project = optAnswer.get().getRootProject();
-            if (sessionManagementHelper.getConnectionBetween(project, sessionManagementHelper.getCurrentUser()).getRole() == EProjectRole.ORGANIZER) {
+            if (connection.getRole() == EProjectRole.ORGANIZER) {
                 int usersInProject = answersAccountant.getProjectExperts(project).size();
                 expectedAnswersAmount *= usersInProject;
             }
@@ -222,5 +228,9 @@ public class StatisticsBean implements Serializable {
 
     public void setHandledProject(Project handledProject) {
         this.handledProject = handledProject;
+    }
+
+    private void setConnection(ProjectUserConnection connection) {
+        this.connection = connection;
     }
 }

@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 @ManagedBean
 @ViewScoped
@@ -181,16 +182,16 @@ public class ManagingBean implements Serializable {
     public boolean canUserDeleteAnyStage(Project project) {
         List<ProjectStage> projectStages = projectStageService.getBranched(project.getId());
         return projectStages.stream().anyMatch(s -> {
-            List<Answer> answers = answersAccountant.getStagesRelatedAnswers(s, false);
+            Set<Answer> answers = answersAccountant.getStagesRelatedAnswers(s, false);
             return answers.isEmpty()
                     || answers.stream().allMatch(q -> q.getStatus().equals(EAnswerStatus.NEW));
         });
     }
 
     public boolean canUserDeleteAnySurvey(ProjectStage projectStage) {
-        List<Survey> surveys = surveyService.getBranched(projectStage.getId());
+        Set<Survey> surveys = projectStage.getSurveys();
         return surveys.stream().anyMatch(s -> {
-            List<Answer> answers = answersAccountant.getSurveyRelatedAnswers(s, false);
+            Set<Answer> answers = answersAccountant.getSurveyRelatedAnswers(s, false);
             return answers.isEmpty()
                     || answers.stream().allMatch(q -> q.getStatus().equals(EAnswerStatus.NEW));
         });
@@ -199,7 +200,7 @@ public class ManagingBean implements Serializable {
     public boolean canUserDeleteAnyQuestion(Survey survey) {
         List<Question> questions = questionService.getBranched(survey.getId());
         return questions.stream().anyMatch(s -> {
-            List<Answer> answers = answersAccountant.getQuestionRelatedAnswers(s, false);
+            Set<Answer> answers = answersAccountant.getQuestionRelatedAnswers(s, false);
             return answers.isEmpty()
                     || answers.stream().allMatch(q -> q.getStatus().equals(EAnswerStatus.NEW));
         });

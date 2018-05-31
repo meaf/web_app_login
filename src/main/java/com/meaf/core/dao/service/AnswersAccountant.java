@@ -11,8 +11,10 @@ import com.meaf.core.meta.EProjectRole;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
-import java.util.LinkedList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Named
@@ -31,38 +33,45 @@ public class AnswersAccountant {
     @Inject
     private SessionManagementHelper sessionManagementHelper;
 
-    public List<Answer> getQuestionRelatedAnswers(@NotNull Question question, boolean filter) {
-        return filter ? answerService.getBranched(question.getId()) : answerService.getBranchedUnfiltered(question.getId());
+    public Set<Answer> getQuestionRelatedAnswers(@NotNull Question question, boolean filter) {
+        Set<Answer> answers = question.getAnswers();
+        if (answers == null)
+            return Collections.EMPTY_SET;
+        return filter
+                ? answers.stream()
+                .filter(a -> a.getUser().equals(sessionManagementHelper.getCurrentUser()))
+                .collect(Collectors.toSet())
+                : answers;
     }
 
-    public List<Answer> getSurveyRelatedAnswers(@NotNull Survey survey, boolean filter) {
-        List<Question> questions = questionService.getBranched(survey.getId());
-        return questions.stream().map(s -> getQuestionRelatedAnswers(s, filter)).collect(LinkedList::new, List::addAll, List::addAll);
+    public Set<Answer> getSurveyRelatedAnswers(@NotNull Survey survey, boolean filter) {
+        Set<Question> questions = survey.getQuestions();
+        return questions.stream().map(s -> getQuestionRelatedAnswers(s, filter)).collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
-    public List<Answer> getStagesRelatedAnswers(@NotNull ProjectStage stage, boolean filter) {
-        List<Survey> surveys = surveyService.getBranched(stage.getId());
-        return surveys.stream().map(s -> getSurveyRelatedAnswers(s, filter)).collect(LinkedList::new, List::addAll, List::addAll);
+    public Set<Answer> getStagesRelatedAnswers(@NotNull ProjectStage stage, boolean filter) {
+        Set<Survey> surveys = stage.getSurveys();
+        return surveys.stream().map(s -> getSurveyRelatedAnswers(s, filter)).collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
-    public List<Answer> getProjectRelatedAnswers(@NotNull Project project) {
+    public Set<Answer> getProjectRelatedAnswers(@NotNull Project project) {
         boolean filter = projectUserConnectionService.getUserProjectConnections(sessionManagementHelper.getCurrentUser(), project).getRole() == EProjectRole.EXPERT;
-        List<ProjectStage> projectStages = projectStageService.getBranched(project.getId());
-        return projectStages.stream().map(s -> getStagesRelatedAnswers(s, filter)).collect(LinkedList::new, List::addAll, List::addAll);
+        Set<ProjectStage> projectStages = new HashSet<>(projectStageService.getBranched(project.getId()));
+        return projectStages.stream().map(s -> getStagesRelatedAnswers(s, filter)).collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
-    public List<Question> getSurveyRelatedQuestions(@NotNull Survey survey) {
-        return questionService.getBranched(survey.getId());
+    public Set<Question> getSurveyRelatedQuestions(@NotNull Survey survey) {
+        return survey.getQuestions();
     }
 
-    public List<Question> getStagesRelatedQuestions(@NotNull ProjectStage stage) {
-        List<Survey> surveys = surveyService.getBranched(stage.getId());
-        return surveys.stream().map(this::getSurveyRelatedQuestions).collect(LinkedList::new, List::addAll, List::addAll);
+    public Set<Question> getStagesRelatedQuestions(@NotNull ProjectStage stage) {
+        Set<Survey> surveys = stage.getSurveys();
+        return surveys.stream().map(this::getSurveyRelatedQuestions).collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
-    public List<Question> getProjectRelatedQuestions(@NotNull Project project) {
-        List<ProjectStage> projectStages = projectStageService.getBranched(project.getId());
-        return projectStages.stream().map(this::getStagesRelatedQuestions).collect(LinkedList::new, List::addAll, List::addAll);
+    public Set<Question> getProjectRelatedQuestions(@NotNull Project project) {
+        Set<ProjectStage> projectStages = new HashSet<>(projectStageService.getBranched(project.getId()));
+        return projectStages.stream().map(this::getStagesRelatedQuestions).collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
     public List<User> getProjectExperts(Project project) {

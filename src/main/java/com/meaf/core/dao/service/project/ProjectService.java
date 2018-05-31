@@ -1,8 +1,10 @@
 package com.meaf.core.dao.service.project;
 
+import com.meaf.core.dao.service.SessionManagementHelper;
 import com.meaf.core.dao.service.base.ABaseService;
 import com.meaf.core.entities.Project;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +12,8 @@ import java.util.stream.Collectors;
 @Named
 public class ProjectService extends ABaseService<Project> {
 
+    @Inject
+    private SessionManagementHelper sessionManagementHelper;
 
     public void addProject(String projectName) throws Exception {
         super.add(new Project(projectName));

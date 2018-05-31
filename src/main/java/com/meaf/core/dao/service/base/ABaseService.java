@@ -23,8 +23,9 @@ public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
     protected ConfigurationBean configuration;
     @EJB
     protected ContextBean contextBean;
+
     @Inject
-    protected SessionManagementHelper sessionManagementHelper;
+    private SessionManagementHelper sessionManagementHelper;
 
     protected EntityManager getEntityManager() {
         return configuration.getEntityManager();
@@ -66,11 +67,15 @@ public abstract class ABaseService<T> implements Serializable, ICrudService<T> {
     }
 
     protected <U> U findSingleByWhereClause(Class clazz, String fieldName, Object val) {
+        return (U) findListByWhereClause(clazz, fieldName, val).stream().findAny().orElse(null);
+    }
+
+    protected <U> List<U> findListByWhereClause(Class clazz, String fieldName, Object val) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<U> cq = cb.createQuery(clazz);
         Root<U> root = cq.from(clazz);
         cq.select(root).where(cb.equal(root.get(fieldName), val));
-        return getEntityManager().createQuery(cq).getResultList().stream().findAny().orElse(null);
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
     protected UserTransaction getUTx() {
