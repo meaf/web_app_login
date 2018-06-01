@@ -96,7 +96,7 @@ public class ManagingBean implements Serializable {
 
     public void addSurvey() throws Exception {
         Response response;
-        if (managedSurvey.getTopic().trim().isEmpty() || managedSurvey.getDescription().trim().isEmpty()) {
+        if (managedSurvey.getTopic().trim().isEmpty()) {
             response = new Response(FacesMessage.SEVERITY_ERROR, "Невдача", "Заповніть всі обов'язкові поля");
             addToast(response);
             return;

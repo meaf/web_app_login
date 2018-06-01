@@ -23,16 +23,10 @@
             <p:dataTable id="surveysTable" var="survey"
                          value="#{navigationBean.surveysBranched(managingBean.managedProjectStage.id)}">
                 <f:facet name="header">#{managingBean.managedProjectStage.name.toUpperCase()}</f:facet>
-                <p:column headerText="Назва" sortBy="#{survey.topic}" sortable="false">
+                <p:column headerText="Назва" sortable="false">
                     <p:link outcome="questions" value="#{survey.topic}">
                         <f:param name="id" value="#{survey.id}"/>
                     </p:link>
-                </p:column>
-
-                <p:column headerText="Опис" sortBy="#{survey.description}" sortable="false">
-                    <h:outputText value="#{survey.description}">
-                        <f:param name="id" value="#{survey.id}"/>
-                    </h:outputText>
                 </p:column>
 
                 <p:column headerText="Статус" style="width:100px">
@@ -56,10 +50,10 @@
             <p:dialog header="Видалити?" width="20%" resizable="false" closable="false"
                       modal="true" hideEffect="fade" showEffect="fade" widgetVar="delConfirm">
                 <h:panelGrid columns="2" width="90%">
-                    <p:commandButton value="Підтвердити"
+                    <p:commandButton value="Підтвердити" action="#{managingBean.removeSurvey()}"
                                      update="growl surveysTable"
                                      oncomplete="PF('delConfirm').hide()">
-                        <f:ajax execute="@none" listener="#{managingBean.removeSurvey()}"/>
+                        <f:ajax execute="@none"/>
                     </p:commandButton>
                     <p:commandButton value="Відмінити" oncomplete="PF('delConfirm').hide()"/>
                 </h:panelGrid>
@@ -69,7 +63,6 @@
                 <h:panelGrid columns="5" rendered="#{sessionBean.userOrganizer}">
                     <p:outputLabel value="Додати збірку питань: "/>
                     <p:inputText value="#{managingBean.managedSurvey.topic}" placeholder="тема"/>
-                    <p:inputText value="#{managingBean.managedSurvey.description}" placeholder="опис"/>
                     <p:commandButton value="Додати" action="#{managingBean.addSurvey}" update="surveysTable growl">
                         <f:ajax render="surveysTable"/>
                     </p:commandButton>
